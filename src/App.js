@@ -8,7 +8,8 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           BJØRNAR VAR HER
-          Thomas også :)
+          Thomas også :),
+          og Camilla ^^
         </p>
         <a
           className="App-link"
