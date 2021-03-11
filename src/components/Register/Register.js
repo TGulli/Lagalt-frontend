@@ -22,15 +22,19 @@ function Register() {
 
     const onButtonClick = () => {
 
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: name, secret: secret})
         };
 
-        fetch('http://localhost:8080/api/v1/users/add/', requestOptions).then(r => console.log(r));
-
-        history.push('/login')
+        fetch('http://localhost:8080/api/v1/users/add/', requestOptions)
+            .then(r => r.json())
+            .then( (retrievedUser) => {
+                localStorage.setItem('user', JSON.stringify(retrievedUser)) //TODO
+                history.push('/')
+            } );
     }
 
 
