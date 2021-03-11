@@ -1,11 +1,6 @@
 import {useHistory} from "react-router-dom";
 
 
-(function () {
-    fetch("http://localhost:8080/api/v1/users/").then(res => res.json()).then((x) => console.log(x))
-})();
-
-
 function Main() {
     const history = useHistory();
     const user = localStorage.getItem('user')
@@ -22,6 +17,10 @@ function Main() {
         localStorage.clear()
     }
 
+    const createProjectClick = () => {
+        history.push("/project/create")
+    }
+
     return (
         <div>
             <h1>Main!</h1>
@@ -32,6 +31,7 @@ function Main() {
                     <div>
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
+                        <button type="button" onClick={createProjectClick}> Create project</button>
                     </div>}
 
             </div>

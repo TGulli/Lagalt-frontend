@@ -2,9 +2,6 @@ import {useState} from "react";
 import {useHistory} from "react-router-dom";
 
 
-(function () {
-    fetch("http://localhost:8080/api/v1/users/").then(res => res.json()).then((x) => console.log(x))
-})();
 
 
 function Login() {
