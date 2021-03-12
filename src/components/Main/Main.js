@@ -10,10 +10,6 @@ function Main() {
 
     const [ projectsState, setProjectsState ] = useState([{}])
 
-    //Do this the right way, at some point
-    //fetch("http://localhost:8080/api/v1/projects").then(res => res.json()).then((x) => setProjectsState(x))
-
-
     useEffect( () => {
         async function fetchData() {
             await fetch("http://localhost:8080/api/v1/projects")
@@ -47,7 +43,7 @@ function Main() {
 
             <div>
                 {user === null?
-                    <button type="button" onClick={loginClick}> Login</button>:
+                    <button type="button" onClick={loginClick}> Login</button> :
                     <div>
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
