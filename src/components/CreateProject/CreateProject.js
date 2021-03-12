@@ -1,4 +1,5 @@
 import {useState} from "react"
+
 function CreateProject() {
 
     const [name, setName] = useState('');
@@ -17,18 +18,17 @@ function CreateProject() {
     }
 
     const onButtonClick = () => {
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, description: description, progress: progress, image: image})
-        };
-
-        fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => console.log(r));
+        // A kinda unnecessary check, for a necessary operation.
+        if (localStorage.getItem('user') !== null) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: name, description: description, progress: progress, image: image, owners: [ { id: user.id } ]})
+            };
+            fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => console.log(r));
+        }
     }
-
-
-
 
 
     return (
@@ -37,7 +37,7 @@ function CreateProject() {
             <form>
                 <fieldset>
                     <label htmlFor="name">Name</label>
-                    <input id="name"  type="text" onChange={onNameInputChange}/>
+                    <input id="name" type="text" onChange={onNameInputChange}/>
                 </fieldset>
 
                 <fieldset>
@@ -52,4 +52,6 @@ function CreateProject() {
             </form>
         </div>
     );
-} export default CreateProject;
+}
+
+export default CreateProject;
