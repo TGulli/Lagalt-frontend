@@ -6,7 +6,7 @@ function MainProjectList({content}) {
     const history = useHistory();
 
     const toProjectDetailsClick = param => e => { //TODO remove e?
-        history.push('/project/' + param.toString())
+        history.push('/projectdetails/' + param.toString())
         console.log("Project param: " + param)
     }
 

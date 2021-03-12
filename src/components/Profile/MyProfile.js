@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react'
-import {useHistory} from "react-router-dom";
+import ProfileDetails from "./ProfileDetails";
 
-function Profile() {
+/**
+ * SHOWS THE ENTIRE PROFILE ANYWAY
+ * ONLY ACCESS BY THE USER
+ * PRIVATEROUTE IN ROUTING.
+ */
+
+function MyProfile() {
     const user = JSON.parse(localStorage.getItem('user'))
     const [userState, setUserState] = useState('')
-    const history = useHistory()
 
-    //fetch(`http://localhost:8080/api/v1/users/get/${user.id}`).then(res => res.json()).then((x) => setUserState(x))
 
+    //Knapp for hiding -> HTTP PUT bool = true/false;
+
+
+    // BRUK REDUX HER
     useEffect( () => {
         async function fetchData() {
             await fetch(`http://localhost:8080/api/v1/users/get/${user.id}`)
@@ -17,25 +25,17 @@ function Profile() {
                 })
         }
         fetchData();
-    }, []);
-
-
-
-    const mainClick = () => {
-        history.push('/')
-    }
+    }, [user.id]);
 
 
     return (
         <div>
-            <p>User id: {userState.id}</p>
-            <p>User Name: {userState.name}</p>
-            <p>User Secret: {userState.secret}</p>
-            <button type="button" onClick={mainClick}>Main</button>
+            <p>Status: {userState.hidden}</p>
+            <ProfileDetails user={userState}/>
         </div>
     );
 }
 
-export default Profile;
+export default MyProfile;
 
 

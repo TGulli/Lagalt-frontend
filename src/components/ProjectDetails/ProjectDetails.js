@@ -2,13 +2,9 @@ import { useState, useEffect } from 'react'
 import {useHistory, useParams} from "react-router-dom";
 
 function ProjectDetails() {
-    const user = JSON.parse(localStorage.getItem('user'))
     const [projectState, setProjectState] = useState('')
     const history = useHistory()
     let { id } = useParams();
-
-
-    //fetch(`http://localhost:8080/api/v1/users/get/${user.id}`).then(res => res.json()).then((x) => setUserState(x))
 
     useEffect( () => {
         async function fetchData() {
@@ -19,7 +15,7 @@ function ProjectDetails() {
                 })
         }
         fetchData();
-    }, []);
+    }, [id]);
 
 
 

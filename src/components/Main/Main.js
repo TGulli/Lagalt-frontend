@@ -26,7 +26,7 @@ function Main() {
     }
 
     const profileClick = () => {
-        history.push('/profile')
+        history.push('/myprofile')
     }
 
     const logoutClick = () => {
