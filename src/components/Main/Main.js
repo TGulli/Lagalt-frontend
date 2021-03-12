@@ -52,10 +52,10 @@ function Main() {
                 jsonResponse = jsonResponse.filter((obj) =>
                     obj.name.toLowerCase().includes(searchState.toLowerCase())
                 )
-                // setProjectsState(jsonResponse)
-                console.log(jsonResponse)
+                setProjectsState(jsonResponse)
+                //console.log(jsonResponse)
             })
-        console.log(searchState)
+        //console.log(searchState)
     }
 
     const onInputChange = e => {

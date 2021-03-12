@@ -37,7 +37,7 @@ function MyProfile() {
                     history.push("/")
                 })
         }
-        deleteUser()
+        await deleteUser()
     }
 
 
