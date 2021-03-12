@@ -13,6 +13,7 @@ function Main() {
     const history = useHistory();
 
     const [ projectsState, setProjectsState ] = useState([{}])
+    const [ searchState, setSearchState ] = useState('')
 
     useEffect( () => {
         async function fetchData() {
@@ -44,9 +45,30 @@ function Main() {
         history.push("/project/create")
     }
 
+    const search = async () => {
+        await fetch("http://localhost:8080/api/v1/projects")
+            .then(response => response.json())
+            .then((jsonResponse) => {
+                jsonResponse = jsonResponse.filter((obj) =>
+                    obj.name.toLowerCase().includes(searchState.toLowerCase())
+                )
+                // setProjectsState(jsonResponse)
+                console.log(jsonResponse)
+            })
+        console.log(searchState)
+    }
+
+    const onInputChange = e => {
+        setSearchState(e.target.value)
+    }
+
     return (
         <div>
             <h1>Main!</h1>
+            <fieldset>
+                <input id="searchInput" onChange={onInputChange}/>
+                <button type="button" onClick={search}>Submit</button>
+            </fieldset>
             <div>
                 {!isLoggedIn?
                     <button type="button" onClick={loginClick}> Login</button>:
