@@ -26,7 +26,7 @@ function Register() {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, secret: secret})
+            body: JSON.stringify({ name: name, secret: secret, hidden: false})
         };
 
         fetch('http://localhost:8080/api/v1/users/add/', requestOptions)

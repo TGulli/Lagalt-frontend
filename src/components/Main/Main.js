@@ -14,10 +14,6 @@ function Main() {
 
     const [ projectsState, setProjectsState ] = useState([{}])
 
-    //Do this the right way, at some point
-    //fetch("http://localhost:8080/api/v1/projects").then(res => res.json()).then((x) => setProjectsState(x))
-
-
     useEffect( () => {
         async function fetchData() {
             await fetch("http://localhost:8080/api/v1/projects")
@@ -34,7 +30,7 @@ function Main() {
     }
 
     const profileClick = () => {
-        history.push('/profile')
+        history.push('/myprofile')
     }
 
     const dispatch = useDispatch();
