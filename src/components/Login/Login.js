@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
-
-
+import {useDispatch} from "react-redux";
+import {logIn} from "../../redux/actions";
 
 
 function Login() {
@@ -23,8 +23,10 @@ function Login() {
         history.push('/register')
     }
 
+    const dispatch = useDispatch()
 
     const onButtonClick = () => {
+
 
         const requestOptions = {
             method: 'POST',
@@ -36,12 +38,13 @@ function Login() {
             .then(r => r.json())
             .then((retrievedUser) => {
                 if (retrievedUser.name === name && retrievedUser.secret === secret) { //TODO Backend stuff
-                    localStorage.setItem('user', JSON.stringify(retrievedUser)) //TODO
+                    dispatch(logIn(retrievedUser))
                     history.push('/')
                 } else{
                     alert("No user found!") //TODO Exception
                 }
             });
+
     }
 
 

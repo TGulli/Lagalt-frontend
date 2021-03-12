@@ -1,12 +1,16 @@
 import MainProjectList from "./MainProjectList";
 import {useHistory} from "react-router-dom";
 import {useState, useEffect} from 'react';
+import {getUser} from "../../redux/selectors";
+import {useDispatch, useSelector} from "react-redux";
+import {logOut} from "../../redux/actions";
 
 
 function Main() {
-    const history = useHistory();
-    const user = localStorage.getItem('user')
 
+    const user = useSelector(state => state.user)
+    const isLoggedIn= useSelector(state => state.isLoggedIn)
+    const history = useHistory();
 
     const [ projectsState, setProjectsState ] = useState([{}])
 
@@ -29,8 +33,11 @@ function Main() {
         history.push('/myprofile')
     }
 
+    const dispatch = useDispatch();
+
     const logoutClick = () => {
-        localStorage.clear()
+        dispatch(logOut())
+        //localStorage.clear()
     }
 
     const createProjectClick = () => {
@@ -40,11 +47,11 @@ function Main() {
     return (
         <div>
             <h1>Main!</h1>
-
             <div>
-                {user === null?
-                    <button type="button" onClick={loginClick}> Login</button> :
+                {!isLoggedIn?
+                    <button type="button" onClick={loginClick}> Login</button>:
                     <div>
+                        <h2> {user.name} </h2>
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
                         <button type="button" onClick={createProjectClick}> Create project</button>
