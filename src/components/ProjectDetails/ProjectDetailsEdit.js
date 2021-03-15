@@ -7,6 +7,8 @@ import {useState} from 'react'
 
 function ProjectDetailsEdit({project}) {
 
+    
+
     const [name, setName] = useState('')
     const [progress, setProgress] = useState(0)
     const [description, setDescription] = useState('')
