@@ -34,7 +34,7 @@ function Login() {
             body: JSON.stringify({name: name, secret: secret})
         };
 
-        fetch('http://localhost:8080/api/v1/users/find/', requestOptions)
+        fetch('http://localhost:8080/api/v1/users/name', requestOptions)
             .then(r => r.json())
             .then((retrievedUser) => {
                 if (retrievedUser.name === name && retrievedUser.secret === secret) { //TODO Backend stuff
@@ -59,7 +59,7 @@ function Login() {
 
                 <fieldset>
                     <label htmlFor="secret">Secret</label>
-                    <input id="secret" type="text" onChange={onSecretInputChange}/>
+                    <input id="secret" type="password" onChange={onSecretInputChange}/>
                 </fieldset>
                 <button type="button" onClick={onButtonClick}>Login</button>
                 <button type="button" onClick={onRegisterButtonClick}>Register</button>
