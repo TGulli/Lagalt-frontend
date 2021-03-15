@@ -1,28 +1,33 @@
-import logo from './logo.svg';
+import {BrowserRouter, Switch, Route} from "react-router-dom";
+import Login from "./components/Login/Login.js";
+import MyProfile from "./components/Profile/MyProfile.js";
+import UserProfile from "./components/Profile/UserProfile";
+import ProjectDetails from "./components/ProjectDetails/ProjectDetails";
+import Register from "./components/Register/Register";
+import CreateProject from "./components/CreateProject/CreateProject"
 import './App.css';
+import Main from "./components/Main/Main";
+
+/**
+ * TODO: Public/Private Route
+ */
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          BJØRNAR VAR HER
-          Thomas også :),
-          og Camilla ^^
-          THEA OGSÅ
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+
+            <Switch>
+                <Route exact path="/" component={Main}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/myprofile" component={MyProfile}/>
+                <Route path="/userprofile/:id" component={UserProfile}/>
+                <Route path="/register" component={Register}/>
+                <Route path="/projectdetails/:id" component={ProjectDetails}/>
+                <Route path="/project/create" component={CreateProject}/>
+            </Switch>
+
+        </BrowserRouter>
+    );
 }
 
 
