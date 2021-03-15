@@ -8,6 +8,11 @@ import {fetchData} from "./MainAPI";
 
 function Main() {
 
+    /**
+     * TODO: MIDDLEWARE TO SOLVE PAGINATION PROBLEM
+     * TODO: useEffect renders only once when given empty array as second argument
+     */
+
     const user = useSelector(state => state.user)
     const isLoggedIn= useSelector(state => state.isLoggedIn)
     const history = useHistory();
@@ -19,9 +24,10 @@ function Main() {
     const [ pageNr, setPageNr] = useState(0);
     const [ searchState, setSearchState ] = useState('')
 
+
     useEffect( () => {
         async function fetchFromApi() {
-            let response = await fetchData(0);
+            let response = await fetchData(pageNr);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
             console.log(response)
@@ -64,6 +70,7 @@ function Main() {
     }
 
     const onNextClick = async () => {
+        console.log("TJOHEI")
         if (pageNr <= totalPages){
             setPageNr(pageNr + 1)
             let response = await fetchData(pageNr);

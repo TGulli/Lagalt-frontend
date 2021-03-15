@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react'
 import {useHistory, useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
+import ProjectDetailsInfo from "./ProjectDetailsInfo";
+import ProjectDetailsEdit from "./ProjectDetailsEdit";
 
 function ProjectDetails() {
     const [projectState, setProjectState] = useState('')
+    const [editMode, setEditMode] = useState(false)
+    const [owner, setOwner] = useState(false);
+    const user = useSelector(state => state.user)
     const history = useHistory()
     let { id } = useParams();
 
@@ -12,6 +18,9 @@ function ProjectDetails() {
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setProjectState(jsonResponse);
+                    for (let projectOwner of jsonResponse.owners){
+                        if (projectOwner.id === user.id) setOwner(true);
+                    }
                 })
         }
         fetchData();
@@ -23,14 +32,18 @@ function ProjectDetails() {
         history.push('/')
     }
 
+    const onEditClick = () => {
+        editMode === true ? setEditMode(false): setEditMode(true);
+    }
+
 
     return (
         <div>
-            <h1>{projectState.name}</h1>
-            <p>ID: {projectState.id}</p>
-            <p>Description: {projectState.description}</p>
-            <p>Image: {projectState.image}</p>
+            { owner && <button type="button" onClick={onEditClick}>Edit</button> }
+
             <button type="button" onClick={mainClick}>Main</button>
+
+            {editMode ? <ProjectDetailsEdit project={projectState} /> : <ProjectDetailsInfo project={projectState} />}
         </div>
     );
 }
