@@ -29,11 +29,23 @@ function MyProfile() {
         fetchData();
     }, [user.id]);*/
 
+    const deleteOnClick = async () => {
+        async function deleteUser() {
+            await fetch(`http://localhost:8080/api/v1/users/delete/${user.id}`)
+                .then(response => response.json())
+                .then((jsonResponse) => {
+                    history.push("/")
+                })
+        }
+        await deleteUser()
+    }
+
 
     return (
         <div>
-            <p>Status: {user.hidden.toString()}</p>
-            <ProfileDetails user={user}/>
+            <p>Status: {userState.hidden}</p>
+            <ProfileDetails user={userState}/>
+            <button type="button" onClick={deleteOnClick}>DELETE!!!</button>
         </div>
     );
 }
