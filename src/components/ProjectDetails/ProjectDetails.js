@@ -10,7 +10,6 @@ function ProjectDetails() {
     const [projectState, setProjectState] = useState('')
     const [editMode, setEditMode] = useState(false)
     const [owner, setOwner] = useState(false);
-    const user = useSelector(state => state.user)
     const history = useHistory()
     let { id } = useParams();
 

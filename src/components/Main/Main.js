@@ -71,9 +71,9 @@ function Main() {
 
     const onNextClick = async () => {
         console.log("TJOHEI")
-        if (pageNr <= totalPages){
+        if (pageNr < totalPages -1){
+            let response = await fetchData(pageNr +1);
             setPageNr(pageNr + 1)
-            let response = await fetchData(pageNr);
             setProjectsState(response.content);
         }
     }
@@ -81,10 +81,9 @@ function Main() {
     const onPreviousClick = async () => {
         console.log(pageNr)
         //dirty cheat
-        if (pageNr > -1){
+        if (pageNr > 0){
+            let response = await fetchData(pageNr -1);
             setPageNr(pageNr - 1)
-            console.log(pageNr)
-            let response = await fetchData(pageNr);
             setProjectsState(response.content);
         }
     }
