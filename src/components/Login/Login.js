@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logIn} from "../../redux/actions";
+import LoginFacebook from "./Facebook/LoginFacebook";
 
 
 function Login() {
@@ -51,6 +52,7 @@ function Login() {
     return (
         <div className="App">
             <h1>LOGIN</h1>
+            <LoginFacebook/>
             <form>
                 <fieldset>
                     <label htmlFor="name">Name</label>
