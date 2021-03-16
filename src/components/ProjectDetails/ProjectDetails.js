@@ -17,13 +17,10 @@ function ProjectDetails() {
         fetchData();
     }, [id]);
 
-
-
     const mainClick = () => {
         history.push('/')
     }
-
-
+    
     return (
         <div>
             <h1>{projectState.name}</h1>
