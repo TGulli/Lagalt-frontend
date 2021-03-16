@@ -1,29 +1,38 @@
 import MainProjectList from "./MainProjectList";
 import {useHistory} from "react-router-dom";
 import {useState, useEffect} from 'react';
-import {getUser} from "../../redux/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../redux/actions";
+import {fetchData} from "./MainAPI";
 
 
 function Main() {
+
+    /**
+     * TODO: MIDDLEWARE TO SOLVE PAGINATION PROBLEM
+     * TODO: useEffect renders only once when given empty array as second argument
+     */
 
     const user = useSelector(state => state.user)
     const isLoggedIn= useSelector(state => state.isLoggedIn)
     const history = useHistory();
 
     const [ projectsState, setProjectsState ] = useState([{}])
+
+    // Might refactor
+    const [ totalPages, setTotalPages ] = useState(0);
+    const [ pageNr, setPageNr] = useState(0);
     const [ searchState, setSearchState ] = useState('')
 
+
     useEffect( () => {
-        async function fetchData() {
-            await fetch("http://localhost:8080/api/v1/projects")
-                .then(response => response.json())
-                .then((jsonResponse) => {
-                    setProjectsState(jsonResponse)
-                })
+        async function fetchFromApi() {
+            let response = await fetchData(pageNr);
+            setTotalPages(response.totalPages)
+            setProjectsState(response.content)
+            console.log(response)
         }
-        fetchData();
+        fetchFromApi()
     }, []);
 
     const loginClick = () => {
@@ -53,13 +62,29 @@ function Main() {
                     obj.name.toLowerCase().includes(searchState.toLowerCase())
                 )
                 setProjectsState(jsonResponse)
-                //console.log(jsonResponse)
             })
-        //console.log(searchState)
     }
 
     const onInputChange = e => {
         setSearchState(e.target.value)
+    }
+
+    const onNextClick = async () => {
+        console.log("pageNr " + pageNr)
+        if (pageNr < totalPages -1){
+            let response = await fetchData(pageNr +1);
+            setPageNr(pageNr + 1)
+            setProjectsState(response.content);
+        }
+    }
+
+    const onPreviousClick = async () => {
+        console.log("pageNr " + pageNr)
+        if (pageNr > 0){
+            let response = await fetchData(pageNr -1);
+            setPageNr(pageNr - 1)
+            setProjectsState(response.content);
+        }
     }
 
     return (
@@ -79,6 +104,8 @@ function Main() {
                         <button type="button" onClick={createProjectClick}> Create project</button>
                     </div>}
                 <MainProjectList content={projectsState}/>
+                <button type="button" onClick={onPreviousClick}>PREVIOUS</button>
+                <button type="button" onClick={onNextClick}>NEXT</button>
             </div>
             <div>
 

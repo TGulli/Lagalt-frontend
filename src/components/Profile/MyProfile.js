@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import ProfileDetails from "./ProfileDetails";
+import {useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 
 /**
@@ -9,16 +10,15 @@ import {useHistory} from "react-router-dom";
  */
 
 function MyProfile() {
-    const user = JSON.parse(localStorage.getItem('user'))
-    const [userState, setUserState] = useState('')
+
+    const user = useSelector(state => state.user)
     const history = useHistory()
 
 
+    //const [userState, setUserState] = useState(user)
     //Knapp for hiding -> HTTP PUT bool = true/false;
-
-
     // BRUK REDUX HER
-    useEffect( () => {
+    /*useEffect( () => {
         async function fetchData() {
             await fetch(`http://localhost:8080/api/v1/users/get/${user.id}`)
                 .then(response => response.json())
@@ -27,7 +27,7 @@ function MyProfile() {
                 })
         }
         fetchData();
-    }, [user.id]);
+    }, [user.id]);*/
 
     const deleteOnClick = async () => {
         async function deleteUser() {
@@ -43,8 +43,8 @@ function MyProfile() {
 
     return (
         <div>
-            <p>Status: {userState.hidden}</p>
-            <ProfileDetails user={userState}/>
+            <p>Status: {user.hidden.toString()}</p>
+            <ProfileDetails user={user}/>
             <button type="button" onClick={deleteOnClick}>DELETE!!!</button>
         </div>
     );

@@ -1,7 +1,9 @@
 import {useState} from "react"
+import {useSelector} from "react-redux";
 
 function CreateProject() {
-
+    const isLoggedIn = useSelector(state => state.isLoggedIn)
+    const user = useSelector(state => state.user);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [progress] = useState(0);
@@ -18,16 +20,14 @@ function CreateProject() {
     }
 
     const onButtonClick = () => {
-        // A kinda unnecessary check, for a necessary operation.
-        if (localStorage.getItem('user') !== null) {
-            const user = JSON.parse(localStorage.getItem('user'));
-            const requestOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: name, description: description, progress: progress, image: image, owners: [ { id: user.id } ]})
-            };
-            fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => console.log(r));
-        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: name, description: description, progress: progress, image: image, owners: [ { id: user.id } ]})
+        };
+        fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => console.log(r));
+
     }
 
 

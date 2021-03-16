@@ -1,13 +1,13 @@
 import { useHistory } from "react-router-dom"
 import { useState } from "react";
+import {useDispatch} from "react-redux";
+import {logIn} from "../../redux/actions";
 
 
 function Register() {
 
     const history = useHistory()
-
-
-
+    const dispatch = useDispatch();
     const [ name, setName ] = useState('')
     const [ secret, setSecret] = useState('')
 
@@ -29,10 +29,10 @@ function Register() {
             body: JSON.stringify({ name: name, secret: secret, hidden: false})
         };
 
-        fetch('http://localhost:8080/api/v1/users/add/', requestOptions)
+        fetch('http://localhost:8080/api/v1/users', requestOptions)
             .then(r => r.json())
             .then( (retrievedUser) => {
-                localStorage.setItem('user', JSON.stringify(retrievedUser)) //TODO
+                dispatch(logIn(retrievedUser))
                 history.push('/')
             } );
     }
@@ -52,7 +52,7 @@ function Register() {
 
                 <fieldset>
                     <label htmlFor="secret">Secret</label>
-                    <input id="secret" type="text" onChange={onSecretInputChange}/>
+                    <input id="secret" type="password" onChange={onSecretInputChange}/>
                 </fieldset>
                 <button type="button" onClick={onButtonClick}>CLICK ME ONE MORE TIME</button>
             </form>

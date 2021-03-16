@@ -10,7 +10,7 @@ function UserProfile() {
 
     useEffect( () => {
         async function fetchData() {
-            await fetch(`http://localhost:8080/api/v1/users/get/${id}`)
+            await fetch(`http://localhost:8080/api/v1/users/${id}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setUserState(jsonResponse);

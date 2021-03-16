@@ -1,6 +1,6 @@
 import MainProjectListOwners from "./MainProjectListOwners";
 import {useHistory} from "react-router-dom";
-
+import styles from './MainProjectList.module.css'
 
 function MainProjectList({content}) {
     const history = useHistory();
@@ -15,7 +15,7 @@ function MainProjectList({content}) {
             <h1>Projects!</h1>
 
             {content.map((project, index) => (
-                <div key={index}>
+                <div key={index} className={styles.projectDisplay}>
                     <button type="button" value={project.id} onClick={toProjectDetailsClick(project.id)}>
                         <h4>Project name: {project.name}</h4>
                     </button>
