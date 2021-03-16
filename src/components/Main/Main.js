@@ -70,7 +70,7 @@ function Main() {
     }
 
     const onNextClick = async () => {
-        console.log("TJOHEI")
+        console.log("pageNr " + pageNr)
         if (pageNr < totalPages -1){
             let response = await fetchData(pageNr +1);
             setPageNr(pageNr + 1)
@@ -79,8 +79,7 @@ function Main() {
     }
 
     const onPreviousClick = async () => {
-        console.log(pageNr)
-        //dirty cheat
+        console.log("pageNr " + pageNr)
         if (pageNr > 0){
             let response = await fetchData(pageNr -1);
             setPageNr(pageNr - 1)

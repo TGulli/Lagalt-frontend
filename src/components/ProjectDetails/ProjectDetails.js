@@ -43,6 +43,9 @@ function ProjectDetails() {
         fetch('http://localhost:8080/api/v1/project/collaborators', requestOptions).then(r => console.log(r));
     }
 
+    const onEditClick = () => {
+        editMode === true ? setEditMode(false): setEditMode(true);
+    }
 
 
 
@@ -52,12 +55,9 @@ function ProjectDetails() {
             {
                 isLoggedIn? <button onClick={applyClick} type="button">Apply</button> : null
             }
-            <h1>{projectState.name}</h1>
-            <p>ID: {projectState.id}</p>
-            <p>Description: {projectState.description}</p>
-            <p>Image: {projectState.image}</p>
 
             <button type="button" onClick={mainClick}>Main</button>
+            { owner && <button type="button" onClick={onEditClick}>Edit</button> }
 
             {editMode ? <ProjectDetailsEdit project={projectState} /> : <ProjectDetailsInfo project={projectState} />}
         </div>
