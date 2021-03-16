@@ -2,6 +2,8 @@ import {useState} from "react";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logIn} from "../../redux/actions";
+import GLogin from "./GLogin";
+import GLogout from "./GLogout";
 
 
 function Login() {
@@ -34,7 +36,7 @@ function Login() {
             body: JSON.stringify({name: name, secret: secret})
         };
 
-        fetch('http://localhost:8080/api/v1/users/name', requestOptions)
+        fetch('http://localhost:8080/api/v1/users/find/', requestOptions)
             .then(r => r.json())
             .then((retrievedUser) => {
                 if (retrievedUser.name === name && retrievedUser.secret === secret) { //TODO Backend stuff
@@ -59,11 +61,15 @@ function Login() {
 
                 <fieldset>
                     <label htmlFor="secret">Secret</label>
-                    <input id="secret" type="password" onChange={onSecretInputChange}/>
+                    <input id="secret" type="text" onChange={onSecretInputChange}/>
                 </fieldset>
                 <button type="button" onClick={onButtonClick}>Login</button>
                 <button type="button" onClick={onRegisterButtonClick}>Register</button>
             </form>
+            <div>
+                <GLogin />
+                <GLogout />
+            </div>
         </div>
     );
 }
