@@ -20,7 +20,7 @@ function MyProfile() {
     // BRUK REDUX HER
     useEffect( () => {
         async function fetchData() {
-            await fetch(`http://localhost:8080/api/v1/users/get/${user.id}`)
+            await fetch(`http://localhost:8080/api/v1/users/${user.id}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setUserState(jsonResponse);

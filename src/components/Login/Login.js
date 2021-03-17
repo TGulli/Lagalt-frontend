@@ -52,7 +52,6 @@ function Login() {
     return (
         <div className="App">
             <h1>LOGIN</h1>
-            <LoginFacebook/>
             <form>
                 <fieldset>
                     <label htmlFor="name">Name</label>
@@ -66,6 +65,7 @@ function Login() {
                 <button type="button" onClick={onButtonClick}>Login</button>
                 <button type="button" onClick={onRegisterButtonClick}>Register</button>
             </form>
+            <LoginFacebook/>
         </div>
     );
 }
