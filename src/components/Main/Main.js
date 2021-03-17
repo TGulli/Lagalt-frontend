@@ -14,24 +14,27 @@ function Main() {
      */
 
     const user = useSelector(state => state.user)
-    const isLoggedIn= useSelector(state => state.isLoggedIn)
+    const isLoggedIn = useSelector(state => state.isLoggedIn)
     const history = useHistory();
 
-    const [ projectsState, setProjectsState ] = useState([{}])
+    const [projectsState, setProjectsState] = useState([{}])
+    const [filteredState, setFilteredState] = useState([{}])
 
     // Might refactor
-    const [ totalPages, setTotalPages ] = useState(0);
-    const [ pageNr, setPageNr] = useState(0);
-    const [ searchState, setSearchState ] = useState('')
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageNr, setPageNr] = useState(0);
+    const [searchState, setSearchState] = useState('')
 
 
-    useEffect( () => {
+    useEffect(() => {
         async function fetchFromApi() {
             let response = await fetchData(pageNr);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
+            setFilteredState(response.content)
             console.log(response)
         }
+
         fetchFromApi()
     }, []);
 
@@ -62,6 +65,7 @@ function Main() {
                     obj.name.toLowerCase().includes(searchState.toLowerCase())
                 )
                 setProjectsState(jsonResponse)
+                setFilteredState(jsonResponse)
             })
     }
 
@@ -69,10 +73,22 @@ function Main() {
         setSearchState(e.target.value)
     }
 
+    const onFilterBasedOnMusicClick = () => {
+        setFilteredState(projectsState.filter(x => x.category === 'Music'));
+    }
+
+    const onFilterBasedOnFilmClick = () => {
+        setFilteredState(projectsState.filter(x => x.category === 'Film'));
+    }
+
+    const onRemoveFilterClick = () => {
+        setFilteredState(projectsState)
+    }
+
     const onNextClick = async () => {
         console.log("pageNr " + pageNr)
-        if (pageNr < totalPages -1){
-            let response = await fetchData(pageNr +1);
+        if (pageNr < totalPages - 1) {
+            let response = await fetchData(pageNr + 1);
             setPageNr(pageNr + 1)
             setProjectsState(response.content);
         }
@@ -80,8 +96,8 @@ function Main() {
 
     const onPreviousClick = async () => {
         console.log("pageNr " + pageNr)
-        if (pageNr > 0){
-            let response = await fetchData(pageNr -1);
+        if (pageNr > 0) {
+            let response = await fetchData(pageNr - 1);
             setPageNr(pageNr - 1)
             setProjectsState(response.content);
         }
@@ -95,15 +111,22 @@ function Main() {
                 <button type="button" onClick={search}>Submit</button>
             </fieldset>
             <div>
-                {!isLoggedIn?
-                    <button type="button" onClick={loginClick}> Login</button>:
+                {!isLoggedIn ?
+                    <button type="button" onClick={loginClick}> Login</button> :
                     <div>
                         <h2> {user.name} </h2>
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
                         <button type="button" onClick={createProjectClick}> Create project</button>
                     </div>}
-                <MainProjectList content={projectsState}/>
+
+                <div>
+                    <h4>Filter based on category (RADIO BUTTONS?)</h4>
+                    <button type="button" onClick={onFilterBasedOnMusicClick}>Music</button>
+                    <button type="button" onClick={onFilterBasedOnFilmClick}>Film</button>
+                    <button type="button" onClick={onRemoveFilterClick}>Remove filters</button>
+                </div>
+                <MainProjectList content={filteredState}/>
                 <button type="button" onClick={onPreviousClick}>PREVIOUS</button>
                 <button type="button" onClick={onNextClick}>NEXT</button>
             </div>
