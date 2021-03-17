@@ -1,13 +1,27 @@
 import {GoogleLogin} from 'react-google-login'
 import {checkToken} from './LoginAPI'
+import {logIn} from "../../redux/actions";
+import {useDispatch} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 const clientId = "119104222557-up2cfjpdaijqfnchovd4t33blblu11nv.apps.googleusercontent.com"
 
 function GLogin () {
+
+
+    const dispatch = useDispatch()
+    const history = useHistory();
+
     const onSuccess = (res) => {
-        console.log('Login successful, profile:' +  res.profileObj)
-        console.log(JSON.stringify(res.getAuthResponse().id_token, null, 4))
-        checkToken(res.getAuthResponse().id_token).then(r => console.log(r));
+        checkToken(res.getAuthResponse().id_token).then(retrievedUser => {
+            if (retrievedUser != null) {
+                dispatch(logIn(retrievedUser))
+                history.push('/')
+            }
+            else {
+                alert('Token not authenticated')
+            }
+        });
     }
 
     const onFailedLogin = (res) => {
@@ -21,12 +35,10 @@ function GLogin () {
                          onSuccess={onSuccess}
                          onFailure={onFailedLogin}
                          cookiePolicy={'single_host_origin'}
-                         isSignedIn={true}
             />
         </div>
     )
 
 }
-
 
 export default GLogin

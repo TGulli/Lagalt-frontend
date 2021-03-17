@@ -3,8 +3,6 @@ import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logIn} from "../../redux/actions";
 import GLogin from "./GLogin";
-import GLogout from "./GLogout";
-
 
 function Login() {
 
@@ -28,7 +26,6 @@ function Login() {
     const dispatch = useDispatch()
 
     const onButtonClick = () => {
-
 
         const requestOptions = {
             method: 'POST',
@@ -68,7 +65,6 @@ function Login() {
             </form>
             <div>
                 <GLogin />
-                <GLogout />
             </div>
         </div>
     );
