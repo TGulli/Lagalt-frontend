@@ -9,6 +9,7 @@ function ProjectDetails() {
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const [projectState, setProjectState] = useState('')
     const [editMode, setEditMode] = useState(false)
+    const [hasApplied, setHasApplied] = useState(false)
     const [owner, setOwner] = useState(false);
     const history = useHistory()
     let { id } = useParams();
@@ -22,6 +23,11 @@ function ProjectDetails() {
                     for (let projectOwner of jsonResponse.owners){
                         if (projectOwner.id === user.id) setOwner(true);
                     }
+                    //Check if applicant
+                    for (let projectApplicant of jsonResponse.collaborators) {
+                        if (projectApplicant.id === user.id) setHasApplied(true);
+                    }
+
                 })
         }
         fetchData();
@@ -34,13 +40,7 @@ function ProjectDetails() {
     }
 
     const applyClick = () => {
-        const userId = user.id;
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({user: { id: userId}, project: {id: id}, status: 0})
-        };
-        fetch('http://localhost:8080/api/v1/project/collaborators', requestOptions).then(r => console.log(r));
+       history.push('/project/application/', {project: projectState})
     }
 
     const onEditClick = () => {
@@ -52,9 +52,7 @@ function ProjectDetails() {
 
     return (
         <div>
-            {
-                isLoggedIn? <button onClick={applyClick} type="button">Apply</button> : null
-            }
+            { (isLoggedIn && !hasApplied) ? <button onClick={applyClick} type="button">Apply</button> : null }
 
             <button type="button" onClick={mainClick}>Main</button>
             { owner && <button type="button" onClick={onEditClick}>Edit</button> }
