@@ -6,13 +6,13 @@ import {logIn} from "../../redux/actions";
 
 function Login() {
 
-    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
     const [secret, setSecret] = useState('')
     const history = useHistory();
 
 
-    const onNameInputChange = e => {
-        setName(e.target.value)
+    const onEmailInputChange = e => {
+        setEmail(e.target.value)
     }
 
     const onSecretInputChange = e => {
@@ -31,13 +31,13 @@ function Login() {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name: name, secret: secret})
+            body: JSON.stringify({email: email, secret: secret})
         };
 
         fetch('http://localhost:8080/api/v1/users/name', requestOptions)
             .then(r => r.json())
             .then((retrievedUser) => {
-                if (retrievedUser.name === name && retrievedUser.secret === secret) { //TODO Backend stuff
+                if (retrievedUser.email === email && retrievedUser.secret === secret) { //TODO Backend stuff
                     dispatch(logIn(retrievedUser))
                     history.push('/')
                 } else{
@@ -53,8 +53,8 @@ function Login() {
             <h1>LOGIN</h1>
             <form>
                 <fieldset>
-                    <label htmlFor="name">Name</label>
-                    <input id="name" type="text" onChange={onNameInputChange}/>
+                    <label htmlFor="email">Email</label>
+                    <input id="email" type="text" onChange={onEmailInputChange}/>
                 </fieldset>
 
                 <fieldset>
