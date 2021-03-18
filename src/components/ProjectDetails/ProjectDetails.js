@@ -15,7 +15,11 @@ function ProjectDetails() {
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const [projectState, setProjectState] = useState('')
     const [editMode, setEditMode] = useState(false)
+<<<<<<< HEAD
     const [handleRequestsMode, setHandleRequestsMode] = useState(false)
+=======
+    const [hasApplied, setHasApplied] = useState(false)
+>>>>>>> create_application
     const [owner, setOwner] = useState(false);
     const [message, setMessage] = useState('')
     const history = useHistory()
@@ -30,6 +34,11 @@ function ProjectDetails() {
                     for (let projectOwner of jsonResponse.owners){
                         if (projectOwner.id === user.id) setOwner(true);
                     }
+                    //Check if applicant
+                    for (let projectApplicant of jsonResponse.collaborators) {
+                        if (projectApplicant.id === user.id) setHasApplied(true);
+                    }
+
                 })
         }
         fetchData();
@@ -40,6 +49,7 @@ function ProjectDetails() {
         history.push('/')
     }
 
+<<<<<<< HEAD
     const applyClick = async () => {
         const userId = user.id;
         const requestOptions = {
@@ -53,6 +63,10 @@ function ProjectDetails() {
         }else{
             setMessage("Du har søkt om å bli med på prosjekt " + projectState.name)
         }
+=======
+    const applyClick = () => {
+       history.push('/project/application/', {project: projectState})
+>>>>>>> create_application
     }
 
     const onEditClick = () => {
@@ -89,8 +103,12 @@ function ProjectDetails() {
 
     return (
         <div>
+<<<<<<< HEAD
             {isLoggedIn && <button onClick={applyClick} type="button">Apply</button>}
             {(message !== '')&& <p> {message} </p> }
+=======
+            { (isLoggedIn && !hasApplied) ? <button onClick={applyClick} type="button">Apply</button> : null }
+>>>>>>> create_application
 
             <button type="button" onClick={mainClick}>Main</button>
             {owner && <button type="button" onClick={onEditClick}>Edit</button> &&
