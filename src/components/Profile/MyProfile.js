@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+//import { useState, useEffect } from 'react'
 import ProfileDetails from "./ProfileDetails";
 import {useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";

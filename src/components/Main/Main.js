@@ -30,7 +30,6 @@ function Main() {
             let response = await fetchData(pageNr);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
-            console.log(response)
         }
         fetchFromApi()
     }, []);
@@ -104,8 +103,9 @@ function Main() {
                         <button type="button" onClick={createProjectClick}> Create project</button>
                     </div>}
                 <MainProjectList content={projectsState}/>
-                <button type="button" onClick={onPreviousClick}>PREVIOUS</button>
-                <button type="button" onClick={onNextClick}>NEXT</button>
+                {(pageNr >= 1) && <button type="button" onClick={onPreviousClick}>PREVIOUS</button>}
+                {(pageNr < totalPages-1) && <button type="button" onClick={onNextClick}>NEXT</button>}
+
             </div>
             <div>
 

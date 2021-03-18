@@ -7,6 +7,7 @@ import Register from "./components/Register/Register";
 import CreateProject from "./components/CreateProject/CreateProject"
 import './App.css';
 import Main from "./components/Main/Main";
+import CreateApplication from "./components/CreateApplication/CreateApplication";
 
 /**
  * TODO: Public/Private Route
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/register" component={Register}/>
                 <Route path="/projectdetails/:id" component={ProjectDetails}/>
                 <Route path="/project/create" component={CreateProject}/>
+                <Route path="/project/application/" component={CreateApplication}/>
             </Switch>
 
         </BrowserRouter>
