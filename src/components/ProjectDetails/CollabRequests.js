@@ -32,6 +32,8 @@ function CollabRequests(props) {
             {props.pendingCollaborators.pendingCollaborators.map(collaborator => (
                 <div key={collaborator.id}>
                     <p > P: {collaborator.name} </p>
+                    <p> STATUS: {collaborator.status}</p>
+                    <p> Text: {collaborator.motivation}</p>
                     <button  type="button" onClick={() => handleApproveDecline(collaborator,1)}>Approve</button>
                     <button type="button" onClick={() => handleApproveDecline(collaborator,2)}>Decline</button>
                 </div>))}

@@ -15,11 +15,8 @@ function ProjectDetails() {
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const [projectState, setProjectState] = useState('')
     const [editMode, setEditMode] = useState(false)
-<<<<<<< HEAD
     const [handleRequestsMode, setHandleRequestsMode] = useState(false)
-=======
     const [hasApplied, setHasApplied] = useState(false)
->>>>>>> create_application
     const [owner, setOwner] = useState(false);
     const [message, setMessage] = useState('')
     const history = useHistory()
@@ -49,24 +46,9 @@ function ProjectDetails() {
         history.push('/')
     }
 
-<<<<<<< HEAD
-    const applyClick = async () => {
-        const userId = user.id;
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({user: { id: userId }, project: {id: id}, status: 0})
-        };
-        let response = await fetch('http://localhost:8080/api/v1/project/collaborators', requestOptions);
-        if (response.status === 200){
-            window.alert("Du kan ikke søke om å bli med på dette prosjektet")
-        }else{
-            setMessage("Du har søkt om å bli med på prosjekt " + projectState.name)
-        }
-=======
+
     const applyClick = () => {
        history.push('/project/application/', {project: projectState})
->>>>>>> create_application
     }
 
     const onEditClick = () => {
@@ -103,12 +85,7 @@ function ProjectDetails() {
 
     return (
         <div>
-<<<<<<< HEAD
-            {isLoggedIn && <button onClick={applyClick} type="button">Apply</button>}
-            {(message !== '')&& <p> {message} </p> }
-=======
             { (isLoggedIn && !hasApplied) ? <button onClick={applyClick} type="button">Apply</button> : null }
->>>>>>> create_application
 
             <button type="button" onClick={mainClick}>Main</button>
             {owner && <button type="button" onClick={onEditClick}>Edit</button> &&
