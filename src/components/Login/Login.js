@@ -3,6 +3,7 @@ import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logIn} from "../../redux/actions";
 import GLogin from "./GLogin";
+import LoginFacebook from "./Facebook/LoginFacebook";
 
 function Login() {
 
@@ -65,6 +66,7 @@ function Login() {
             </form>
             <div>
                 <GLogin />
+                <LoginFacebook/>
             </div>
         </div>
     );

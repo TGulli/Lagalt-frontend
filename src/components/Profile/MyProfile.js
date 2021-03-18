@@ -16,7 +16,6 @@ function MyProfile() {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    // FIX
     const deleteOnClick = async () => {
         async function deleteUser() {
             await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {method: 'DELETE'})
@@ -28,7 +27,6 @@ function MyProfile() {
         }
         await deleteUser()
     }
-
 
     return (
         <div>
