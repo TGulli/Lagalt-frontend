@@ -2,7 +2,7 @@ import {useState} from "react"
 import {useSelector} from "react-redux";
 
 function CreateProject() {
-    const isLoggedIn = useSelector(state => state.isLoggedIn)
+    //const isLoggedIn = useSelector(state => state.isLoggedIn)
     const user = useSelector(state => state.user);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');

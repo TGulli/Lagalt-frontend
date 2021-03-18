@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import {useSelector} from "react-redux";
 
 /**
  * TODO: INPUT VALIDATION
@@ -8,11 +9,11 @@ import {useState} from 'react'
 function ProjectDetailsEdit({project}) {
 
     
-
-    const [name, setName] = useState('')
-    const [progress, setProgress] = useState(0)
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
+    const user = useSelector(state => state.user)
+    const [name, setName] = useState(project.name)
+    const [progress, setProgress] = useState(project.progress)
+    const [description, setDescription] = useState(project.description)
+    const [image, setImage] = useState(project.image)
 
     const onNameInputChange = e => {
         setName(e.target.value)
@@ -35,11 +36,10 @@ function ProjectDetailsEdit({project}) {
         for (let x of project.owners){
             ownerArray.push({id: x.id})
         }
-
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name: name, description: description, progress: progress, image: image, owners: ownerArray })
+            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, progress: progress, image: image, owners: ownerArray })})
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
     }
