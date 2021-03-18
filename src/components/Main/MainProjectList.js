@@ -20,6 +20,8 @@ function MainProjectList({content}) {
                         <h4>Project name: {project.name}</h4>
                     </button>
 
+                    <p>Category: {project.category}</p>
+                    <p>TAGS: "empty"</p>
                     <p>Description: {project.description}</p>
                     <p>Status: {project.progress}</p>
                     <p>Image: {project.image}</p>

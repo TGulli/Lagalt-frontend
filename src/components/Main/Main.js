@@ -90,7 +90,7 @@ function Main() {
         if (pageNr < totalPages - 1) {
             let response = await fetchData(pageNr + 1);
             setPageNr(pageNr + 1)
-            setProjectsState(response.content);
+            setFilteredState(response.content);
         }
     }
 
@@ -99,7 +99,7 @@ function Main() {
         if (pageNr > 0) {
             let response = await fetchData(pageNr - 1);
             setPageNr(pageNr - 1)
-            setProjectsState(response.content);
+            setFilteredState(response.content);
         }
     }
 

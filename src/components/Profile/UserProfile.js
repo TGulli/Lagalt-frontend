@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {useParams} from "react-router-dom";
 
-import ProfileDetails from "./ProfileDetails";
+import ProfileDetailsInfo from "./ProfileDetailsInfo";
 
 function UserProfile() {
 
@@ -21,7 +21,7 @@ function UserProfile() {
 
 
     return (
-        <ProfileDetails user={userState}/>
+        <ProfileDetailsInfo user={userState}/>
     );
 }
 
