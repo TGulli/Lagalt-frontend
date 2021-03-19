@@ -1,4 +1,3 @@
-import {useHistory} from "react-router-dom";
 import {useEffect, useState} from 'react'
 import {getUniqueTags} from "./ProfileEditAPI";
 import Autosuggest from 'react-autosuggest';
@@ -26,10 +25,7 @@ function ProfileDetailsEdit({user}) {
     const [suggestions, setSuggestions] = useState(uniqueTags);
 
     const getSuggestions = (value) => {
-        let count = 0;
-        return uniqueTags.filter((element) => {
-            return element.toLowerCase().startsWith(value.trim().toLowerCase()) && count++ < 10
-        });
+        return uniqueTags.filter(tag => tag.toLowerCase().startsWith(value.trim().toLowerCase())).slice(0, 5)
     }
 
     const onNameInputChange = e => {

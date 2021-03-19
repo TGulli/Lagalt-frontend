@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../redux/actions";
 import {fetchData} from "./MainAPI";
+import TagList from "../shared/TagList";
 
 
 function Main() {
@@ -115,18 +116,18 @@ function Main() {
                     <button type="button" onClick={loginClick}> Login</button> :
                     <div>
                         <h2> {user.name} </h2>
+                        {user.userTags && <TagList tags={user.userTags}/>}
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
                         <button type="button" onClick={createProjectClick}> Create project</button>
                     </div>}
-
                 <div>
                     <h4>Filter based on category (RADIO BUTTONS? DROPDOWN? )</h4>
                     <button type="button" onClick={onFilterBasedOnMusicClick}>Music</button>
                     <button type="button" onClick={onFilterBasedOnFilmClick}>Film</button>
                     <button type="button" onClick={onRemoveFilterClick}>Remove filters</button>
                 </div>
-                <MainProjectList content={filteredState}/>
+                <MainProjectList content={filteredState} userState={user}/>
                 <button type="button" onClick={onPreviousClick}>PREVIOUS</button>
                 <button type="button" onClick={onNextClick}>NEXT</button>
             </div>

@@ -3,6 +3,7 @@ import ProfileDetailsInfo from "./ProfileDetailsInfo";
 import ProfileDetailsEdit from "./ProfileDetailsEdit";
 import {useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import TagList from "../shared/TagList";
 
 /**
  * SHOWS THE ENTIRE PROFILE ANYWAY
@@ -42,6 +43,7 @@ function MyProfile() {
         <div>
             <p>Status: {user.hidden.toString()}</p>
             {editMode ? <ProfileDetailsEdit user={user} /> : <ProfileDetailsInfo user={user}/> }
+            {user.userTags && <TagList tags={user.userTags}/>}
             <button type="button" onClick={onMainClick}>Main</button>
             <button type="button" onClick={onEditClick}>Edit</button>
             <button type="button" onClick={onDeleteClick}>DELETE!!!</button>

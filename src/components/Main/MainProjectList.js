@@ -1,16 +1,16 @@
 import MainProjectListOwners from "./MainProjectListOwners";
 import {useHistory} from "react-router-dom";
 import styles from './MainProjectList.module.css'
-import MainProjectListTags from "./MainProjectListTags";
 import TagList from "../shared/TagList";
+import MainProjectListBanner from "./MainProjectListBanner";
 
-function MainProjectList({content}) {
+function MainProjectList({content, userState}) {
     const history = useHistory();
 
     const toProjectDetailsClick = param => e => { //TODO remove e?
         history.push('/projectdetails/' + param.toString())
-        console.log("Project param: " + param)
     }
+
 
 
     return (
@@ -21,8 +21,8 @@ function MainProjectList({content}) {
                 <div key={index} className={styles.projectDisplay}>
                     <button type="button" value={project.id} onClick={toProjectDetailsClick(project.id)}>
                         <h4>Project name: {project.name}</h4>
+                        <MainProjectListBanner projectTags={project.projectTags} userTags={userState.userTags} />
                     </button>
-
                     <p>Category: {project.category}</p>
                     <TagList tags={project.projectTags}/>
                     <p>Description: {project.description}</p>
