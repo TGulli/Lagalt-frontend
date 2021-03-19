@@ -25,7 +25,7 @@ function ProfileDetailsEdit({user}) {
     const [suggestions, setSuggestions] = useState(uniqueTags);
 
     const getSuggestions = (value) => {
-        return uniqueTags.filter(tag => tag.toLowerCase().startsWith(value.trim().toLowerCase())).slice(0, 5)
+        return uniqueTags.filter(tag => tag.toLowerCase().startsWith(value.trim().toLowerCase())).slice(0, 10)
     }
 
     const onNameInputChange = e => {
@@ -49,6 +49,8 @@ function ProfileDetailsEdit({user}) {
         for (let x of skillList){
             tagArray.push({tag: x})
         }
+
+        // update redux user
 
         const requestOptions = {
             method: 'PUT',
