@@ -21,7 +21,7 @@ function MainProjectList({content, userState}) {
                 <div key={index} className={styles.projectDisplay}>
                     <button type="button" value={project.id} onClick={toProjectDetailsClick(project.id)}>
                         <h4>Project name: {project.name}</h4>
-                        <MainProjectListBanner projectTags={project.projectTags} userTags={userState.userTags} />
+                        <MainProjectListBanner project={project} user={userState} />
                     </button>
                     <p>Category: {project.category}</p>
                     <TagList tags={project.projectTags}/>

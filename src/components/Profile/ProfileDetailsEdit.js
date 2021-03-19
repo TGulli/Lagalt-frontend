@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {getUniqueTags} from "./ProfileEditAPI";
+import {getUniqueTags} from "../shared/TagsAPI";
 import Autosuggest from 'react-autosuggest';
 import SkillList from "../shared/SkillList";
 
