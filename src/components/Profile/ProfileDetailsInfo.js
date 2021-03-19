@@ -1,10 +1,7 @@
 import {useHistory} from "react-router-dom";
+import TagList from "../shared/TagList";
 
 function ProfileDetailsInfo({user}) {
-
-    console.log(user)
-
-    const history = useHistory()
 
 
     return (

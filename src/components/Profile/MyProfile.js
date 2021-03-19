@@ -35,6 +35,8 @@ function MyProfile() {
         await deleteUser()
     }
 
+    console.log(user)
+
 
     return (
         <div>

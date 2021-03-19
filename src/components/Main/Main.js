@@ -121,7 +121,7 @@ function Main() {
                     </div>}
 
                 <div>
-                    <h4>Filter based on category (RADIO BUTTONS?)</h4>
+                    <h4>Filter based on category (RADIO BUTTONS? DROPDOWN? )</h4>
                     <button type="button" onClick={onFilterBasedOnMusicClick}>Music</button>
                     <button type="button" onClick={onFilterBasedOnFilmClick}>Film</button>
                     <button type="button" onClick={onRemoveFilterClick}>Remove filters</button>

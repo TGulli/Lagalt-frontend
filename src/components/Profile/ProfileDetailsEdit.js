@@ -1,52 +1,71 @@
 import {useHistory} from "react-router-dom";
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import {getUniqueTags} from "./ProfileEditAPI";
 import Autosuggest from 'react-autosuggest';
-
-
-
+import SkillList from "../shared/SkillList";
 
 function ProfileDetailsEdit({user}) {
 
 
-    const history = useHistory()
+    const [uniqueTags, setUniqueTags] = useState([]);
+    const [skillList, setSkillList] = useState([])
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
 
-    const tags = [
-        "C#",
-        "C++",
-        "Java",
-        ".NET",
-        "C",
-        "JavaScript",
-        "Notepad++",
-        "Node.js",
-    ];
+    useEffect(() => {
+        async function fetchFromApi() {
+            let response = await getUniqueTags();
+            setUniqueTags(response.toString().split(','))
+            console.log(response.toString().split(','))
+        }
+        fetchFromApi()
+    }, []);
 
     // Brukes for auto suggest box
     const [value, setValue] = useState('');
-    const [suggestions, setSuggestions] = useState(tags);
-
-    // Add skill, vis som "liste"
-    const [skill, addSkill] = useState('');
+    const [suggestions, setSuggestions] = useState(uniqueTags);
 
     const getSuggestions = (value) => {
-        //setTimeOut -> gjør databasesøk.
-        return tags.filter(element => {
-            return element.toLowerCase().includes(value.trim().toLowerCase())
+        let count = 0;
+        return uniqueTags.filter((element) => {
+            return element.toLowerCase().startsWith(value.trim().toLowerCase()) && count++ < 10
         });
     }
 
-    const onNameInputChange = () => {
-
+    const onNameInputChange = e => {
+        setName(e.target.value)
     }
-    const onDescriptionInputChange = () => {
 
+    const onDescriptionInputChange = e => {
+        setDescription(e.target.value)
     }
 
     const onAddSkillClick = () => {
+        if (value !== '') {
+            setUniqueTags([...skillList, value])
+            setSkillList([...skillList, value])
+        }
 
     }
-    const onSaveClicked = () => {
+    const onSaveClicked = async () => {
 
+        let tagArray = []
+        for (let x of skillList){
+            tagArray.push({tag: x})
+        }
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: name, description: description, userTags: tagArray })
+        };
+        fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => console.log(r));
+    }
+    
+    function removeElement(index) {
+        let clone = [...skillList]
+        clone.splice(index, 1)
+        setSkillList(clone);
     }
 
 
@@ -62,20 +81,17 @@ function ProfileDetailsEdit({user}) {
                 <input id="descriptionEdit" type="text" onChange={onDescriptionInputChange} placeholder={user.description}/>
             </fieldset>
             <fieldset>
-                <label htmlFor="descriptionEdit">Change image</label>
+                <label htmlFor="descriptionEdit">Find skills</label>
                 <Autosuggest
                     suggestions={suggestions}
                     onSuggestionsFetchRequested={(e) => {
                         setValue(e.value)
                         setSuggestions(getSuggestions(e.value))
                     }}
-                    onSuggestionsClearRequested={() => {
-                        console.log('CLEAR || NONFOCUS')
+                    onSuggestionsClearRequested={() => {}}
+                    onSuggestionSelected={(_, { suggestionValue }) =>{
+                        setSkillList([...skillList, suggestionValue])
                     }}
-                    onSuggestionSelected={(_, { suggestionValue }) =>
-                        // Her legg e te i "skills" lista
-                        console.log("Selected: " + suggestionValue)
-                    }
                     getSuggestionValue={suggestion => suggestion}
                     renderSuggestion={suggestion => {
                         return <span> {suggestion} </span>
@@ -89,8 +105,13 @@ function ProfileDetailsEdit({user}) {
                     }}
                     highlightFirstSuggestion={true}
                 />
-                <button type="button" onClick={onAddSkillClick}>Add skill!</button>
+                <button type="button" onClick={onAddSkillClick}>Add new skill</button>
             </fieldset>
+            <fieldset>
+                {skillList !== undefined && skillList.map((skill, index) =>
+                    <SkillList skills={skill} index={index} removeElement={removeElement} />)}
+            </fieldset>
+
             <button type="button" onClick={onSaveClicked}>Save changes</button>
 
         </div>

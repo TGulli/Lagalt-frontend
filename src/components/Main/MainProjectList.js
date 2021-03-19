@@ -1,6 +1,8 @@
 import MainProjectListOwners from "./MainProjectListOwners";
 import {useHistory} from "react-router-dom";
 import styles from './MainProjectList.module.css'
+import MainProjectListTags from "./MainProjectListTags";
+import TagList from "../shared/TagList";
 
 function MainProjectList({content}) {
     const history = useHistory();
@@ -9,6 +11,7 @@ function MainProjectList({content}) {
         history.push('/projectdetails/' + param.toString())
         console.log("Project param: " + param)
     }
+
 
     return (
         <div>
@@ -21,7 +24,7 @@ function MainProjectList({content}) {
                     </button>
 
                     <p>Category: {project.category}</p>
-                    <p>TAGS: "empty"</p>
+                    <TagList tags={project.projectTags}/>
                     <p>Description: {project.description}</p>
                     <p>Status: {project.progress}</p>
                     <p>Image: {project.image}</p>
