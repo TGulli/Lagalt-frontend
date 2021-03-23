@@ -16,6 +16,8 @@ function MyProfile() {
     const history = useHistory()
     const dispatch = useDispatch()
 
+    console.log(user);
+
     const deleteOnClick = async () => {
         async function deleteUser() {
             await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {method: 'DELETE'})
@@ -30,7 +32,6 @@ function MyProfile() {
 
     return (
         <div>
-            <p>Status: {user.hidden.toString()}</p>
             <ProfileDetails user={user}/>
             <button type="button" onClick={deleteOnClick}>DELETE!!!</button>
         </div>

@@ -1,12 +1,8 @@
-export async function fetchData(pageNr, token) {
-
-    let bearer = 'Bearer ' + token.token
-    console.log(bearer)
+export async function fetchData(pageNr) {
 
     const requestOptions = {
         method: 'GET',
         headers: {
-            'Authorization': bearer,
             'Content-type': 'application/json'
         }
     }

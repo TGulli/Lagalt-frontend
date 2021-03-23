@@ -15,7 +15,7 @@ function ProfileDetails({user}) {
         <div>
             <h1>COMPONENT</h1>
             <p>User id: {user.id}</p>
-            <p>User Name: {user.name}</p>
+            <p>Username: {user.username}</p>
             <p>User Secret: {user.secret}</p>
             <button type="button" onClick={mainClick}>Main</button>
         </div>
