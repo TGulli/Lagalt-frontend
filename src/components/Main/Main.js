@@ -15,6 +15,7 @@ function Main() {
 
     const user = useSelector(state => state.user)
     const isLoggedIn= useSelector(state => state.isLoggedIn)
+    const token = useSelector(state => state.token)
     const history = useHistory();
 
     const [ projectsState, setProjectsState ] = useState([{}])
@@ -24,10 +25,12 @@ function Main() {
     const [ pageNr, setPageNr] = useState(0);
     const [ searchState, setSearchState ] = useState('')
 
+    console.log('MAIN USER:' + JSON.stringify(user))
+    console.log('MAIN TOKEN:' + JSON.stringify(token))
 
     useEffect( () => {
         async function fetchFromApi() {
-            let response = await fetchData(pageNr);
+            let response = await fetchData(pageNr, token);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
             console.log(response)

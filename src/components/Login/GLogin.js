@@ -13,10 +13,10 @@ function GLogin () {
     const history = useHistory();
 
     const onSuccess = (res) => {
-        checkToken(res.getAuthResponse().id_token).then(retrievedUser => {
-            if (retrievedUser != null) {
-                dispatch(logIn(retrievedUser))
-                history.push('/')
+        checkToken(res.getAuthResponse().id_token).then(jwtToken => {
+            if (jwtToken != null) {
+                dispatch(logIn(jwtToken.user, jwtToken.token))
+                history.push("/")
             }
             else {
                 alert('Token not authenticated')

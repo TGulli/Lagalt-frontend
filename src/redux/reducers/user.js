@@ -2,6 +2,7 @@ import {LOG_IN, LOG_OUT} from "../actionTypes"
 
 const initialState = {
     user: {},
+    token: '',
     isLoggedIn: false
 }
 
@@ -9,13 +10,14 @@ export default function(state = initialState, action) {
     switch (action.type) {
         case LOG_IN: {
             console.log("Got to login switch ")
-            const {user, isLoggedIn} = action.payload;
+            const {user, token, isLoggedIn} = action.payload;
             console.log("LigIn: User" + {...user} + "isLoggedIn: " + isLoggedIn)
             return {
                 //...state,
                 user: {
                     ...user
                 },
+                token: token,
                 isLoggedIn: isLoggedIn
             };
         }
@@ -24,6 +26,7 @@ export default function(state = initialState, action) {
             return {
                 //...state,
                 user: {},
+                token: '',
                 isLoggedIn: isLoggedIn
             };
         }

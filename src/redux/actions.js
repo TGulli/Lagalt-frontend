@@ -1,9 +1,10 @@
 import {LOG_IN, LOG_OUT} from "./actionTypes"
 
-export const logIn = user => ({
+export const logIn = (user, token) => ({
     type: LOG_IN,
     payload: {
         user,
+        token,
         isLoggedIn: true
     }
 });
