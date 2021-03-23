@@ -101,7 +101,7 @@ function Main() {
                 {!isLoggedIn?
                     <button type="button" onClick={loginClick}> Login</button>:
                     <div>
-                        <h2> {user.name} </h2>
+                        <h2> {user.username} </h2>
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
                         <button type="button" onClick={createProjectClick}> Create project</button>

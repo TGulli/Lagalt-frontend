@@ -11,6 +11,6 @@ export async function fetchData(pageNr, token) {
         }
     }
 
-    return await fetch(`http://localhost:8080/api/v1/projects/show/${pageNr}`, requestOptions)
+    return await fetch(`http://localhost:8080/api/v1/public/projects/show/${pageNr}`, requestOptions)
         .then(response => { return response.json()})
 }

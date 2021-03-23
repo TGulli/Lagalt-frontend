@@ -34,7 +34,7 @@ function Login() {
             body: JSON.stringify({username: name, password: secret})
         };
 
-        fetch('http://localhost:8080/api/v1/login/internal', requestOptions)
+        fetch('http://localhost:8080/api/v1/public/login/internal', requestOptions)
             .then(r => r.json())
             .then((jwtToken) => {
                 dispatch(logIn(jwtToken.user, jwtToken.token))

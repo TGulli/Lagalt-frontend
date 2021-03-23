@@ -29,10 +29,10 @@ function Register() {
             body: JSON.stringify({ name: name, secret: secret, hidden: false})
         };
 
-        fetch('http://localhost:8080/api/v1/users', requestOptions)
+        fetch('http://localhost:8080/api/v1/register', requestOptions)
             .then(r => r.json())
-            .then( (retrievedUser) => {
-                dispatch(logIn(retrievedUser))
+            .then( (jwtToken) => {
+                dispatch(logIn(jwtToken.user, jwtToken.token))
                 history.push('/')
             } );
     }

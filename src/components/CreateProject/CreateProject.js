@@ -1,13 +1,21 @@
 import {useState} from "react"
 import {useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 function CreateProject() {
+
     const isLoggedIn = useSelector(state => state.isLoggedIn)
     const user = useSelector(state => state.user);
+    const token = useSelector(state => state.token);
+    const history = useHistory();
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [progress] = useState(0);
     const [image, setImage] = useState('');
+
+    console.log('CreateProject: ' + token)
+    console.log('CreateProject: ' + token.token)
 
     const onDescriptionInputChange = e => {
         setDescription(e.target.value)
@@ -23,10 +31,13 @@ function CreateProject() {
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, owners: [ { id: user.id } ]})
         };
-        fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => console.log(r));
+        fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
+            console.log(r)
+            history.push("/")
+        });
 
     }
 
