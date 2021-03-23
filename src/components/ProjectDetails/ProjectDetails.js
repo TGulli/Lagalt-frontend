@@ -76,6 +76,16 @@ function ProjectDetails() {
         }
     }
 
+    const onDeleteClick = () => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        };
+        fetch(`http://localhost:8080/api/v1/projects/${projectState.id}`, requestOptions).then(r => console.log(r));
+        history.push("/")
+    }
+
+
     async function fetchUser (collaborator){
         return await fetch(`http://localhost:8080${collaborator.user}`)
             .then(responseObj => responseObj.json())
@@ -89,7 +99,8 @@ function ProjectDetails() {
 
             <button type="button" onClick={mainClick}>Main</button>
             {owner && <button type="button" onClick={onEditClick}>Edit</button> &&
-                        <button type="button" onClick={handleCollabRequests}>CollabRequests</button>}
+                        <button type="button" onClick={handleCollabRequests}>CollabRequests</button> &&
+            <button type="button" onClick={onDeleteClick}>Delete</button>}
             {handleRequestsMode? <CollabRequests pendingCollaborators={pendingCollaborators} onReload={setReload}/> : null}
             {editMode ? <ProjectDetailsEdit project={projectState} /> : <ProjectDetailsInfo project={projectState} />}
         </div>
