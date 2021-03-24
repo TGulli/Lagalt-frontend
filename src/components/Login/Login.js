@@ -1,8 +1,9 @@
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../../redux/actions";
-
+import GLogin from "./GLogin";
+import LoginFacebook from "./Facebook/LoginFacebook";
 
 function Login() {
 
@@ -27,24 +28,18 @@ function Login() {
 
     const onButtonClick = () => {
 
-
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name: name, secret: secret})
+            body: JSON.stringify({username: name, password: secret})
         };
 
-        fetch('http://localhost:8080/api/v1/users/name', requestOptions)
+        fetch('http://localhost:8080/api/v1/public/login/internal', requestOptions)
             .then(r => r.json())
-            .then((retrievedUser) => {
-                if (retrievedUser.name === name && retrievedUser.secret === secret) { //TODO Backend stuff
-                    dispatch(logIn(retrievedUser))
-                    history.push('/')
-                } else{
-                    alert("No user found!") //TODO Exception
-                }
+            .then((jwtToken) => {
+                dispatch(logIn(jwtToken.user, jwtToken.token))
+                history.push("/")
             });
-
     }
 
 
@@ -59,11 +54,15 @@ function Login() {
 
                 <fieldset>
                     <label htmlFor="secret">Secret</label>
-                    <input id="secret" type="password" onChange={onSecretInputChange}/>
+                    <input id="secret" type="text" onChange={onSecretInputChange}/>
                 </fieldset>
                 <button type="button" onClick={onButtonClick}>Login</button>
                 <button type="button" onClick={onRegisterButtonClick}>Register</button>
             </form>
+            <div>
+                <GLogin />
+                <LoginFacebook/>
+            </div>
         </div>
     );
 }

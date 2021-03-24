@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react'
 import ProfileDetailsInfo from "./ProfileDetailsInfo";
 import ProfileDetailsEdit from "./ProfileDetailsEdit";
 import {useSelector} from "react-redux";
+import ProfileDetails from "./ProfileDetails";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import TagList from "../shared/TagList";
+import {logOut} from "../../redux/actions";
 
 /**
  * SHOWS THE ENTIRE PROFILE ANYWAY
@@ -16,7 +19,9 @@ function MyProfile() {
     const user = useSelector(state => state.user)
     const [editMode, setEditMode] = useState(false)
     const history = useHistory()
+    const dispatch = useDispatch()
 
+    console.log(user);
     const onMainClick = () => {
         history.push('/')
     }
@@ -27,10 +32,11 @@ function MyProfile() {
 
     const onDeleteClick = async () => {
         async function deleteUser() {
-            await fetch(`http://localhost:8080/api/v1/users/delete/${user.id}`)
+            await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {method: 'DELETE'})
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     history.push("/")
+                    dispatch(logOut())
                 })
         }
         await deleteUser()

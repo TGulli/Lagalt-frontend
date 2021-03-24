@@ -27,12 +27,9 @@ function ProjectDetails() {
         fetchData();
     }, [id]);
 
-
-
     const mainClick = () => {
         history.push('/')
     }
-
     const applyClick = () => {
         const userId = user.id;
         const requestOptions = {
@@ -46,9 +43,6 @@ function ProjectDetails() {
     const onEditClick = () => {
         editMode === true ? setEditMode(false): setEditMode(true);
     }
-
-
-
 
     return (
         <div>

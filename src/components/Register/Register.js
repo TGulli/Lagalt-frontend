@@ -26,14 +26,14 @@ function Register() {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, secret: secret, hidden: false})
+            body: JSON.stringify({ username: name, secret: secret, hidden: false})
         };
 
-        fetch('http://localhost:8080/api/v1/users', requestOptions)
+        fetch('http://localhost:8080/api/v1/public/register', requestOptions)
             .then(r => r.json())
-            .then( (retrievedUser) => {
-                dispatch(logIn(retrievedUser))
-                history.push('/')
+            .then( (registeredUser) => {
+                console.log(registeredUser)
+                history.push('/login')
             } );
     }
 

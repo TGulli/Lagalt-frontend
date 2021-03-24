@@ -15,6 +15,7 @@ function Main() {
      */
 
     const user = useSelector(state => state.user)
+    const token = useSelector(state => state.token)
     const isLoggedIn = useSelector(state => state.isLoggedIn)
     const history = useHistory();
 
@@ -26,10 +27,12 @@ function Main() {
     const [pageNr, setPageNr] = useState(0);
     const [searchState, setSearchState] = useState('')
 
+    console.log('MAIN USER:' + JSON.stringify(user))
+    console.log('MAIN TOKEN:' + JSON.stringify(token))
 
     useEffect(() => {
         async function fetchFromApi() {
-            let response = await fetchData(pageNr);
+            let response = await fetchData(pageNr, token);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
             setFilteredState(response.content)
@@ -115,7 +118,7 @@ function Main() {
                 {!isLoggedIn ?
                     <button type="button" onClick={loginClick}> Login</button> :
                     <div>
-                        <h2> {user.name} </h2>
+                        <h2> {user.username} </h2>
                         {user.userTags && <TagList tags={user.userTags}/>}
                         <button type="button" onClick={profileClick}> Profile</button>
                         <button type="button" onClick={logoutClick}> Log out</button>
