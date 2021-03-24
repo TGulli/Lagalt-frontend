@@ -1,7 +1,8 @@
 //import { useState, useEffect } from 'react'
 import ProfileDetails from "./ProfileDetails";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import {logOut} from "../../redux/actions";
 
 /**
  * SHOWS THE ENTIRE PROFILE ANYWAY
@@ -12,6 +13,7 @@ import {useHistory} from "react-router-dom";
 function MyProfile() {
 
     const user = useSelector(state => state.user)
+    const dispatch = useDispatch();
     const history = useHistory()
 
 
@@ -31,13 +33,18 @@ function MyProfile() {
 
     const deleteOnClick = async () => {
         async function deleteUser() {
-            await fetch(`http://localhost:8080/api/v1/users/delete/${user.id}`)
+            const requestOptions = {
+                method: 'DELETE'}
+            await fetch(`http://localhost:8080/api/v1/users/delete/${user.id}`, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
+                    dispatch(logOut())
                     history.push("/")
                 })
         }
         await deleteUser()
+
+
     }
 
 

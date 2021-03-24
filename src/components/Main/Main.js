@@ -28,6 +28,7 @@ function Main() {
     useEffect( () => {
         async function fetchFromApi() {
             let response = await fetchData(pageNr);
+            console.log(response);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
         }
