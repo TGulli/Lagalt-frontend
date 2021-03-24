@@ -9,7 +9,7 @@ import './App.css';
 import Main from "./components/Main/Main";
 
 /**
- * TODO: Public/Private Route
+ * TODO: Public/Private Route 
  */
 
 function App() {
