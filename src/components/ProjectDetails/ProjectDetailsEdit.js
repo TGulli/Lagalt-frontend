@@ -12,11 +12,11 @@ import {useSelector} from "react-redux";
 function ProjectDetailsEdit({project}) {
 
     
-
-    const [name, setName] = useState('')
-    const [progress, setProgress] = useState(0)
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
+    const user = useSelector(state => state.user)
+    const [name, setName] = useState(project.name)
+    const [progress, setProgress] = useState(project.progress)
+    const [description, setDescription] = useState(project.description)
+    const [image, setImage] = useState(project.image)
 
     const token = useSelector(state => state.token);
 
@@ -85,7 +85,7 @@ function ProjectDetailsEdit({project}) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({name: name, description: description, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })
+            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
     }

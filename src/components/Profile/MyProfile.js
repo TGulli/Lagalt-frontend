@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import ProfileDetailsInfo from "./ProfileDetailsInfo";
+import { useState } from 'react'
+import {useSelector, useDispatch} from "react-redux";
 import ProfileDetailsEdit from "./ProfileDetailsEdit";
-import {useDispatch, useSelector} from "react-redux";
+import ProfileDetailsInfo from "./ProfileDetailsInfo";
 import {useHistory} from "react-router-dom";
 import TagList from "../shared/TagList";
 import {logOut} from "../../redux/actions";

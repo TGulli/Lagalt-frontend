@@ -1,5 +1,5 @@
 
-function ProjectDetailsInfo({project}) {
+function ProjectDetailsInfo({project, owner}) {
 
     return (
         <div>

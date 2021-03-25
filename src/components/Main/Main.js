@@ -23,16 +23,16 @@ function Main() {
     const [filteredState, setFilteredState] = useState([{}])
 
     // Might refactor
-    const [totalPages, setTotalPages] = useState(0);
-    const [pageNr, setPageNr] = useState(0);
-    const [searchState, setSearchState] = useState('')
+    const [ totalPages, setTotalPages ] = useState(0);
+    const [ pageNr, setPageNr] = useState(0);
+    const [ searchState, setSearchState ] = useState('')
 
     console.log('MAIN USER:' + JSON.stringify(user))
     console.log('MAIN TOKEN:' + JSON.stringify(token))
 
-    useEffect(() => {
+    useEffect( () => {
         async function fetchFromApi() {
-            let response = await fetchData(pageNr, token);
+            let response = await fetchData(pageNr);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
             setFilteredState(response.content)
@@ -131,8 +131,9 @@ function Main() {
                     <button type="button" onClick={onRemoveFilterClick}>Remove filters</button>
                 </div>
                 <MainProjectList content={filteredState} userState={user}/>
-                <button type="button" onClick={onPreviousClick}>PREVIOUS</button>
-                <button type="button" onClick={onNextClick}>NEXT</button>
+                {(pageNr >= 1) && <button type="button" onClick={onPreviousClick}>PREVIOUS</button>}
+                {(pageNr < totalPages-1) && <button type="button" onClick={onNextClick}>NEXT</button>}
+
             </div>
             <div>
 
