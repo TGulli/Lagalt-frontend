@@ -44,6 +44,8 @@ function ProjectDetails() {
         setReload(false)
     }, [id, reload]);
 
+    console.log('Owner status: ' + owner)
+
     const mainClick = () => {
         history.push('/')
     }
@@ -88,24 +90,32 @@ function ProjectDetails() {
 
 
     async function fetchUser (collaborator){
-        return await fetch(`http://localhost:8080${collaborator.user}`)
+        const requestOptions = {
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
+        };
+        return await fetch(`http://localhost:8080${collaborator.user}`, requestOptions)
             .then(responseObj => responseObj.json())
             .then(jsonResponse  => jsonResponse.name)
     }
-
 
     return (
         <div>
             { (isLoggedIn && !hasApplied) ? <button onClick={applyClick} type="button">Apply</button> : null }
 
             <button type="button" onClick={mainClick}>Main</button>
-            {owner && <button type="button" onClick={onEditClick}>Edit</button> &&
-                        <button type="button" onClick={handleCollabRequests}>CollabRequests</button> &&
-            <button type="button" onClick={onDeleteClick}>Delete</button>}
+
+            {owner &&
+            <div>
+            <button type="button" onClick={onEditClick}>Edit</button>
+            <button type="button" onClick={handleCollabRequests}>CollabRequests</button>
+                <button type="button" onClick={onDeleteClick}>Delete</button>
+            </div>
+            }
             {handleRequestsMode? <CollabRequests pendingCollaborators={pendingCollaborators} onReload={setReload}/> : null}
             {editMode ? <ProjectDetailsEdit project={projectState} /> : <ProjectDetailsInfo project={projectState} />}
         </div>
     );
-}export default ProjectDetails;
+}
+export default ProjectDetails;
 
 

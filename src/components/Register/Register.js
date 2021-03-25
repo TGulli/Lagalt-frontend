@@ -10,6 +10,7 @@ function Register() {
     const dispatch = useDispatch();
     const [ name, setName ] = useState('')
     const [ secret, setSecret] = useState('')
+    const [ email, setEmail] = useState('')
 
 
     const onNameInputChange = e => {
@@ -20,13 +21,16 @@ function Register() {
         setSecret(e.target.value)
     }
 
-    const onButtonClick = () => {
+    const onEmailInputChange = e => {
+        setEmail(e.target.value)
+    }
 
+    const onButtonClick = () => {
 
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: name, secret: secret, hidden: false})
+            body: JSON.stringify({ username: name, secret: secret, email:email,  hidden: false})
         };
 
         fetch('http://localhost:8080/api/v1/public/register', requestOptions)
@@ -49,10 +53,13 @@ function Register() {
                 <label htmlFor="name">Name</label>
                 <input id="name"  type="text" onChange={onNameInputChange}/>
                 </fieldset>
-
                 <fieldset>
-                    <label htmlFor="secret">Secret</label>
+                    <label htmlFor="secret">Password</label>
                     <input id="secret" type="password" onChange={onSecretInputChange}/>
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="secret">Email</label>
+                    <input id="secret" type="text" onChange={onEmailInputChange}/>
                 </fieldset>
                 <button type="button" onClick={onButtonClick}>CLICK ME ONE MORE TIME</button>
             </form>

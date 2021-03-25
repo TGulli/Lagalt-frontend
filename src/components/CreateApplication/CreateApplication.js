@@ -9,6 +9,7 @@ function CreateApplication() {
     const project = location.state.project;
 
     const user = useSelector(state => state.user);
+    const token = useSelector(state => state.token);
     const history = useHistory();
 
     const [motivationalText, setMotivationalText] = useState('');
@@ -25,7 +26,7 @@ function CreateApplication() {
             const userId = user.id;
             const requestOptions = {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
                 body: JSON.stringify({user: {id: userId}, project: {id: project.id}, status: 0, motivation: motivationalText})
             };
             fetch('http://localhost:8080/api/v1/project/collaborators', requestOptions).then(r => console.log(r));

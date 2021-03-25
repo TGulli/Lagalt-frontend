@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 function CollabRequests(props) {
 
     const owner = useSelector(state => state.user)
+    const token = useSelector(state => state.token)
 
     function getUserId(user){
         return user.split("/").pop()
@@ -15,7 +16,7 @@ function CollabRequests(props) {
     const handleApproveDecline = (collaborator, status) => {
         const requestOptions = {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, user: { id: getUserId(collaborator.user)}, project: {id: getProjectId(collaborator.project)}}})
         };
         fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r => console.log(r));
