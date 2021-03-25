@@ -8,9 +8,11 @@ function UserProfile() {
     const [userState, setUserState] = useState('')
     let { id } = useParams();
 
+    //public!
+
     useEffect( () => {
         async function fetchData() {
-            await fetch(`http://localhost:8080/api/v1/users/${id}`)
+            await fetch(`http://localhost:8080/api/v1/public/users/${id}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setUserState(jsonResponse);

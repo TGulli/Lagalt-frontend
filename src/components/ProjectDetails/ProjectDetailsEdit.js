@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import {getUniqueTags} from "../shared/TagsAPI";
 import Autosuggest from "react-autosuggest";
 import SkillList from "../shared/SkillList";
+import {useSelector} from "react-redux";
 
 /**
  * TODO: INPUT VALIDATION
@@ -17,13 +18,15 @@ function ProjectDetailsEdit({project}) {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
 
+    const token = useSelector(state => state.token);
+
     //********************** AUTO SUGGEST LOGIC START ******************************
     const [uniqueTags, setUniqueTags] = useState([]);
     const [skillList, setSkillList] = useState([])
 
     useEffect(() => {
         async function fetchFromApi() {
-            let response = await getUniqueTags();
+            let response = await getUniqueTags(token);
             setUniqueTags(response.toString().split(','))
             console.log(response.toString().split(','))
         }
@@ -81,7 +84,7 @@ function ProjectDetailsEdit({project}) {
 
         const requestOptions = {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));

@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {getUniqueTags} from "../shared/TagsAPI";
 import Autosuggest from 'react-autosuggest';
 import SkillList from "../shared/SkillList";
+import {useSelector} from "react-redux";
 
 function ProfileDetailsEdit({user}) {
 
@@ -11,9 +12,11 @@ function ProfileDetailsEdit({user}) {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
 
+    const token = useSelector(state => state.token);
+
     useEffect(() => {
         async function fetchFromApi() {
-            let response = await getUniqueTags();
+            let response = await getUniqueTags(token);
             setUniqueTags(response.toString().split(','))
             console.log(response.toString().split(','))
         }
@@ -54,7 +57,7 @@ function ProfileDetailsEdit({user}) {
 
         const requestOptions = {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token},
             body: JSON.stringify({name: name, description: description, userTags: tagArray })
         };
         fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => console.log(r));

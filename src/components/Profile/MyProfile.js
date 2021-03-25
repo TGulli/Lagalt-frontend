@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import ProfileDetailsInfo from "./ProfileDetailsInfo";
 import ProfileDetailsEdit from "./ProfileDetailsEdit";
-import {useSelector} from "react-redux";
-import ProfileDetails from "./ProfileDetails";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import TagList from "../shared/TagList";

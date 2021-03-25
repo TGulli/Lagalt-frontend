@@ -7,15 +7,17 @@ import ProjectDetailsEdit from "./ProjectDetailsEdit";
 function ProjectDetails() {
     const user = useSelector(state => state.user);
     const isLoggedIn = useSelector(state => state.isLoggedIn);
+    const token = useSelector(state => state.token);
     const [projectState, setProjectState] = useState('')
     const [editMode, setEditMode] = useState(false)
     const [owner, setOwner] = useState(false);
     const history = useHistory()
     let { id } = useParams();
 
+
     useEffect( () => {
         async function fetchData() {
-            await fetch(`http://localhost:8080/api/v1/projects/${id}`)
+            await fetch(`http://localhost:8080/api/v1/projects/${id}`, {method: 'GET', headers: {'Authorization': 'Bearer ' + token.token}})
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setProjectState(jsonResponse);
