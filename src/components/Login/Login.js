@@ -37,6 +37,7 @@ function Login() {
         fetch('http://localhost:8080/api/v1/public/login/internal', requestOptions)
             .then(r => r.json())
             .then((jwtToken) => {
+                console.log('Response: ' + JSON.stringify(jwtToken))
                 dispatch(logIn(jwtToken.user, jwtToken.token))
                 history.push("/")
             });

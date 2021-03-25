@@ -62,7 +62,7 @@ function Main() {
     }
 
     const search = async () => {
-        await fetch("http://localhost:8080/api/v1/projects")
+        await fetch("http://localhost:8080/api/v1/public/projects")
             .then(response => response.json())
             .then((jsonResponse) => {
                 jsonResponse = jsonResponse.filter((obj) =>
