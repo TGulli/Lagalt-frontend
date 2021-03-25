@@ -59,9 +59,11 @@ function ProjectDetails() {
 
     useEffect(() => {
         async function getMessages() {
-            await fetch(`http://localhost:8080/api/v1/chatmessages/project/${id}/user/${user.id}`)
+            await fetch(`http://localhost:8080/api/v1/chatmessages/project/${id}/user/${user.id}`, {headers: {'Authorization': ('Bearer ' + token.token)}} )
                 .then(response => response.json())
                 .then(jsonResponse => {
+                    console.log('this totally happened')
+
                     if(jsonResponse !== null){
                         setIsPartOfProject(true)
                         setChatMessages(jsonResponse)
@@ -89,8 +91,10 @@ function ProjectDetails() {
     const handleCollabRequests = async() => {
         if (handleRequestsMode === false){
             for (let collaborator of projectState.collaborators){
+                console.log(JSON.stringify(collaborator))
                 if (collaborator.status === "PENDING"){
                     let userName = await fetchUser(collaborator)
+                    console.log(userName)
                     let name = {name: userName}
                     setPendingCollaborators(pendingCollaborators => ({pendingCollaborators: [...pendingCollaborators.pendingCollaborators, {...collaborator, ...name}]}))
                 }
@@ -121,13 +125,14 @@ function ProjectDetails() {
         const requestOptions = {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        return await fetch(`http://localhost:8080${collaborator.user}`, requestOptions)
+        return await fetch(`http://localhost:8080/api/v1/users/${collaborator.user.id}`, requestOptions)
             .then(responseObj => responseObj.json())
             .then(jsonResponse  => jsonResponse.name)
     }
 
     const joinChat = () => {
         //setHasJoinedChat(true);
+        console.log('JOIN CHAT')
         clientRef.sendMessage("/app/chat.addUser",
             JSON.stringify({message: {sender: user.name, type: 0, project: projectState}, user: {id: user.id}}))
     }
@@ -171,7 +176,7 @@ function ProjectDetails() {
         <div>
             {isPartOfProject &&
             <React.Fragment>
-                <SockJsClient url='http://localhost:8080/ws' topics={['/topic/public']}
+                <SockJsClient url='http://localhost:8080/ws' headers={{'Authorization': ('Bearer ' + token.token)}} topics={['/topic/public']}
                           onMessage={(msg) => handleMessageReceived(msg)}
                           ref={(client) => {
                               clientRef = client;
@@ -200,7 +205,7 @@ function ProjectDetails() {
             }
             {handleRequestsMode? <CollabRequests pendingCollaborators={pendingCollaborators} onReload={setReload}/> : null}
             {editMode ? <ProjectDetailsEdit project={projectState} /> : <ProjectDetailsInfo project={projectState} />}
-            <MessageBoard project={projectState}/>
+            <MessageBoard project={projectState} />
         </div>
     );
 }

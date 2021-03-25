@@ -10,6 +10,7 @@ function MessageBoard(props) {
         messages: []
     });
     const user  = useSelector(state => state.user);
+    const token = useSelector(state => state.token);
     const [username, setUsername] = useState('')
     const [reload, setReload] = useState(false);
     const [isPartOfProject, setIsPartOfProject] = useState(false);
@@ -19,7 +20,7 @@ function MessageBoard(props) {
     useEffect(() => {
         console.log("I useeffect")
         async function fetchMessagesFromApi(){
-            await fetchMessages(id, user.id)
+            await fetchMessages(id, user.id, token)
                 .then(jsonResponse => {
                     if(jsonResponse !== null) {
                         setIsPartOfProject(true)
@@ -55,7 +56,7 @@ function MessageBoard(props) {
 
     async function getUser(user){
 
-        let userObject =  await fetch(`http://localhost:8080${user}`).then(response => response.json())
+        let userObject =  await fetch(`http://localhost:8080${user}`, {headers: {'Authorization': ('Bearer ' + token.token)}}).then(response => response.json())
 
         return userObject;
 
@@ -88,7 +89,7 @@ function MessageBoard(props) {
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify( {content: messageText, timestamp: dateTime, project: {id: id}, user: {id: user.id}})
         };
         fetch('http://localhost:8080/api/v1/messages', requestOptions).then(r => {console.log(r)
