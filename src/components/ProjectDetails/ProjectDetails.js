@@ -26,8 +26,8 @@ function ProjectDetails() {
     const [hasJoinedChat, setHasJoinedChat] = useState(false)
     const [chatText, setChatText] = useState('')
     const [chatMessages, setChatMessages] = useState([])
+    const [isPartOfProject, setIsPartOfProject] = useState(false)
 
-    //const [clientRef, setClientRef] = useState({})
     const [clientConnected, setClientConnected] = useState(false)
     const history = useHistory()
     let { id } = useParams();
@@ -50,8 +50,26 @@ function ProjectDetails() {
                 })
         }
         fetchData();
+
+
         setReload(false)
-    }, [id, reload, clientConnected]);
+    }, [id, reload]);
+
+    useEffect(() => {
+        async function getMessages() {
+            await fetch(`http://localhost:8080/api/v1/chatmessages/project/${id}/user/${user.id}`)
+                .then(response => response.json())
+                .then(jsonResponse => {
+                    if(jsonResponse !== null){
+                        setIsPartOfProject(true)
+                        setChatMessages(jsonResponse)
+                    }else {
+                        setIsPartOfProject(false)
+                    }
+
+                }).catch(e => console.log(e.message))
+        }getMessages()
+    }, [hasJoinedChat])
 
     const mainClick = () => {
         history.push('/')
@@ -94,31 +112,25 @@ function ProjectDetails() {
     }
 
     const joinChat = () => {
-        console.log("Clientref in jonChat(): ")
-        console.log(clientRef)
-        setHasJoinedChat(true);
+        //setHasJoinedChat(true);
         clientRef.sendMessage("/app/chat.addUser",
-            JSON.stringify({sender: user.name, type: 0, project: projectState}))
+            JSON.stringify({message: {sender: user.name, type: 0, project: projectState}, user: {id: user.id}}))
     }
 
+
+
     const leaveChat = () => {
-        console.log("setClientConnect() (before disconnect)" + clientConnected)
-        console.log(clientRef.disconnect)
+
         setHasJoinedChat(false);
-        setChatMessages([]);
         clientRef.disconnect();
         window.location.reload()
-        console.log(clientRef)
-        //setTimeout(function(){ alert("Hello"); }, 3000);
-        //clientRef.connect();
-        console.log("setClientConnect() (after disconnect)" + clientConnected)
-        //clientRef.connect();
+        clientRef.connect();
+
+        setChatMessages([]);
         reload? setReload(false): setReload(true)
     }
 
     const sendChatMessage = () => {
-        console.log("INSIDE SEND CHAT MSG")
-        console.log("CHATTEXT:     " + chatText)
         clientRef.sendMessage("/app/chat.sendMessage",
             JSON.stringify({sender: user.name, content: chatText, type: 1, project: projectState}))
 
@@ -129,22 +141,37 @@ function ProjectDetails() {
     }
 
     const handleMessageReceived = msg => {
-        setChatMessages([...chatMessages, msg])
+        if(msg === null){
+            setHasJoinedChat(false)
+        }
+        else {
+            if(!hasJoinedChat){
+                setHasJoinedChat(true)
+            }
+            setChatMessages([...chatMessages, msg])
+        }
     }
 
     return (
         <div>
-            <SockJsClient url='http://localhost:8080/ws' topics={['/topic/public']}
+            {isPartOfProject &&
+            <React.Fragment>
+                <SockJsClient url='http://localhost:8080/ws' topics={['/topic/public']}
                           onMessage={(msg) => handleMessageReceived(msg)}
                           ref={(client) => {
                               clientRef = client;
                           }}
                           onConnect={ () => { setClientConnected(true) } }
                           onDisconnect={() => {setClientConnected(false)}}
-            />
-            {console.log("IN HTML: " + clientConnected)}
-            {hasJoinedChat? <Chat chatMessages={chatMessages} chatText={chatText} onSendMessage={()=> sendChatMessage()} onChange={e => handleChange(e)} onLeave={() => leaveChat()}  />:
-                <button type="button" onClick={joinChat}> Join chat</button>}
+                />
+
+                {hasJoinedChat?
+                    <Chat chatMessages={chatMessages} chatText={chatText} onSendMessage={()=> sendChatMessage()} onChange={e => handleChange(e)} onLeave={() => leaveChat()}  />:
+                    <button type="button" onClick={joinChat}> Join chat</button>
+                }
+
+            </React.Fragment>}
+
             { (isLoggedIn && !hasApplied) ? <button onClick={applyClick} type="button">Apply</button> : null }
 
             <button type="button" onClick={mainClick}>Main</button>

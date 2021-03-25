@@ -5,19 +5,19 @@ function Chat(props) {
             console.log("IF JOIN MSG")
             console.log(msg)
             return (
-                <li key={msg.timestamp}>{msg.sender} joined </li>
+                <li key={msg.id}>{msg.sender} joined </li>
             )
 
         }else if(msg.type === 'CHAT'){
             return (
-                <li key={msg.timestamp}>
+                <li key={msg.id}>
                     <p>{msg.sender}    {msg.timestamp}</p>
                     <p> {msg.content}</p>
                 </li>)
 
         }else if(msg.type === 'LEAVE'){
             return (
-                <li key={msg.timestamp}>{msg.sender} left </li>
+                <li key={msg.id}>{msg.sender} left </li>
             )
         }
     }
