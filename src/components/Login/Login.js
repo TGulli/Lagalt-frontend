@@ -38,8 +38,12 @@ function Login() {
             .then(r => r.json())
             .then((jwtToken) => {
                 console.log('Response: ' + JSON.stringify(jwtToken))
-                dispatch(logIn(jwtToken.user, jwtToken.token))
-                history.push("/")
+
+                if (jwtToken.user){
+                    dispatch(logIn(jwtToken.user, jwtToken.token))
+                    history.push("/")
+                }
+
             });
     }
 

@@ -13,19 +13,16 @@ function LoginFacebook() {
     const dispatch = useDispatch()
 
     const responseFacebook = (response) => {
-        console.log(response);
-
         if (response.accessToken) {
-
-            fetch('http://localhost:8080/api/v1/users/' + response.accessToken, {method: 'POST'}) // Todo Use requestbody instead of pathvariable?
+            fetch('http://localhost:8080/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'}) // Todo Use requestbody instead of pathvariable?
                 .then(r => r.json())
-                .then((retrievedUser) => {
-                    if (retrievedUser.name === response.name && retrievedUser.secret === response.id) { //TODO Backend stuff
-                        dispatch(logIn(retrievedUser))
-                        history.push('/')
-                    } else{
-                        console.log(retrievedUser)
-                        alert("No user found!") //TODO Exception
+                .then(jwtToken => {
+                    if (jwtToken != null) {
+                        dispatch(logIn(jwtToken.user, jwtToken.token))
+                        history.push("/")
+                    }
+                    else {
+                        alert('Token not authenticated')
                     }
                 });
         }
