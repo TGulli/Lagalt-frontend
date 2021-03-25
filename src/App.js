@@ -14,6 +14,7 @@ import CreateApplication from "./components/CreateApplication/CreateApplication"
  */
 
 function App() {
+    console.log("I APP.JS")
     return (
         <BrowserRouter>
 

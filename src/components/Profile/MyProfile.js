@@ -30,7 +30,9 @@ function MyProfile() {
 
     const onDeleteClick = async () => {
         async function deleteUser() {
-            await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {method: 'DELETE'})
+            const requestOptions = {
+                method: 'DELETE'}
+            await fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     history.push("/")
@@ -38,6 +40,8 @@ function MyProfile() {
                 })
         }
         await deleteUser()
+
+
     }
 
     console.log(user)
