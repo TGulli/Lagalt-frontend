@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../redux/actions";
 import {fetchData} from "./MainAPI";
 import TagList from "../shared/TagList";
+import { Button, InputGroup, FormControl } from "react-bootstrap";
+import styles from './Main.module.css'
 
 
 function Main() {
@@ -111,28 +113,38 @@ function Main() {
         <div>
             <h1>Main!</h1>
             <fieldset>
-                <input id="searchInput" onChange={onInputChange}/>
-                <button type="button" onClick={search}>Submit</button>
+                <InputGroup className="mb-3" bsPrefix={styles.searchContainer}>
+                    <FormControl
+                        placeholder="Search for Projects"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        onChange={onInputChange}
+                        bsPrefix={styles.customSearch}
+                    />
+                    <InputGroup.Append>
+                        <Button onClick={search} variant="outline-secondary">Search</Button>
+                    </InputGroup.Append>
+                </InputGroup>
             </fieldset>
             <div>
                 {!isLoggedIn ?
-                    <button type="button" onClick={loginClick}> Login</button> :
+                    <Button type="button" onClick={loginClick}> Login</Button> :
                     <div>
                         <h2> {user.username} </h2>
                         {user.userTags && <TagList tags={user.userTags}/>}
-                        <button type="button" onClick={profileClick}> Profile</button>
-                        <button type="button" onClick={logoutClick}> Log out</button>
-                        <button type="button" onClick={createProjectClick}> Create project</button>
+                        <Button type="button" onClick={profileClick}> Profile</Button>
+                        <Button type="button" onClick={logoutClick}> Log out</Button>
+                        <Button type="button" onClick={createProjectClick}> Create project</Button>
                     </div>}
                 <div>
                     <h4>Filter based on category (RADIO BUTTONS? DROPDOWN? )</h4>
-                    <button type="button" onClick={onFilterBasedOnMusicClick}>Music</button>
-                    <button type="button" onClick={onFilterBasedOnFilmClick}>Film</button>
-                    <button type="button" onClick={onRemoveFilterClick}>Remove filters</button>
+                    <Button type="button" onClick={onFilterBasedOnMusicClick}>Music</Button>
+                    <Button type="button" onClick={onFilterBasedOnFilmClick}>Film</Button>
+                    <Button type="button" onClick={onRemoveFilterClick}>Remove filters</Button>
                 </div>
                 <MainProjectList content={filteredState} userState={user}/>
-                {(pageNr >= 1) && <button type="button" onClick={onPreviousClick}>PREVIOUS</button>}
-                {(pageNr < totalPages-1) && <button type="button" onClick={onNextClick}>NEXT</button>}
+                {(pageNr >= 1) && <Button type="button" onClick={onPreviousClick}>PREVIOUS</Button>}
+                {(pageNr < totalPages-1) && <Button type="button" onClick={onNextClick}>NEXT</Button>}
 
             </div>
             <div>
