@@ -18,7 +18,7 @@ function CollabRequests(props) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, user: { id: collaborator.user }, project: {id: collaborator.project}}})
+            body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, user: { id: collaborator.user.id }, project: {id: collaborator.project}}})
         };
         fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r => console.log(r));
         props.onReload(true)

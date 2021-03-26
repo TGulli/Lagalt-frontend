@@ -125,7 +125,7 @@ function ProjectDetails() {
         const requestOptions = {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        return await fetch(`http://localhost:8080/api/v1/users/${collaborator.user}`, requestOptions)
+        return await fetch(`http://localhost:8080/api/v1/users/${collaborator.user.id}`, requestOptions)
             .then(responseObj => responseObj.json())
             .then(jsonResponse  => jsonResponse.name)
     }
@@ -134,7 +134,7 @@ function ProjectDetails() {
         //setHasJoinedChat(true);
         console.log('JOIN CHAT')
         clientRef.sendMessage("/app/chat.addUser",
-            JSON.stringify({message: {sender: user.name, type: 0, project: projectState}, user: {id: user.id}}))
+            JSON.stringify({user: {id: user.id}, message: {sender: user.name, type: 0, project: {id: projectState.id}}}))
     }
 
 
@@ -152,7 +152,7 @@ function ProjectDetails() {
 
     const sendChatMessage = () => {
         clientRef.sendMessage("/app/chat.sendMessage",
-            JSON.stringify({sender: user.name, content: chatText, type: 1, project: projectState}))
+            JSON.stringify({sender: user.name, content: chatText, type: 1,project: {id: projectState.id}}))
 
     }
 
