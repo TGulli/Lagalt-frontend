@@ -55,7 +55,6 @@ function Main() {
 
     const logoutClick = () => {
         dispatch(logOut())
-        //localStorage.clear()
     }
 
     const createProjectClick = () => {
