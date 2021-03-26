@@ -32,7 +32,7 @@ function ProjectDetails() {
     const [clientConnected, setClientConnected] = useState(false)
     const history = useHistory()
     let { id } = useParams();
-    let clientRef = React.createRef();
+    let clientRef = null;
 
 
     useEffect( () => {
@@ -131,7 +131,7 @@ function ProjectDetails() {
     }
 
     const joinChat = () => {
-        //setHasJoinedChat(true);
+        setHasJoinedChat(true);
         console.log('JOIN CHAT')
         clientRef.sendMessage("/app/chat.addUser",
             JSON.stringify({user: {id: user.id}, message: {sender: user.name, type: 0, project: {id: projectState.id}}}))
@@ -161,20 +161,17 @@ function ProjectDetails() {
     }
 
     const handleMessageReceived = msg => {
-        if(msg === null){
-            setHasJoinedChat(false)
-        }
-        else {
-            if(!hasJoinedChat){
-                setHasJoinedChat(true)
-            }
+        if(msg !== null) {
             setChatMessages([...chatMessages, msg])
         }
+
     }
+
 
     return (
         <div>
-            {isPartOfProject &&
+
+            {(isPartOfProject) &&
             <React.Fragment>
                 <SockJsClient url='http://localhost:8080/ws' headers={{'Authorization': ('Bearer ' + token.token)}} topics={['/topic/public']}
                           onMessage={(msg) => handleMessageReceived(msg)}
@@ -184,10 +181,10 @@ function ProjectDetails() {
                           onConnect={ () => { setClientConnected(true) } }
                           onDisconnect={() => {setClientConnected(false)}}
                 />
+                <button type="button" onClick={joinChat}> Join chat</button>
+                { hasJoinedChat &&
+                <Chat chatMessages={chatMessages} chatText={chatText} onSendMessage={()=> sendChatMessage()} onChange={e => handleChange(e)} onLeave={() => leaveChat()}/>}
 
-                {hasJoinedChat?
-                    <Chat chatMessages={chatMessages} chatText={chatText} onSendMessage={()=> sendChatMessage()} onChange={e => handleChange(e)} onLeave={() => leaveChat()}  />:
-                    <button type="button" onClick={joinChat}> Join chat</button>
                 }
 
             </React.Fragment>}
