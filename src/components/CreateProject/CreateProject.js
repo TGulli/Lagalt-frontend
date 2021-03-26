@@ -1,13 +1,16 @@
 import {useState} from "react"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {updateUser} from "../../redux/actions";
 import {useHistory} from "react-router-dom";
 
 function CreateProject() {
 
+    const history = useHistory();
+
     const isLoggedIn = useSelector(state => state.isLoggedIn)
     const user = useSelector(state => state.user);
     const token = useSelector(state => state.token);
-    const history = useHistory();
+    const dispatch = useDispatch()
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -31,20 +34,24 @@ function CreateProject() {
         setCategory(e.target.value)
     }
 
-    const onButtonClick = () => {
-        //TODO: INPUT VALIDATION
+    const onButtonClick = async () => {
 
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, owners: [ { id: user.id } ]})
         };
-        fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
+        await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
             console.log(r)
+            dispatch(updateUser(user.id))
             history.push("/")
         });
 
     }
+
+    /*async function updateGlobalState(userId){
+        await dispatch(updateUser(userId))
+    }*/
 
 
     return (

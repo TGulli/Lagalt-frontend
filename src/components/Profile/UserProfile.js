@@ -2,17 +2,24 @@ import { useState, useEffect } from 'react'
 import {useParams} from "react-router-dom";
 
 import ProfileDetailsInfo from "./ProfileDetailsInfo";
+import {useSelector} from "react-redux";
 
 function UserProfile() {
 
     const [userState, setUserState] = useState('')
+    const loginState = useSelector(state => state.isLoggedIn);
+    const token = useSelector(state => state.token);
     let { id } = useParams();
 
     //public!
 
     useEffect( () => {
         async function fetchData() {
-            await fetch(`http://localhost:8080/api/v1/public/users/${id}`)
+
+            const requestOptions = loginState? {method: 'GET', headers: {'Authorization': ('Bearer ' + token.token)}} : {method: 'GET'}
+            const url = loginState ? `http://localhost:8080/api/v1/users/${id}` : `http://localhost:8080/api/v1/public/users/${id}`;
+
+            await fetch(url, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setUserState(jsonResponse);
@@ -23,7 +30,7 @@ function UserProfile() {
 
 
     return (
-        <ProfileDetailsInfo user={userState}/>
+        <ProfileDetailsInfo user={userState} loginState={loginState}/>
     );
 }
 
