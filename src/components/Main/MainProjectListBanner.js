@@ -1,4 +1,7 @@
 import index from "../../redux/reducers";
+import {ReactComponent as QualifiedLogo} from "../../resources/kvalifisert.svg";
+import {ReactComponent as KindaQualifiedLogo} from "../../resources/delvis.svg";
+import {ReactComponent as NotQualifiedLogo} from "../../resources/ikke.svg";
 
 function MainProjectListBanner({project, user}) {
 
@@ -14,9 +17,9 @@ function MainProjectListBanner({project, user}) {
         <div>
             { ((project.projectTags && user.userTags) && project.owners.filter(x => x.id === user.id).length === 0) &&
                 {
-                0: <h4>Not qualified</h4>,
-                1: <h4>Kinda qualified</h4>,
-                2: <h4>Qualified</h4>,
+                0: <NotQualifiedLogo />,
+                1: <KindaQualifiedLogo />,
+                2: <QualifiedLogo />,
             }[compareLists(project.projectTags, user.userTags)]}
         </div>
     );

@@ -5,8 +5,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../redux/actions";
 import {fetchData} from "./MainAPI";
 import TagList from "../shared/TagList";
-import { Button, InputGroup, FormControl } from "react-bootstrap";
+import {Button, InputGroup, FormControl, Dropdown} from "react-bootstrap";
 import styles from './Main.module.css'
+import {ButtonGroup} from "react-bootstrap";
 
 
 function Main() {
@@ -23,16 +24,17 @@ function Main() {
 
     const [projectsState, setProjectsState] = useState([{}])
     const [filteredState, setFilteredState] = useState([{}])
+    const [tempText, setTempText] = useState('Velg kategori')
 
     // Might refactor
-    const [ totalPages, setTotalPages ] = useState(0);
-    const [ pageNr, setPageNr] = useState(0);
-    const [ searchState, setSearchState ] = useState('')
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageNr, setPageNr] = useState(0);
+    const [searchState, setSearchState] = useState('')
 
     console.log('MAIN USER:' + JSON.stringify(user))
     console.log('MAIN TOKEN:' + JSON.stringify(token))
 
-    useEffect( () => {
+    useEffect(() => {
         async function fetchFromApi() {
             let response = await fetchData(pageNr);
             console.log(response);
@@ -44,20 +46,6 @@ function Main() {
 
         fetchFromApi()
     }, []);
-
-    const loginClick = () => {
-        history.push('/login')
-    }
-
-    const profileClick = () => {
-        history.push('/myprofile')
-    }
-
-    const dispatch = useDispatch();
-
-    const logoutClick = () => {
-        dispatch(logOut())
-    }
 
     const createProjectClick = () => {
         history.push("/project/create")
@@ -80,14 +68,17 @@ function Main() {
     }
 
     const onFilterBasedOnMusicClick = () => {
+        setTempText('Musikk')
         setFilteredState(projectsState.filter(x => x.category === 'Music'));
     }
 
     const onFilterBasedOnFilmClick = () => {
+        setTempText('Film')
         setFilteredState(projectsState.filter(x => x.category === 'Film'));
     }
 
     const onRemoveFilterClick = () => {
+        setTempText('Alle')
         setFilteredState(projectsState)
     }
 
@@ -111,40 +102,43 @@ function Main() {
 
     return (
         <div>
-            <h1>Main!</h1>
-            <fieldset>
-                <InputGroup className="mb-3" bsPrefix={styles.searchContainer}>
-                    <FormControl
-                        placeholder="Search for Projects"
-                        aria-label="Recipient's username"
-                        aria-describedby="basic-addon2"
-                        onChange={onInputChange}
-                        bsPrefix={styles.customSearch}
-                    />
-                    <InputGroup.Append>
-                        <Button onClick={search} variant="outline-secondary">Search</Button>
-                    </InputGroup.Append>
-                </InputGroup>
-            </fieldset>
-            <div>
-                {!isLoggedIn ?
-                    <Button type="button" onClick={loginClick}> Login</Button> :
-                    <div>
-                        <h2> {user.username} </h2>
-                        {user.userTags && <TagList tags={user.userTags}/>}
-                        <Button type="button" onClick={profileClick}> Profile</Button>
-                        <Button type="button" onClick={logoutClick}> Log out</Button>
-                        <Button type="button" onClick={createProjectClick}> Create project</Button>
-                    </div>}
+            <div className={styles.container}>
+                <fieldset>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            placeholder="Skriv inn navn på prosjekt.."
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            onChange={onInputChange}
+                            bsPrefix={styles.customSearch}
+                        />
+                        <InputGroup.Append>
+                            <Button onClick={search} variant="primary">Søk etter prosjekt!</Button>
+                        </InputGroup.Append>
+                        <InputGroup.Append>
+                            <Dropdown as={ButtonGroup}>
+                                <Button variant="outline-dark">{tempText}</Button>
+                                <Dropdown.Toggle split variant="outline-dark" id="dropdown-split-basic"/>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={onRemoveFilterClick}>Alle</Dropdown.Item>
+                                    <Dropdown.Item onClick={onFilterBasedOnFilmClick}>Film</Dropdown.Item>
+                                    <Dropdown.Item onClick={onFilterBasedOnMusicClick}>Musikk</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </fieldset>
+                {isLoggedIn &&
                 <div>
-                    <h4>Filter based on category (RADIO BUTTONS? DROPDOWN? )</h4>
-                    <Button type="button" onClick={onFilterBasedOnMusicClick}>Music</Button>
-                    <Button type="button" onClick={onFilterBasedOnFilmClick}>Film</Button>
-                    <Button type="button" onClick={onRemoveFilterClick}>Remove filters</Button>
-                </div>
+                    {/*user.userTags && <TagList tags={user.userTags}/>*/}
+                    <Button type="button" variant="primary" size="lg" onClick={createProjectClick}> Create project</Button>
+                </div>}
+            </div>
+            <div>
+
                 <MainProjectList content={filteredState} userState={user}/>
                 {(pageNr >= 1) && <Button type="button" onClick={onPreviousClick}>PREVIOUS</Button>}
-                {(pageNr < totalPages-1) && <Button type="button" onClick={onNextClick}>NEXT</Button>}
+                {(pageNr < totalPages - 1) && <Button type="button" onClick={onNextClick}>NEXT</Button>}
 
             </div>
             <div>

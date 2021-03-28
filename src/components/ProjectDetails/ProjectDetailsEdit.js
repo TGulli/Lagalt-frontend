@@ -16,6 +16,7 @@ function ProjectDetailsEdit({project}) {
     const [name, setName] = useState(project.name)
     const [progress, setProgress] = useState(project.progress)
     const [description, setDescription] = useState(project.description)
+    const [category, setCategory] = useState(project.category)
     const [image, setImage] = useState(project.image)
 
     const token = useSelector(state => state.token);
@@ -63,6 +64,10 @@ function ProjectDetailsEdit({project}) {
         setDescription(e.target.value)
     }
 
+    const onCategoryInputChange = e => {
+        setCategory(e.target.value)
+    }
+
     const onImageInputChange = e => {
         setImage(e.target.value)
     }
@@ -70,6 +75,8 @@ function ProjectDetailsEdit({project}) {
     const handleSelectChange = e => {
         setProgress(parseInt(e.target.value))
     }
+
+
 
     const onSaveClicked = () => {
         const ownerArray = [];
@@ -85,7 +92,7 @@ function ProjectDetailsEdit({project}) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
+            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
     }
@@ -108,6 +115,10 @@ function ProjectDetailsEdit({project}) {
             <fieldset>
                 <label htmlFor="descriptionEdit">Edit description</label>
                 <input id="descriptionEdit" type="text" onChange={onDescriptionInputChange} placeholder={project.description}/>
+            </fieldset>
+            <fieldset>
+                <label htmlFor="descriptionEdit">Sett kategori</label>
+                <input id="descriptionEdit" type="text" onChange={onCategoryInputChange} placeholder={project.description}/>
             </fieldset>
             <fieldset>
                 <label htmlFor="descriptionEdit">Change image</label>
