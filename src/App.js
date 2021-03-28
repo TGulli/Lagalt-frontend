@@ -8,6 +8,8 @@ import CreateProject from "./components/CreateProject/CreateProject"
 import './App.css';
 import Main from "./components/Main/Main";
 import CreateApplication from "./components/CreateApplication/CreateApplication";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 /**
  * TODO: Public/Private Route 
