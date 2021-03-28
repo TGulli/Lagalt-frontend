@@ -1,35 +1,104 @@
-import {useHistory} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import TagList from "../shared/TagList";
+import {useEffect, useState} from "react";
+import {Container, Card} from "react-bootstrap";
+import styles from "./ProfileDetailsInfo.module.css"
 
 function ProfileDetailsInfo({user, loginState}) {
 
     console.log(user)
+    let { id } = useParams();
+    const [owner, setOwner] = useState(false)
 
     const history = useHistory()
 
+    useEffect( () => {
+        if(id !== user.id){
+            setOwner(true);
+        }
+
+    })
+
+
     return (
-        <div>
-            <h1>COMPONENT</h1>
-            {loginState ?
+        <Container fluid="md">
+            <div className={styles.pictureAndTitle}>
+                <section>
+                    <img className={styles.profilePicture} src="https://dkuni.dk/wp-content/uploads/2020/11/profil-billede-1.png"/>
+                </section>
+                <section>
+                    <h1>{user.username}</h1>
+                    <p>{user.hidden? "Skjult profil" : "Offentlig profil"}</p>
+
+                </section>
+            </div>
+            {(!user.hidden || owner) ?
                 <div>
-                    <h1>is logged in and all secrets are revealed</h1>
-                    <p>User id: {user.id}</p>
-                    <p>Username: {user.username}</p>
-                    <p>Name: {user.name}</p>
-                    <p>User Secret: {user.secret}</p>
+                    <section className={styles.allInfo}>
+                        <section className={styles.basicInfo}>
+                            <section className={styles.contactInfo}>
+                                <Card>
+                                    <Card.Header>Grunnleggende informasjon</Card.Header>
+                                    <div className={styles.basicInfoBody}>
+                                        <p>Fullt navn: {user.name}</p>
+                                        <p>E-postadresse: {user.email}</p>
+                                        <p>Sted: {user.locale}</p>
+                                    </div>
+                                </Card>
+                            </section>
+                            <section className={styles.about}>
+                                <Card>
+                                    <Card.Header> Om meg: </Card.Header>
+                                    <Card.Body>
+                                        <p>{user.bio}</p>
+                                    </Card.Body>
+                                </Card>
+                            </section>
+                        </section>
+                        <section className={styles.projects}>
+                            <section className={styles.myProjects}>
+                                <Card>
+                                    <Card.Header>Mine prosjekter:</Card.Header>
+                                    <Card.Body>
+                                    {user.ownedProjects.map(project => (
+                                        <section>
+                                            <Link to={`/projectdetails/${project.id}`}> {project.name} </Link>
+                                        <br/>
+                                        </section>
+                                    ))}
+                                    </Card.Body>
+                                </Card>
+                            </section>
+                            <section className={styles.collaboratorProjects}>
+                                <Card>
+                                    <Card.Header>Prosjekter jeg deltar på: </Card.Header>
+                                    <Card.Body>
+                                        {user.collaboratorIn.map(project => (
+                                            <section>
+                                                <Link to={`/projectdetails/${project.project.id}`}> {project.project.name} </Link>
+                                                <br/>
+                                            </section>
+
+                                        ))}
+                                    </Card.Body>
+                                </Card>
+                            </section>
+                        </section>
+                    </section>
+
                 </div>
                 :
-                <div>
-                    <h1>is not logged in and all is safe</h1>
-                    <p>Username: {user.username}</p>
-                    <p>User actual name: {user.name}</p>
-                </div>
+                <Card>
+                    <Card.Header> Grunnleggende informasjon </Card.Header>
+                    <Card.Body>
+                        <p>Brukernavn: {user.username}</p>
+                        <p>Navn: {user.name}</p>
+                    </Card.Body>
+                </Card>
+
             }
 
-        </div>
+        </Container>
     );
-
-
 }
-
 export default ProfileDetailsInfo;

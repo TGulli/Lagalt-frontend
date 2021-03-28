@@ -1,0 +1,30 @@
+.inputfield {
+    float: right;
+    width: 60%;
+    padding: 0.5em;
+}
+
+.autoInput {
+
+}
+
+.labels {
+    padding: 0.5em;
+}
+
+.title {
+    text-align: center;
+    padding: 0.5em;
+}
+
+
+.checkbox {
+    margin-left: 2em;
+
+}
+
+.cardContainer {
+    width: 70%;
+    justify-content: center;
+    margin: 2em;
+}

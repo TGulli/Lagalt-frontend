@@ -1,0 +1,25 @@
+
+
+.profileContainer{
+    margin: 2em;
+
+}
+
+.editButton {
+    float: right;
+    margin-top: 3em;
+}
+
+.mySkills {
+    display: grid;
+    margin-left: 2em;
+    margin-right: 1em;
+    width: 45%;
+}
+
+.deleteButton {
+
+    margin: 3em;
+}
+
+
