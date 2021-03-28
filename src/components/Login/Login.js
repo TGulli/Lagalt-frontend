@@ -5,7 +5,7 @@ import {logIn} from "../../redux/actions";
 import GLogin from "./GLogin";
 import LoginFacebook from "./Facebook/LoginFacebook";
 import {Button, Card, Form} from "react-bootstrap";
-import "./Login.css"
+import styles from "./Login.module.css"
 
 
 function Login() {
@@ -29,6 +29,10 @@ function Login() {
     }
 
     const dispatch = useDispatch()
+
+    const onCancelClick = () =>{
+        history.push("/");
+    }
 
     const onButtonClick = () => {
 
@@ -54,18 +58,19 @@ function Login() {
     }
 
     return (
-        <div className="login">
+        <div className={styles.login}>
             <Card className="text-center">
                 <Card.Header><h1>Logg inn</h1></Card.Header>
                 <Card.Body>
-                    <div className="externalButtons">
+                    <div className={styles.externalButtons}>
                         <GLogin/>
                         <br/><br/>
                         <LoginFacebook/>
                     </div>
 
 
-                    <Form className="needs-validation">
+
+                    <Form className="needs-validation" style={{textAlign: "left"}}>
                         <Form.Group controlId="username">
                             <Form.Label>Brukernavn</Form.Label>
                             <Form.Control type="text" placeholder="Skriv inn brukernavn" onChange={onUsernameInputChange}/>
@@ -74,10 +79,11 @@ function Login() {
                             <Form.Label>Passord</Form.Label>
                             <Form.Control type="password" placeholder="Skriv inn passord" onChange={onSecretInputChange}/>
                         </Form.Group>
-                        <p>{errorMessage}</p>
-                        <Button className="internalButton" type="button" onClick={onButtonClick}>Logg inn</Button>
-                        <Button className="rightButton internalButton" type="button" onClick={onRegisterButtonClick}>Registrer ny bruker</Button>
+                        <p style={{color: "red"}}>{errorMessage}</p>
                     </Form>
+                    <div className={styles.leftButton}><Button style={{width: "8em"}} type="button" onClick={onButtonClick}>Logg inn</Button></div>
+                    <div className={styles.rightButton}><Button style={{width: "8em"}} type="button" onClick={onCancelClick}>Avbryt</Button></div>
+                    <div className={styles.centerButton}><Button style={{width: "12em"}} type="button" onClick={onRegisterButtonClick}>Registrer ny bruker</Button></div>
                 </Card.Body>
                 <Card.Footer></Card.Footer>
             </Card>

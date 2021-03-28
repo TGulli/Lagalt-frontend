@@ -3,7 +3,7 @@ import { useState } from "react";
 import {useDispatch} from "react-redux";
 import {logIn} from "../../redux/actions";
 import { Button, Form, Card } from 'react-bootstrap';
-import "./Register.css"
+import styles from "./Register.module.css"
 import { usernameInUse, emailInUse } from "./RegisterAPI";
 
 
@@ -69,6 +69,10 @@ function Register() {
         }
     }
 
+    const onCancelClick = () =>{
+        history.push("/login");
+    }
+
     const onButtonClick = async () => {
         const message = await checkInputFields()
 
@@ -91,11 +95,11 @@ function Register() {
     }
 
     return (
-        <div className="register">
+        <div className={styles.register}>
             <Card className="text-center">
                 <Card.Header><h1>Registrer ny bruker</h1></Card.Header>
                 <Card.Body>
-                    <Form className="needs-validation">
+                    <Form style={{textAlign: "left"}}>
                         <Form.Group controlId="username">
                             <Form.Label>Brukernavn</Form.Label>
                             <Form.Control type="text" placeholder="Skriv inn et unikt brukernavn" onChange={onUserNameInputChange}/>
@@ -119,8 +123,9 @@ function Register() {
                                 {bio.length} / 1000
                             </Form.Text>
                         </Form.Group>
-                        <p>{errorMessage}</p>
+                        <p style={{color: "red"}}>{errorMessage}</p>
                         <Button type="button" onClick={onButtonClick}>Registrer ny bruker</Button>
+                        <Button type="button" style={{float: "right", width: "10em"}} onClick={onCancelClick}>Avbryt</Button>
                     </Form>
                 </Card.Body>
                 <Card.Footer></Card.Footer>

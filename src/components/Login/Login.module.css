@@ -1,0 +1,28 @@
+
+.login{
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.externalButtons{
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.ert{
+
+}
+
+.leftButton{
+    float: left;
+}
+
+.centerButton{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.rightButton{
+    float: right;
+}
