@@ -11,6 +11,7 @@ import CreateApplication from "./components/CreateApplication/CreateApplication"
 import {Button, Form, FormControl, Nav, Navbar} from "react-bootstrap";
 import {useSelector, useDispatch} from "react-redux";
 import {logOut} from "./redux/actions";
+import {NavLink} from "react-router-dom";
 
 
 /**
@@ -36,7 +37,7 @@ function App() {
     return (
         <BrowserRouter>
             <Navbar bg="light" variant="light">
-                <Navbar.Brand>LOGO</Navbar.Brand>
+                <NavLink to="/"><Navbar.Brand>LOGO</Navbar.Brand></NavLink>
                 <Nav className="mr-auto">
                     { isLoggedIn &&
                     <Navbar.Text>

@@ -1,0 +1,30 @@
+.requests {
+    display: block;
+    border-style: groove;
+    overflow-y: auto;
+}
+
+.collabInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.collabName {
+    padding: 1em;
+}
+
+.collabText {
+    padding: 1em;
+}
+
+
+.collabDecide {
+    padding: .2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header {
+}

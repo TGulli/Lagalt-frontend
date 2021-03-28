@@ -1,0 +1,46 @@
+.header {
+    text-align: center;
+}
+
+.adminPanel {
+    display: flex;
+    justify-content: space-around;
+    padding: 1em;
+}
+
+.editPanel {
+    display: flex;
+}
+
+.applyWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.collabContainer {
+    display: flex;
+    margin-top: 1em;
+}
+
+.collaborateRequests {
+    position: absolute;
+    margin-left: 8em;
+}
+
+.contentWrapper {
+    display: flex;
+    padding: 1em;
+    justify-content: space-around;
+}
+
+.infoContent {
+    box-shadow: 0 0 15px rgba(0,0,0,.25);
+    padding: 1em;
+}
+
+.content {
+}
+
+.socials {
+
+}

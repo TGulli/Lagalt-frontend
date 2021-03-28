@@ -9,6 +9,7 @@
 }
 
 .projectHeader {
+
 }
 
 .projectClickableHeader {
@@ -39,7 +40,7 @@
 }
 
 .projectTagsContainer {
-    padding: 1em;
+    padding: .3em;
     width: 80%;
 }
 
