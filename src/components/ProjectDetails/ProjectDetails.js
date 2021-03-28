@@ -183,10 +183,12 @@ function ProjectDetails() {
                 />
                 <button type="button" onClick={joinChat}> Join chat</button>
                 { hasJoinedChat &&
-                <Chat chatMessages={chatMessages} chatText={chatText} onSendMessage={()=> sendChatMessage()} onChange={e => handleChange(e)} onLeave={() => leaveChat()}/>}
-
-                }
-
+                <Chat chatMessages={chatMessages}
+                      chatText={chatText}
+                      onSendMessage={()=> sendChatMessage()}
+                      onChange={e => handleChange(e)}
+                      onLeave={() => leaveChat()}
+                      user={user}/>}
             </React.Fragment>}
 
             { (isLoggedIn && !hasApplied) ? <button onClick={applyClick} type="button">Apply</button> : null }

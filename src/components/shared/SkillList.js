@@ -1,13 +1,15 @@
+import "./SkillList.css"
+import {Button} from "react-bootstrap"
+
 function SkillList({skills, index, removeElement}) {
 
     return (
-        <div>
-            <div key={index}>
-                <p>{skills}</p>
-                <button type="button" onClick={removeElement}>X</button>
-            </div>
+        <li className="li-sl" key={index}>
+            <Button type="button" onClick={removeElement}>
+                {skills}
+            </Button>
+        </li>
 
-        </div>
     );
 }
 export default SkillList;
