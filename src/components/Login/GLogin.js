@@ -29,14 +29,12 @@ function GLogin () {
     }
 
     return (
-        <div>
-            <GoogleLogin clientId={clientId}
-                         buttonText="Login"
-                         onSuccess={onSuccess}
-                         onFailure={onFailedLogin}
-                         cookiePolicy={'single_host_origin'}
-            />
-        </div>
+        <GoogleLogin clientId={clientId}
+                     buttonText="Logg inn med Google bruker"
+                     onSuccess={onSuccess}
+                     onFailure={onFailedLogin}
+                     cookiePolicy={'single_host_origin'}
+    />
     )
 
 }

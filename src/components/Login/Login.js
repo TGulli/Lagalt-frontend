@@ -4,16 +4,20 @@ import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../../redux/actions";
 import GLogin from "./GLogin";
 import LoginFacebook from "./Facebook/LoginFacebook";
+import {Button, Card, Form} from "react-bootstrap";
+import "./Login.css"
+
 
 function Login() {
 
-    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
     const [secret, setSecret] = useState('')
     const history = useHistory();
+    const [ errorMessage, setErrorMessage ] = useState('')
 
 
-    const onNameInputChange = e => {
-        setName(e.target.value)
+    const onUsernameInputChange = e => {
+        setUsername(e.target.value)
     }
 
     const onSecretInputChange = e => {
@@ -31,7 +35,7 @@ function Login() {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: name, password: secret})
+            body: JSON.stringify({username: username, password: secret})
         };
 
         fetch('http://localhost:8080/api/v1/public/login/internal', requestOptions)
@@ -42,32 +46,41 @@ function Login() {
                 if (jwtToken.user){
                     dispatch(logIn(jwtToken.user, jwtToken.token))
                     history.push("/")
+                } else {
+                    setErrorMessage("Ugyldig brukernavn eller passord.")
                 }
 
             });
     }
 
-
     return (
-        <div className="App">
-            <h1>LOGIN</h1>
-            <form>
-                <fieldset>
-                    <label htmlFor="name">Name</label>
-                    <input id="name" type="text" onChange={onNameInputChange}/>
-                </fieldset>
+        <div className="login">
+            <Card className="text-center">
+                <Card.Header><h1>Logg inn</h1></Card.Header>
+                <Card.Body>
+                    <div className="externalButtons">
+                        <GLogin/>
+                        <br/><br/>
+                        <LoginFacebook/>
+                    </div>
 
-                <fieldset>
-                    <label htmlFor="secret">Secret</label>
-                    <input id="secret" type="text" onChange={onSecretInputChange}/>
-                </fieldset>
-                <button type="button" onClick={onButtonClick}>Login</button>
-                <button type="button" onClick={onRegisterButtonClick}>Register</button>
-            </form>
-            <div>
-                <GLogin />
-                <LoginFacebook/>
-            </div>
+
+                    <Form className="needs-validation">
+                        <Form.Group controlId="username">
+                            <Form.Label>Brukernavn</Form.Label>
+                            <Form.Control type="text" placeholder="Skriv inn brukernavn" onChange={onUsernameInputChange}/>
+                        </Form.Group>
+                        <Form.Group controlId="secret">
+                            <Form.Label>Passord</Form.Label>
+                            <Form.Control type="password" placeholder="Skriv inn passord" onChange={onSecretInputChange}/>
+                        </Form.Group>
+                        <p>{errorMessage}</p>
+                        <Button className="internalButton" type="button" onClick={onButtonClick}>Logg inn</Button>
+                        <Button className="rightButton internalButton" type="button" onClick={onRegisterButtonClick}>Registrer ny bruker</Button>
+                    </Form>
+                </Card.Body>
+                <Card.Footer></Card.Footer>
+            </Card>
         </div>
     );
 }

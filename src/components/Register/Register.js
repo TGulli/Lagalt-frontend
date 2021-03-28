@@ -16,7 +16,6 @@ function Register() {
     const [ email, setEmail] = useState('')
     const [ bio, setBio ] = useState('')
     const [ errorMessage, setErrorMessage ] = useState('')
-    const [ emailExists, setEmailExists ] = useState(undefined)
 
     // RFC 5322
     const emailRegex = '(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"' +
@@ -105,7 +104,7 @@ function Register() {
                             <Form.Label>Fullt navn</Form.Label>
                             <Form.Control type="text" placeholder="Skriv inn fullt navn" onChange={onNameInputChange}/>
                         </Form.Group>
-                        <Form.Group controlId="secret">
+                        <Form.Group controlId="email">
                             <Form.Label>Epostaddresse</Form.Label>
                             <Form.Control type="text" placeholder="Skriv inn epostadresse" onChange={onEmailInputChange}/>
                         </Form.Group>
