@@ -64,6 +64,7 @@ function ProjectDetails() {
                     .then(response => response.json())
                     .then((jsonResponse) => {
                         setProjectState(jsonResponse);
+                        console.log('PARTIAL HENTET FRA API')
                     })
             }
         }
@@ -260,7 +261,7 @@ function ProjectDetails() {
                 <div className={styles.contentWrapper}>
                     <div className={styles.content}>
                         <div className={styles.infoContent}>
-                            <ProjectDetailsInfo project={projectState} />
+                            { projectState && <ProjectDetailsInfo project={projectState} />}
                         </div>
                     </div>
                 </div>
@@ -269,7 +270,6 @@ function ProjectDetails() {
         </div>
     );
 }
-
 export default ProjectDetails;
 
 

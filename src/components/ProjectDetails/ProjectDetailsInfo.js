@@ -9,6 +9,7 @@ function ProjectDetailsInfo({project}) {
 
     const loginState = useSelector(state => state.isLoggedIn)
     console.log(project.collaborators)
+    console.log('PARTIALS: ' + project.partialProject)
     console.log('LoginState: ' + loginState)
 
     return (
