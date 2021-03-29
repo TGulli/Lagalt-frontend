@@ -5,7 +5,6 @@ import {logIn} from "../../../redux/actions";
 import {useDispatch} from "react-redux";
 
 
-
 function LoginFacebook() {
 
     const history = useHistory();

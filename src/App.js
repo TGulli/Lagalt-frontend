@@ -1,4 +1,4 @@
-import {BrowserRouter, Switch, Route, useHistory} from "react-router-dom";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Login from "./components/Login/Login.js";
 import MyProfile from "./components/Profile/MyProfile.js";
 import UserProfile from "./components/Profile/UserProfile";
