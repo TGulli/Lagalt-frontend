@@ -24,6 +24,8 @@ function UserProfile() {
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setUserState(jsonResponse);
+                    console.log('HALLO HER Æ E')
+                    console.log(JSON.stringify(jsonResponse))
                     setLoadedUser(true)
                 })
         }

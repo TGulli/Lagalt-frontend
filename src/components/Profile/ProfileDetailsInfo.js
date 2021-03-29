@@ -12,8 +12,11 @@ function ProfileDetailsInfo({user, loginState}) {
 
     const history = useHistory()
 
+    console.log(user.hidden)
+    console.log('Owner: ' + owner)
+
     useEffect( () => {
-        if(id !== user.id){
+        if(id === user.id){
             setOwner(true);
         }
 
@@ -60,7 +63,7 @@ function ProfileDetailsInfo({user, loginState}) {
                                 <Card>
                                     <Card.Header>Mine prosjekter:</Card.Header>
                                     <Card.Body>
-                                    {user.ownedProjects.map(project => (
+                                    {!user.hidden && user.ownedProjects.map(project => (
                                         <section>
                                             <Link to={`/projectdetails/${project.id}`}> {project.name} </Link>
                                         <br/>
@@ -73,7 +76,7 @@ function ProfileDetailsInfo({user, loginState}) {
                                 <Card>
                                     <Card.Header>Prosjekter jeg deltar på: </Card.Header>
                                     <Card.Body>
-                                        {user.collaboratorIn.map(project => (
+                                        {!user.hidden && user.collaboratorIn.map(project => (
                                             <section>
                                                 <Link to={`/projectdetails/${project.project.id}`}> {project.project.name} </Link>
                                                 <br/>
