@@ -18,54 +18,27 @@ export const logOut = () => ({
     }
 });
 
-
-/*export const updateUser = userId => (
-    {
-    type: UPDATE_USER,
-    payload:{
-
-        isLoggedIn: true
-    }
-})*/
-
-/*export const updateUser = createAsyncThunk(UPDATE_USER, async(userId, thunkAPI) => {
-    console.log("USERID IN ACTION: " + userId)
-    const response = await fetch(`http://localhost:8080/api/v1/users/${userId}`)
-        .then(response => {
-            console.log(response)
-            return response})
-})*/
-
-
-
 export function updateUser(userId, token) {
-    return function(dispatch) {
-        /*dispatch({
+    return async function(dispatch) {
+        console.log("token")
+        console.log(token)
+        dispatch({
             type: LOADING,
-        });*/
+            payload: token
+
+        });
         const requestOptions = {
             method: 'GET',
             headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token}
         }
-        fetch(`http://localhost:8080/api/v1/users/${userId}`, requestOptions )
-            .then(response => {console.log(response.json()) && response.json()})
-            .then(data =>
-                dispatch({
-                type: UPDATE_USER,
-                payload:
-                data
-            }))
-            /*.catch(error => dispatch({
-                    type: UPDATE_USER,
-                    payload: error
-                })
-            );*/
+        await fetch(`http://localhost:8080/api/v1/users/${userId}`, requestOptions )
+            .then(response => response.json())
+                .then(data => {
+                    console.log("data")
+                    console.log(data)
+                    dispatch({
+                        type: UPDATE_USER,
+                        payload:
+                            {data, token}
+                })})
     }}
-    /*return async (dispatch, getState) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/v1/users/${userId}`)
-            dispatch({type: 'UPDATE_USER', payload: response})
-        }catch(err){
-            console.log(err)
-        }
-}}*/

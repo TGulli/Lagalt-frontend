@@ -96,15 +96,14 @@ function CreateProject() {
         };
         await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
             console.log(r)
-            dispatch(updateUser(user.id))
-            //history.push("/")
+            dispatch(updateUser(user.id, token))
+            history.push("/")
         });
     }
 
-    /*async function updateGlobalState(userId){
-        await dispatch(updateUser(userId))
+    /*async function updateGlobalState(userId, token){
+        await dispatch(updateUser(userId, token))
     }*/
-
 
     return (
         <div className="App">

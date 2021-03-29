@@ -2,7 +2,7 @@ import MainProjectList from "./MainProjectList";
 import {useHistory} from "react-router-dom";
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {logOut} from "../../redux/actions";
+import {logOut, updateUser} from "../../redux/actions";
 import {fetchData} from "./MainAPI";
 import TagList from "../shared/TagList";
 import {Button, InputGroup, FormControl, Dropdown} from "react-bootstrap";
@@ -21,6 +21,7 @@ function Main() {
     const token = useSelector(state => state.token)
     const isLoggedIn = useSelector(state => state.isLoggedIn)
     const history = useHistory();
+    const dispatch = useDispatch()
 
     const [projectsState, setProjectsState] = useState([{}])
     const [filteredState, setFilteredState] = useState([{}])
@@ -43,8 +44,10 @@ function Main() {
             setFilteredState(response.content)
             console.log(response)
         }
-
         fetchFromApi()
+        if (isLoggedIn){
+            dispatch(updateUser(user.id, token))
+        }
     }, []);
 
     const createProjectClick = () => {

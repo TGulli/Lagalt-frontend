@@ -37,17 +37,19 @@ export default function(state = initialState, action) {
         case UPDATE_USER: {
             console.log("payload")
             console.log(action.payload)
-            const {user} = action.payload;
-            console.log("user from payload")
-            console.log(user)
+            const {data, token} = action.payload;
+            console.log("data from payload")
+            console.log(data)
             return {
-                user: {...user},
-                isLoggedIn: true
+                user: {...data},
+                isLoggedIn: true,
+                token: token
             }
         }
         case LOADING:
             return {
                 user: {},
+                token: action.payload,
                 isLoggedIn: true
             }
         default:
