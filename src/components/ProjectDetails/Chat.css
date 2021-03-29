@@ -1,0 +1,46 @@
+.chatContainer{
+    width: 40em;
+    height: 40em;
+    padding: 2em;
+    margin: 3em;
+    box-shadow: lightgrey 0.5em 0.5em 0.5em 0.5em;
+}
+.wrapper-chat{
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    height: calc(100% - 50px);
+    border: solid lightgrey 2px;
+    padding: 1em;
+}
+.ul-chat{
+    list-style-type: none;
+
+}
+.li-chat_join_leave{
+    font-weight: lighter;
+    font-size: small;
+    margin: 1em 0;
+}
+.message-wrapper-me{
+    padding: 0.5em 2em;
+    margin: 0.5em 0;
+    height: fit-content;
+    width: 20em;
+    background-color: cornflowerblue ;
+    border-radius: 2em;
+    float: right;
+}
+.message-wrapper-other{
+    padding: 0.5em 2em;
+    margin: 0.5em 0;
+    height: fit-content;
+    width: 20em;
+    background-color: lightgrey ;
+    border-radius: 2em;
+    float: left
+}
+.input-group-chat{
+    margin: 1em 0;
+}
+

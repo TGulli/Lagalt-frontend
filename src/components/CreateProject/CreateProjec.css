@@ -1,0 +1,93 @@
+
+.form-cp{
+    margin: 1em 5em;
+    padding: 2em 0;
+    display: inline-grid;
+    text-align: center;
+    justify-content: center;
+    box-shadow: lightgrey 5px 5px 5px 5px;
+}
+.form-group-cp{
+    text-align: left;
+    align-items: center;
+    width: 35em;
+    margin: 1em 2em;
+    padding: 0 1em;
+    /*border: solid black;*/
+}
+.form-label-cp{
+    width: 80%;
+    text-align: left;
+}
+.form-control-cp{
+    padding: 2em;
+}
+.btn-cp{
+    margin: 0 auto;
+    width: fit-content;
+    background-color: #ed648f;
+
+}
+
+.react-autosuggest__container {
+    position: relative;
+    display: inline-flex;
+    margin-right: 2px;
+}
+
+.react-autosuggest__input {
+    width: 240px;
+    height: 40px;
+    padding: 10px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.react-autosuggest__input--focused {
+    outline: none;
+}
+
+.react-autosuggest__input--open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+    display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+    display: block;
+    position: absolute;
+    top: 51px;
+    width: 280px;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    font-family: Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+    background-color: #ddd;
+}
+.skillList-section{
+    display: flex;
+}

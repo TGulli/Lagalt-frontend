@@ -1,23 +1,42 @@
+import "./Chat.css"
+import {Button, Form, InputGroup, ListGroup} from "react-bootstrap";
 function Chat(props) {
 
     const formatMessage = msg => {
         if(msg.type === 'JOIN'){
-            console.log("IF JOIN MSG")
-            console.log(msg)
             return (
-                <li key={msg.id}>{msg.sender} joined </li>
+                <li className="li-chat_join_leave" key={msg.id}>
+                    {msg.sender} ble med
+                </li>
             )
-
         }else if(msg.type === 'CHAT'){
-            return (
-                <li key={msg.id}>
-                    <p>{msg.sender}    {msg.timestamp}</p>
-                    <p> {msg.content}</p>
-                </li>)
-
+            console.log("msg.sender" + msg.sender)
+            console.log("props.user.name" + props.user.name)
+            if (msg.sender === props.user.name){
+                return(
+                    <li key={msg.id}>
+                        <div className="message-wrapper-me">
+                            <p>{msg.sender} &nbsp;&nbsp;&nbsp;&nbsp; {msg.timestamp}</p>
+                            <p>{msg.content}</p>
+                        </div>
+                    </li>
+                )
+            }
+            else{
+                return (
+                    <li key={msg.id}>
+                        <div className="message-wrapper-other">
+                            <p>{msg.sender} &nbsp;&nbsp;&nbsp;&nbsp; {msg.timestamp}</p>
+                            <p>{msg.content}</p>
+                        </div>
+                    </li>
+                )
+            }
         }else if(msg.type === 'LEAVE'){
             return (
-                <li key={msg.id}>{msg.sender} left </li>
+                <li className="li-chat_join_leave" key={msg.id}>
+                    {msg.sender} forlot chatten
+                </li>
             )
         }
     }
@@ -26,11 +45,32 @@ function Chat(props) {
 
     return (
        <>
-           <ul> {props.chatMessages.map(msg => formatMessage(msg))} </ul>
-           <input type="text" placeholder="Type a new message" onChange={props.onChange}/>
-           <button type="button" onClick={props.onSendMessage}>Send</button>
-           <button type="button" onClick={props.onLeave}>Logout</button>
-
+           <section className="chatContainer">
+               <div className="wrapper-chat">
+                   <ListGroup className="ul-chat">
+                       {props.chatMessages.map(msg => formatMessage(msg))}
+                   </ListGroup>
+               </div>
+               <InputGroup className="input-group-chat">
+                   <Form.Control
+                       type="text"
+                       placeholder="Skriv en melding"
+                       onChange={props.onChange}
+                   />
+                   <InputGroup.Append>
+                       <Button variant="outline-success"
+                               type="button"
+                               onClick={props.onSendMessage}>
+                           Send
+                       </Button>
+                       <Button variant="outline-danger"
+                               type="button"
+                               onClick={props.onLeave}>
+                           Forlat Chat
+                       </Button>
+                   </InputGroup.Append>
+               </InputGroup>
+           </section>
        </>
     )
 

@@ -150,6 +150,7 @@ function ProjectDetails() {
     }
 
 
+
     const leaveChat = () => {
 
         setHasJoinedChat(false);
@@ -229,11 +230,12 @@ function ProjectDetails() {
                         />
                         <button type="button" onClick={joinChat}> Join chat</button>
                         {hasJoinedChat &&
-                        <Chat chatMessages={chatMessages} chatText={chatText} onSendMessage={() => sendChatMessage()}
-                              onChange={e => handleChange(e)} onLeave={() => leaveChat()}/>}
-
-                        }
-
+                        <Chat chatMessages={chatMessages}
+                              chatText={chatText}
+                              onSendMessage={()=> sendChatMessage()}
+                              onChange={e => handleChange(e)}
+                              onLeave={() => leaveChat()}
+                              user={user}/>}
                     </React.Fragment>}
                     <MessageBoard project={projectState}/>
                 </div>
