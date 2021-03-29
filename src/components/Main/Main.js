@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../redux/actions";
-import {fetchData} from "./MainAPI";
+import {fetchData, fetchDataAsLogin} from "./MainAPI";
 import TagList from "../shared/TagList";
 import {Button, InputGroup, FormControl, Dropdown} from "react-bootstrap";
 import styles from './Main.module.css'
@@ -36,7 +36,7 @@ function Main() {
 
     useEffect(() => {
         async function fetchFromApi() {
-            let response = await fetchData(pageNr);
+            let response = isLoggedIn ? await fetchDataAsLogin(pageNr, user, token) : await fetchData(pageNr);
             console.log(response);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
@@ -52,6 +52,7 @@ function Main() {
     }
 
     const search = async () => {
+
         await fetch("http://localhost:8080/api/v1/public/projects")
             .then(response => response.json())
             .then((jsonResponse) => {
