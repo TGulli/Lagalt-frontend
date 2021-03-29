@@ -131,7 +131,7 @@ function Main() {
                 {isLoggedIn &&
                 <div>
                     {/*user.userTags && <TagList tags={user.userTags}/>*/}
-                    <Button type="button" variant="primary" size="lg" onClick={createProjectClick}> Create project</Button>
+                    <Button type="button" variant="primary" size="lg" onClick={createProjectClick}>Opprett nytt prosjekt</Button>
                 </div>}
             </div>
             <div>

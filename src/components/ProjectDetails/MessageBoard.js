@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {fetchMessages} from "./MessageBoardAPI";
 import MessageBoardText from "./MessageBoardText";
+import {Button, Form, InputGroup, ListGroup} from "react-bootstrap";
 
 function MessageBoard(props) {
     const [messageText, setMessageText] = useState('');
@@ -68,6 +69,7 @@ function MessageBoard(props) {
     }
 
     const newMessage = () => {
+        setMessageText('')
 
         let today = new Date();
         let month = today.getMonth()+1;
@@ -101,20 +103,30 @@ function MessageBoard(props) {
 
     return(
         <>
-            {console.log("Messages.length: "+  messages.messages.length)}
-            {console.log(messages.messages)}
-            <MessageBoardText messages={messages.messages}/>
-            {isPartOfProject &&
-                <form>
-                    <input type="text" onChange={handleInputChange}/>
-                    <button type="button" onClick={newMessage}>Add message</button>
-                </form>
-            }
-            <br/>
-            <br/>
-
+            <section className="chatContainer">
+                <div className="wrapper-chat">
+                    <ListGroup className="ul-chat">
+                        <MessageBoardText messages={messages.messages}
+                                          user={user}/>
+                    </ListGroup>
+                </div>
+                {isPartOfProject && <InputGroup className="input-group-chat">
+                    <Form.Control
+                        type="text"
+                        placeholder="Skriv en melding"
+                        value={messageText}
+                        onChange={handleInputChange}
+                    />
+                    <InputGroup.Append>
+                        <Button variant="outline-success"
+                                type="button"
+                                onClick={newMessage}>
+                            Send
+                        </Button>
+                    </InputGroup.Append>
+                </InputGroup>}
+            </section>
         </>
-
     );
 
 }

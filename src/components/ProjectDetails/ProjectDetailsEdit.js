@@ -1,15 +1,19 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {getUniqueTags} from "../shared/TagsAPI";
 import Autosuggest from "react-autosuggest";
 import SkillList from "../shared/SkillList";
 import {useSelector} from "react-redux";
+import styles from "./ProjectDetailsEdit.module.css"
+import {Button, Card} from "react-bootstrap";
+import {useHistory} from "react-router-dom";
+import TagList from "../shared/TagList";
 
 /**
  * TODO: INPUT VALIDATION
  */
 
 
-function ProjectDetailsEdit({project}) {
+function ProjectDetailsEdit({project, setEditMode}) {
 
     
     const user = useSelector(state => state.user)
@@ -20,6 +24,8 @@ function ProjectDetailsEdit({project}) {
     const [image, setImage] = useState(project.image)
 
     const token = useSelector(state => state.token);
+    const history = useHistory()
+
 
     //********************** AUTO SUGGEST LOGIC START ******************************
     const [uniqueTags, setUniqueTags] = useState([]);
@@ -34,7 +40,7 @@ function ProjectDetailsEdit({project}) {
         fetchFromApi()
     }, []);
 
-    const [value, setValue] = useState('');
+    const [tagValue, setTagValue] = useState('');
     const [suggestions, setSuggestions] = useState(uniqueTags);
 
     const getSuggestions = (value) => {
@@ -42,11 +48,11 @@ function ProjectDetailsEdit({project}) {
     }
 
     const onAddSkillClick = () => {
-        if (value !== '') {
-            setUniqueTags([...skillList, value])
-            setSkillList([...skillList, value])
+        if (tagValue !== '') {
+            setUniqueTags([...skillList, tagValue])
+            setSkillList([...skillList, tagValue])
         }
-
+        setTagValue('')
     }
 
     function removeElement(index) {
@@ -54,6 +60,7 @@ function ProjectDetailsEdit({project}) {
         clone.splice(index, 1)
         setSkillList(clone);
     }
+
     //********************** AUTO SUGGEST LOGIC END ******************************
 
     const onNameInputChange = e => {
@@ -76,6 +83,18 @@ function ProjectDetailsEdit({project}) {
         setProgress(parseInt(e.target.value))
     }
 
+    const onDeleteClick = () => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        };
+        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
+        history.push("/")
+    }
+
+    const onBackClick = () => {
+        setEditMode(false)
+    }
 
 
     const onSaveClicked = () => {
@@ -95,67 +114,79 @@ function ProjectDetailsEdit({project}) {
             body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
+        setEditMode(false)
     }
 
     return (
         <div>
+            <h1 style={{textAlign: "center"}}>Endre prosjekt {project.name}</h1>
+            <br/>
             <fieldset>
-                <label htmlFor="nameEdit">Edit name</label>
-                <input id="nameEdit" type="text" onChange={onNameInputChange} placeholder={project.name}/>
+                <label className={styles.labels} htmlFor="nameEdit">Endre navn</label>
+                <input className={styles.inputfield} id="nameEdit" type="text" onChange={onNameInputChange} placeholder={project.name}/>
             </fieldset>
             <fieldset>
-                <label htmlFor="progressEdit">Edit progress</label>
-                <select name="progressEdit" onChange={e => handleSelectChange(e)}>
-                    <option value="0">Founding</option>
-                    <option value="1">In progress</option>
-                    <option value="2">Stalled</option>
-                    <option value="3">Completed</option>
+                <label className={styles.labels} htmlFor="progressEdit">Endre progresjon</label>
+                <select className={styles.inputfield} name="progressEdit" onChange={e => handleSelectChange(e)}>
+                    <option value="0">Oppstart</option>
+                    <option value="1">Under arbeid</option>
+                    <option value="2">Stoppet</option>
+                    <option value="3">Ferdig</option>
                 </select>
             </fieldset>
             <fieldset>
-                <label htmlFor="descriptionEdit">Edit description</label>
-                <input id="descriptionEdit" type="text" onChange={onDescriptionInputChange} placeholder={project.description}/>
+                <label className={styles.labels} htmlFor="descriptionEdit">Endre beskrivelse</label>
+                <input className={styles.inputfield} id="descriptionEdit" type="text" onChange={onDescriptionInputChange} placeholder={project.description}/>
             </fieldset>
             <fieldset>
-                <label htmlFor="descriptionEdit">Sett kategori</label>
-                <input id="descriptionEdit" type="text" onChange={onCategoryInputChange} placeholder={project.description}/>
+                <label className={styles.labels} htmlFor="descriptionEdit">Sett kategori</label>
+                <input className={styles.inputfield} id="descriptionEdit" type="text" onChange={onCategoryInputChange} placeholder={project.description}/>
             </fieldset>
             <fieldset>
-                <label htmlFor="descriptionEdit">Change image</label>
-                <input id="descriptionEdit" type="text" onChange={onImageInputChange} placeholder={project.image}/>
+                <label className={styles.labels} htmlFor="descriptionEdit">Endre bilde</label>
+                <input className={styles.inputfield} id="descriptionEdit" type="text" onChange={onImageInputChange} placeholder={project.image}/>
             </fieldset>
             <fieldset>
-                <label htmlFor="descriptionEdit">Find skills</label>
-                <Autosuggest
-                    suggestions={suggestions}
-                    onSuggestionsFetchRequested={(e) => {
-                        setValue(e.value)
-                        setSuggestions(getSuggestions(e.value))
-                    }}
-                    onSuggestionsClearRequested={() => {}}
-                    onSuggestionSelected={(_, { suggestionValue }) =>{
-                        setSkillList([...skillList, suggestionValue])
-                    }}
-                    getSuggestionValue={suggestion => suggestion}
-                    renderSuggestion={suggestion => {
-                        return <span> {suggestion} </span>
-                    }}
-                    inputProps={{
-                        placeholder: "Type 'c'",
-                        value: value,
-                        onChange: (_, { newValue }) => {
-                            setValue(newValue);
-                        }
-                    }}
-                    highlightFirstSuggestion={true}
-                />
-                <button type="button" onClick={onAddSkillClick}>Add new skill</button>
+                <label className={styles.labels} htmlFor="descriptionEdit">Finn kvalifikasjoner</label>
+                <div style={{float: "right", width: "65%"}}>
+                    <Autosuggest
+                        suggestions={suggestions}
+                        onSuggestionsFetchRequested={(e) => {
+                            setTagValue(e.value)
+                            setSuggestions(getSuggestions(e.value))
+                        }}
+                        onSuggestionsClearRequested={() => {}}
+                        onSuggestionSelected={(_, { suggestionValue }) =>{
+                            setSkillList([...skillList, suggestionValue])
+                        }}
+                        getSuggestionValue={suggestion => suggestion}
+                        renderSuggestion={suggestion => {
+                            return <span> {suggestion} </span>
+                        }}
+                        inputProps={{
+                            placeholder: "Skriv inn ny kvalifikasjon",
+                            value: tagValue,
+                            onChange: (_, { newValue }) => {
+                                setTagValue(newValue);
+                            }
+                        }}
+                        highlightFirstSuggestion={true}
+                    />
+                </div>
+
+                <br/>
+                <Button style={{float: "right"}} type="button" variant="success" onClick={onAddSkillClick}>Legg til ny kvalifikasjon</Button>
+                <br/>
+                <h4>Nye kvalifikasjoner</h4>
             </fieldset>
             <fieldset>
                 {skillList !== undefined && skillList.map((skill, index) =>
-                    <SkillList skills={skill} index={index} removeElement={removeElement} />)}
+                    <SkillList skills={skill} index={index} removeFunction={removeElement} />)}
             </fieldset>
-            <button type="button" onClick={onSaveClicked}>Save changes</button>
+            <br/>
+            <div className={styles.leftButton}><Button style={{width: "12em"}} variant="success" type="button" onClick={onSaveClicked}>Lagre endringer</Button></div>
+            <div className={styles.rightButton}><Button style={{width: "12em"}} variant="danger" type="button" onClick={onDeleteClick}>Slett prosjekt</Button></div>
+            <div className={styles.centerButton}><Button style={{width: "12em"}} type="button" onClick={onBackClick}>Forkast endringer</Button></div>
         </div>
     );
 }

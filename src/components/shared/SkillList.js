@@ -1,11 +1,11 @@
 import "./SkillList.css"
 import {Button} from "react-bootstrap"
 
-function SkillList({skills, index, removeElement}) {
+function SkillList({skills, index, removeFunction}) {
 
     return (
         <li className="li-sl" key={index}>
-            <Button type="button" onClick={removeElement}>
+            <Button type="button" onClick={removeFunction}>
                 {skills}
             </Button>
         </li>
