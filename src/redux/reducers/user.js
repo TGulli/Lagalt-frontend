@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
         case UPDATE_USER: {
             console.log("payload")
             console.log(action.payload)
-            const user  = action.payload;
+            const {user} = action.payload;
             console.log("user from payload")
             console.log(user)
             return {

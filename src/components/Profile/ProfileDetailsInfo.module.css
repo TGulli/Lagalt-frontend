@@ -1,0 +1,43 @@
+
+.pictureAndTitle{
+    display: inline-flex;
+}
+
+.profilePicture {
+    height: 10em;
+}
+
+.allInfo{
+    display: flex;
+    padding-bottom: 2em;
+    padding-top: 2em;
+}
+
+.basicInfo {
+    flex: 50%;
+    float: left;
+
+
+}
+
+.basicInfoBody {
+    padding: 1em;
+}
+
+.projects {
+    flex: 50%;
+    float: left;
+
+}
+
+.myProjects, .contactInfo {
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-bottom: 1em;
+}
+
+ .collaboratorProjects, .about {
+     padding-right: 1em;
+     padding-left: 1em;
+     padding-top: 1em;
+ }

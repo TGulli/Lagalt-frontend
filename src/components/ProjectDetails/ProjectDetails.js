@@ -134,7 +134,7 @@ function ProjectDetails() {
         const requestOptions = {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        return await fetch(`http://localhost:8080/api/v1/users/${collaborator.user.id}`, requestOptions)
+        return await fetch(`http://localhost:8080/api/v1/users/${collaborator.user}`, requestOptions)
             .then(responseObj => responseObj.json())
             .then(jsonResponse => jsonResponse.name)
     }

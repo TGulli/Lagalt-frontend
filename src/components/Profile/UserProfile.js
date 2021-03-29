@@ -7,6 +7,7 @@ import {useSelector} from "react-redux";
 function UserProfile() {
 
     const [userState, setUserState] = useState('')
+    const [loadedUser, setLoadedUser] = useState(false);
     const loginState = useSelector(state => state.isLoggedIn);
     const token = useSelector(state => state.token);
     let { id } = useParams();
@@ -23,14 +24,18 @@ function UserProfile() {
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setUserState(jsonResponse);
+                    setLoadedUser(true)
                 })
         }
         fetchData();
+
     }, [id]);
 
 
     return (
-        <ProfileDetailsInfo user={userState} loginState={loginState}/>
+        <div>
+        { loadedUser && <ProfileDetailsInfo user={userState} loginState={loginState}/>}
+        </div>
     );
 }
 
