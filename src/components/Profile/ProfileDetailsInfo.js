@@ -68,7 +68,7 @@ function ProfileDetailsInfo({user, loginState}) {
                                 <Card>
                                     <Card.Header>Mine prosjekter:</Card.Header>
                                     <Card.Body>
-                                    {!user.hidden && user.ownedProjects.map(project => (
+                                    {(!user.hidden || owner) && user.ownedProjects.map(project => (
                                         <section>
                                             <Link to={`/projectdetails/${project.id}`}> {project.name} </Link>
                                         <br/>
@@ -81,7 +81,7 @@ function ProfileDetailsInfo({user, loginState}) {
                                 <Card>
                                     <Card.Header>Prosjekter jeg deltar på: </Card.Header>
                                     <Card.Body>
-                                        {!user.hidden && user.collaboratorIn.map(project => (
+                                        {(!user.hidden || owner)  && user.collaboratorIn.map(project => (
                                             <section>
                                                 <Link to={`/projectdetails/${project.project.id}`}> {project.project.name} </Link>
                                                 <br/>

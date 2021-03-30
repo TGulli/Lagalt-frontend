@@ -18,6 +18,7 @@ function MyProfile() {
 
     const user = useSelector(state => state.user)
     const loginState = useSelector(state => state.isLoggedIn)
+    const token = useSelector(state => state.token)
     const [editMode, setEditMode] = useState(false)
     const history = useHistory()
     const dispatch = useDispatch()
@@ -34,17 +35,19 @@ function MyProfile() {
     const onDeleteClick = async () => {
         async function deleteUser() {
             const requestOptions = {
-                method: 'DELETE'}
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
+            }
             await fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
-                    history.push("/")
-                    dispatch(logOut())
+                    //history.push("/")
+                    //dispatch(logOut())
                 })
         }
         await deleteUser()
-
-
+        dispatch(logOut())
+        history.push("/")
     }
 
     console.log(user)
