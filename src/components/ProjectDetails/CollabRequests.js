@@ -54,8 +54,8 @@ function CollabRequests(props) {
                 <div key={collaborator.id} className={styles.requests}>
                     <div className={styles.collabInfo}>
                         <p className={styles.collabName}> Søkernavn: <NavLink to={"/userprofile/" + collaborator.id}>{collaborator.name}</NavLink></p>
-                        <OverlayTrigger trigger="click" placement="right" overlay={popover('HEAIRHAEIURHUIEAHRIUAEHRIUAEHRIUEAHRIUEAHRIUEAhuirh aiurheaui ehaiur heauirh eaiurhiuea heahr earhueiah riaehriuae hiuaehri uaehiurheiau huihe iheaih riueahr uaehru haeuirh uiaehriuaeh aehreahraehh ahe hah ah hheheh he ')}>
-                            <a className={styles.collabText}>Les motivasjonstekst</a>
+                        <OverlayTrigger trigger="click" placement="right" overlay={popover(collaborator.motivation)}>
+                        <a className={styles.collabText}>Les motivasjonstekst</a>
                         </OverlayTrigger>
                     </div>
 

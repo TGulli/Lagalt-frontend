@@ -243,8 +243,8 @@ function ProjectDetails() {
                         </div>}
                         <br/>
                     </div>
+                    {(isPartOfProject || owner) &&
                     <div className={styles.socials}>
-                        {(isPartOfProject) &&
                         <React.Fragment>
                             <SockJsClient url='http://localhost:8080/ws'
                                           headers={{'Authorization': ('Bearer ' + token.token)}}
@@ -274,9 +274,9 @@ function ProjectDetails() {
                                   onChange={e => handleChange(e)}
                                   onLeave={() => leaveChat()}
                                   user={user}/>}
-                        </React.Fragment>}
+                        </React.Fragment>
                         {!showChat && <MessageBoard project={projectState}/>}
-                    </div>
+                    </div>}
                 </div> :
                 <div className={styles.contentWrapper}>
                     <div className={styles.content}>
@@ -290,6 +290,7 @@ function ProjectDetails() {
         </div>
     );
 }
+
 export default ProjectDetails;
 
 
