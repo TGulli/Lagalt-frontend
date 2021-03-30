@@ -31,6 +31,7 @@ function ProjectDetails() {
     const [chatMessages, setChatMessages] = useState([])
     const [isPartOfProject, setIsPartOfProject] = useState(false)
     const [showChat, setShowChat] = useState(false)
+    const [approvedCollaborators, setApprovedCollaborators] = useState([{}])
 
     const [clientConnected, setClientConnected] = useState(false)
     const history = useHistory()
@@ -51,8 +52,13 @@ function ProjectDetails() {
                         if (projectOwner.id === user.id) setOwner(true);
                     }
                     //Check if applicant
+                    console.log("jsonresponse: " + JSON.stringify(jsonResponse))
                     for (let projectApplicant of jsonResponse.collaborators) {
-                        if (projectApplicant.id === user.id) setHasApplied(true);
+                        // if (projectApplicant.status === "APPROVED") {
+                        //     let userName = await fetchUser(projectApplicant)
+                        //     setApprovedCollaborators([...approvedCollaborators, userName])
+                        // }
+                        if (projectApplicant.user === user.id) setHasApplied(true);
                     }
 
                 })
@@ -205,6 +211,9 @@ function ProjectDetails() {
                     {!editMode &&
                         <div className={styles.applyWrapper}>
                             {owner && <Button type="button" onClick={onEditClick}>Rediger prosjekt</Button>}
+                            {console.log("hasApplied " + hasApplied)}
+                            {console.log("owner " + owner)}
+                            {console.log("isLoggedIn " + isLoggedIn)}
                             {(isLoggedIn && !hasApplied && !owner) && <Button onClick={applyClick} type="button">Forespør om å bi deltaker</Button>}
                         </div>}
                     <br/>
