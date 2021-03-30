@@ -209,7 +209,7 @@ function ProjectDetails() {
                                 <ProjectDetailsInfo project={projectState}/>}
                             <div className={styles.applyWrapper}>
                                 <Button type="button" variant="secondary" onClick={onEditClick}>Edit</Button>
-                                {(isLoggedIn && !hasApplied) ?
+                                {(isLoggedIn && !hasApplied && !owner) ?
                                     <Button onClick={applyClick} type="button">Apply</Button> : null}
                             </div>
                             <br/>

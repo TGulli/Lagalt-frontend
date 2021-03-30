@@ -36,7 +36,7 @@ function Main() {
 
     useEffect(() => {
         async function fetchFromApi() {
-            let response = isLoggedIn ? await fetchDataAsLogin(pageNr, user, token) : await fetchData(pageNr);
+            let response = isLoggedIn ? await fetchDataAsLogin(pageNr, user.id, token) : await fetchData(pageNr);
             console.log(response);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
