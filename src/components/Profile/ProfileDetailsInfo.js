@@ -14,12 +14,17 @@ function ProfileDetailsInfo({user, loginState}) {
 
     console.log(user.hidden)
     console.log('Owner: ' + owner)
+    console.log('Loginstate: ' + loginState)
 
     useEffect( () => {
-        if(id === user.id){
+        console.log('SKJER DETTA HER?')
+        console.log('User ID: ' + user.id + ' AND PARAM ID: ' + id)
+        console.log(typeof user.id)
+        console.log(typeof id)
+        if((Number(id) === user.id)){
+            console.log('EEEEY DÆ FUNKA')
             setOwner(true);
         }
-
     })
 
 
@@ -35,7 +40,7 @@ function ProfileDetailsInfo({user, loginState}) {
 
                 </section>
             </div>
-            {(!user.hidden || owner) ?
+            {(( !user.hidden || owner) && loginState) ?
                 <div>
                     <section className={styles.allInfo}>
                         <section className={styles.basicInfo}>
