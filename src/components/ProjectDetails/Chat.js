@@ -56,17 +56,13 @@ function Chat(props) {
                        type="text"
                        placeholder="Skriv en melding"
                        onChange={props.onChange}
+                       value={props.chatText}
                    />
                    <InputGroup.Append>
                        <Button variant="outline-success"
                                type="button"
                                onClick={props.onSendMessage}>
                            Send
-                       </Button>
-                       <Button variant="outline-danger"
-                               type="button"
-                               onClick={props.onLeave}>
-                           Forlat Chat
                        </Button>
                    </InputGroup.Append>
                </InputGroup>

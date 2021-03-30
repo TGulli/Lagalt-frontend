@@ -36,11 +36,14 @@
 .infoContent {
     box-shadow: 0 0 15px rgba(0,0,0,.25);
     padding: 1em;
+    min-width: 40em;
 }
 
-.content {
+.toggle{
+    text-align: center;
 }
 
-.socials {
-
+.toggleButton:active{
+    /*background-color: #6C757D;*/
+    background-color: #6c757d !important;
 }

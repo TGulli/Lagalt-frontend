@@ -9,7 +9,7 @@ import SockJsClient from "react-stomp"
 import Chat from "./Chat"
 import React from "react";
 import styles from './ProjectDetails.module.css'
-import {Button} from "react-bootstrap";
+import {Button, ButtonGroup, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 
 
 function ProjectDetails() {
@@ -30,6 +30,8 @@ function ProjectDetails() {
     const [chatText, setChatText] = useState('')
     const [chatMessages, setChatMessages] = useState([])
     const [isPartOfProject, setIsPartOfProject] = useState(false)
+    const [showChat, setShowChat] = useState(false)
+    const [approvedCollaborators, setApprovedCollaborators] = useState([{}])
 
     const [clientConnected, setClientConnected] = useState(false)
     const history = useHistory()
@@ -50,8 +52,13 @@ function ProjectDetails() {
                         if (projectOwner.id === user.id) setOwner(true);
                     }
                     //Check if applicant
+                    console.log("jsonresponse: " + JSON.stringify(jsonResponse))
                     for (let projectApplicant of jsonResponse.collaborators) {
-                        if (projectApplicant.id === user.id) setHasApplied(true);
+                        // if (projectApplicant.status === "APPROVED") {
+                        //     let userName = await fetchUser(projectApplicant)
+                        //     setApprovedCollaborators([...approvedCollaborators, userName])
+                        // }
+                        if (projectApplicant.user === user.id) setHasApplied(true);
                     }
 
                 })
@@ -99,6 +106,7 @@ function ProjectDetails() {
 
     const handleCollabRequests = async () => {
         if (handleRequestsMode === false) {
+
             for (let collaborator of projectState.collaborators) {
                 console.log(JSON.stringify(collaborator))
                 if (collaborator.status === "PENDING") {
@@ -119,16 +127,6 @@ function ProjectDetails() {
             setReload(false)
         }
     }
-
-    const onDeleteClick = () => {
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}
-        };
-        fetch(`http://localhost:8080/api/v1/projects/${projectState.id}`, requestOptions).then(r => console.log(r));
-        history.push("/")
-    }
-
 
     async function fetchUser(collaborator) {
         const requestOptions = {
@@ -164,7 +162,8 @@ function ProjectDetails() {
 
     const sendChatMessage = () => {
         clientRef.sendMessage("/app/chat.sendMessage",
-            JSON.stringify({sender: user.name, content: chatText, type: 1, project: {id: projectState.id}}))
+        JSON.stringify({sender: user.name, content: chatText, type: 1, project: {id: projectState.id}}))
+        setChatText('')
 
     }
 
@@ -179,6 +178,22 @@ function ProjectDetails() {
 
     }
 
+    const radios = [
+        { name: 'Active', value: '1' },
+        { name: 'Radio', value: '2' },
+        { name: 'Radio', value: '3' },
+    ];
+
+    const setValueShowChat = (val) =>{
+        if (val === 'true'){
+            setShowChat(true)
+            joinChat()
+        } else if (val === 'false'){
+            setShowChat(false)
+            leaveChat()
+        }
+    }
+
 
     return (
         <div>
@@ -189,27 +204,28 @@ function ProjectDetails() {
                 </div>
                 }
             </div>
-
             <div className={styles.contentWrapper}>
                 <div className={styles.content}>
                     <div className={styles.infoContent}>
-                    {editMode ? <ProjectDetailsEdit project={projectState}/> : <ProjectDetailsInfo project={projectState}/>}
-                    <div className={styles.applyWrapper}>
-                        <Button type="button" variant="secondary" onClick={onEditClick}>Edit</Button>
-                        {(isLoggedIn && !hasApplied) ? <Button onClick={applyClick} type="button">Apply</Button> : null}
-                    </div>
+                    {editMode ? <ProjectDetailsEdit project={projectState} setEditMode = {setEditMode}/> : <ProjectDetailsInfo project={projectState}/>}
+                    {!editMode &&
+                        <div className={styles.applyWrapper}>
+                            {owner && <Button type="button" onClick={onEditClick}>Rediger prosjekt</Button>}
+                            {console.log("hasApplied " + hasApplied)}
+                            {console.log("owner " + owner)}
+                            {console.log("isLoggedIn " + isLoggedIn)}
+                            {(isLoggedIn && !hasApplied && !owner) && <Button onClick={applyClick} type="button">Forespør om å bi deltaker</Button>}
+                        </div>}
                     <br/>
-                    <Button type="button" variant="danger" onClick={onDeleteClick}>Delete</Button>
                     </div>
+                    {owner &&
                     <div className={styles.collabContainer}>
-                        <div>
-                            <Button type="button" variant="secondary" onClick={handleCollabRequests}>Se søknader</Button>
-                        </div>
+                        <Button type="button" variant="secondary" onClick={handleCollabRequests}>Se søknader</Button>
                         <div className={styles.collaborateRequests}>
                             {handleRequestsMode ?
                                 <CollabRequests pendingCollaborators={pendingCollaborators} onReload={setReload}/> : null}
                         </div>
-                    </div>
+                    </div>}
                     <br />
                 </div>
                 <div className={styles.socials}>
@@ -228,8 +244,15 @@ function ProjectDetails() {
                                           setClientConnected(false)
                                       }}
                         />
-                        <button type="button" onClick={joinChat}> Join chat</button>
-                        {hasJoinedChat &&
+                        <div className={styles.toggle}>
+                            <ToggleButtonGroup name="options" value={showChat} defaultValue='false' onChange={setValueShowChat}>
+                                <ToggleButton type="radio" variant="secondary" value='false' className={styles.toggleButton} checked={!showChat} style={{width: "10em", marginRight: "1em"}}>Meldingsbord</ToggleButton>
+                                <ToggleButton type="radio" variant="secondary" value='true' className={styles.toggleButton} checked={showChat} style={{width: "10em"}}>Chat</ToggleButton>
+                            </ToggleButtonGroup>
+                        </div>
+
+
+                        {showChat &&
                         <Chat chatMessages={chatMessages}
                               chatText={chatText}
                               onSendMessage={()=> sendChatMessage()}
@@ -237,7 +260,7 @@ function ProjectDetails() {
                               onLeave={() => leaveChat()}
                               user={user}/>}
                     </React.Fragment>}
-                    <MessageBoard project={projectState}/>
+                    {!showChat && <MessageBoard project={projectState}/>}
                 </div>
             </div>
         </div>

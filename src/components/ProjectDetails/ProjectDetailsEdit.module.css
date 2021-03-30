@@ -1,0 +1,23 @@
+.inputfield {
+    float: right;
+    width: 65%;
+    padding: 0.5em;
+}
+
+.labels {
+    padding: 0.5em;
+}
+
+.leftButton{
+    float: left;
+}
+
+.centerButton{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.rightButton{
+    float: right;
+}
+

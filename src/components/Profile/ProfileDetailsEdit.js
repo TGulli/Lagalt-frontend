@@ -3,9 +3,10 @@ import {getUniqueTags} from "../shared/TagsAPI";
 import Autosuggest from 'react-autosuggest';
 import SkillList from "../shared/SkillList";
 import {useDispatch, useSelector} from "react-redux";
-import {Card, Container, Button} from "react-bootstrap";
+import {Card, Container, Button, Form} from "react-bootstrap";
 import styles from "./ProfilesDetailsEdit.module.css"
 import {updateUser} from "../../redux/actions";
+import {emailInUse, usernameInUse} from "../Register/RegisterAPI";
 
 function ProfileDetailsEdit({user}) {
 
@@ -17,6 +18,7 @@ function ProfileDetailsEdit({user}) {
     const [bio, setBio] = useState('')
     const [locale, setLocale] = useState('')
     const [ishidden, setIsHidden] = useState(user.hidden)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const token = useSelector(state => state.token);
     const dispatch = useDispatch();
@@ -56,7 +58,23 @@ function ProfileDetailsEdit({user}) {
         }
 
     }
+
+    const checkInputFields = async () => {
+        if (bio.length > 1000){
+            return 'Maks 1000 tegn i bio.'
+        } else if (user.username !== username && await usernameInUse(username) === true){
+            return 'Brukernavnet er allerede i bruk. Endre til et annet brukernavn.'
+        } else {
+            return ''
+        }
+    }
+
     const onSaveClicked = async () => {
+        setErrorMessage(await checkInputFields())
+
+        if (errorMessage !== ''){
+            return
+        }
 
         let tagArray = []
         for (let x of skillList){
@@ -117,6 +135,9 @@ function ProfileDetailsEdit({user}) {
                         <label className={styles.labels} htmlFor="descriptionEdit">Endre biografi</label>
                         <input className={styles.inputfield} id="descriptionEdit" type="text" onChange={onBioInputChange} placeholder={user.bio}/>
                     </fieldset>
+                    <Form.Text className="text-muted" style={{float: "right"}}>
+                        {bio.length} / 1000
+                    </Form.Text>
                     <fieldset>
                         <label className={styles.labels} htmlFor="descriptionEdit">Endre ferdigheter: </label>
                         <Autosuggest
@@ -152,6 +173,7 @@ function ProfileDetailsEdit({user}) {
                         {skillList !== undefined && skillList.map((skill, index) =>
                             <SkillList skills={skill} index={index} removeElement={removeElement} />)}
                     </fieldset>
+                    <p style={{color: "red"}}>{errorMessage}</p>
                 </Card.Body>
                 <Button variant="secondary" type="button" onClick={onSaveClicked}>Lagre endringer</Button>
             </Card>

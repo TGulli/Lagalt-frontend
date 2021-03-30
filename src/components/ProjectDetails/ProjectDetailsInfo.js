@@ -36,8 +36,11 @@ function ProjectDetailsInfo({project}) {
             <h4>Medlemmer</h4>
             <div className={styles.collaboratorsWrapper}>
                 {(project.collaborators) && project.collaborators.map((collaborator, index) => {
-                    return collaborator.status === 'APPROVED' && <div className={styles.collaborator} key={index}><p><NavLink to={"/userprofile/" + collaborator.user.id} activeClassName="selected">{collaborator.user.username}</NavLink></p></div>})}
+                    {console.log("collaborator: " + JSON.stringify(collaborator))}
+                    return collaborator.status === 'APPROVED' && <div className={styles.collaborator} key={index}><p><NavLink to={"/userprofile/" + collaborator.user} activeClassName="selected">{collaborator.username}</NavLink></p></div>})}
             </div>
+            <br/>
+            <br/>
         </div>
     );
 }
