@@ -31,7 +31,6 @@ function ProjectDetails() {
     const [chatMessages, setChatMessages] = useState([])
     const [isPartOfProject, setIsPartOfProject] = useState(false)
     const [showChat, setShowChat] = useState(false)
-    const [approvedCollaborators, setApprovedCollaborators] = useState([{}])
 
     const [clientConnected, setClientConnected] = useState(false)
     const history = useHistory()
@@ -55,10 +54,6 @@ function ProjectDetails() {
                     //Check if applicant
                     console.log("jsonresponse: " + JSON.stringify(jsonResponse))
                     for (let projectApplicant of jsonResponse.collaborators) {
-                        // if (projectApplicant.status === "APPROVED") {
-                        //     let userName = await fetchUser(projectApplicant)
-                        //     setApprovedCollaborators([...approvedCollaborators, userName])
-                        // }
                         if (projectApplicant.user === user.id) setHasApplied(true);
                     }
 

@@ -2,7 +2,8 @@ import {useState} from "react"
 import {useSelector} from "react-redux";
 import {useHistory, useLocation} from "react-router-dom";
 import {Button, Card, Form} from "react-bootstrap";
-import styles from './CreateApplication.module.css'
+import "./CreateApplication.css"
+//import styles from './CreateApplication.css'
 
 
 function CreateApplication() {
@@ -35,6 +36,8 @@ function CreateApplication() {
             };
             fetch('http://localhost:8080/api/v1/project/collaborators', requestOptions).then(r => console.log(r));
             history.push('/projectdetails/' + project.id.toString())
+        }else{
+            setErrorMessage("Motivasjonsteksten kan ikke være tom")
         }
     }
 
@@ -44,31 +47,52 @@ function CreateApplication() {
 
 
     return (
-        <div className={styles.createApplication}>
-            <Card className="text-center">
-                <Card.Header><h2>Forespørsel for å bli deltager av prosjektet "{project.name}"</h2></Card.Header>
+        <div className="createApplication">
+            <Card>
+                <Card.Header className="text-center">
+                    <h3>
+                        Opprett forespørsel om å bli deltager i prosjektet "{project.name}"
+                    </h3>
+                </Card.Header>
                 <Card.Body>
                     <Form>
                         <fieldset>
-                            <p style={{fontSize: 18}}>Ved å klikke "Send forespørsel" vil prosjekteieren av prosjektet "{project.name}" ha tilgang til følgende opplysninger:</p>
-                            <ul>
-                                <li>Dine skills og tags</li>
-                                <li>Tidligere og nåværende prosjekter du deltar i</li>
-                                <li>Tidligere og nåværende prosjekter du eier</li>
+                            <p className="p-ca">
+                                Ved å klikke "Send forespørsel" vil eieren av prosjektet "{project.name}" få tilgang til følgende opplysninger:
+                            </p>
+                            <ul className="ul-ca">
+                                <li>Dine ferdigheter</li>
+                                <li>Oversikt over prosjektene du har deltatt/ deltar i</li>
+                                <li>Oversikt over prosjektene du eier</li>
                                 <li>Din motivasjonstekst</li>
                             </ul>
                         </fieldset>
-                        <br/><br/>
+                        <br/>
                         <Form.Group controlId="motivationalText">
-                            <Form.Label>Motivasjons tekst:</Form.Label>
-                            <Form.Control as="textarea" rows={5} type="text" placeholder="Skriv inn en motivasjon for å sende inn en forespørsel for å bli medlem av prosjektet." onChange={onMotivationalTextChange}/>
+                            <Form.Label>Motivasjonstekst:</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={5}
+                                type="text"
+                                placeholder="Skriv inn motivasjonen din for å delta i prosjektet."
+                                onChange={onMotivationalTextChange}/>
                             <Form.Text className="text-muted">
                                 {motivationalText.length} / 1000
                             </Form.Text>
                         </Form.Group>
-                        <Button type="button" style={{width: "10em"}} onClick={onApplicationSendClick}>Send forespørsel</Button>
-                        <Button type="button" style={{float: "right", width: "10em"}} onClick={onCancelClick}>Avbryt</Button>
-                        <p style={{color: "red"}}>{errorMessage}</p>
+                        <Button className="btn-ca-send"
+                                variant="success"
+                                type="button"
+                                onClick={onApplicationSendClick}>
+                            Send forespørsel
+                        </Button>
+                        <Button className="btn-ca-cancel"
+                                variant="danger"
+                                type="button"
+                                onClick={onCancelClick}>
+                            Avbryt
+                        </Button>
+                        <p className="p-ca-error">{errorMessage}</p>
                     </Form>
                 </Card.Body>
                 <Card.Footer></Card.Footer>

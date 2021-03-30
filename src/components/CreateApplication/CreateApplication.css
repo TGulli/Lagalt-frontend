@@ -1,0 +1,23 @@
+.createApplication{
+    margin: 1em auto;
+    width: 80%;
+    max-width: 45em;
+}
+.p-ca{
+    font-size: 12pt;
+}
+.p-ca-error{
+    margin: 10px 0;
+    color: red;
+}
+.ul-ca{
+    list-style-type: none;
+}
+.btn-ca-send{
+    float: left;
+    width: 10em;
+}
+.btn-ca-cancel{
+    float: right;
+    width: 10em;
+}
