@@ -70,6 +70,16 @@ function Main() {
         setSearchState(e.target.value)
     }
 
+    const onFilterBasedOnGameDevClick = () => {
+        setTempText('Spill Utvikling')
+        setFilteredState(projectsState.filter(x => x.category === 'Spill Utvikling'));
+    }
+
+    const onFilterBasedOnWebDevClick= () => {
+        setTempText('Web Utvikling')
+        setFilteredState(projectsState.filter(x => x.category === 'Web Utvikling'));
+    }
+
     const onFilterBasedOnMusicClick = () => {
         setTempText('Musikk')
         setFilteredState(projectsState.filter(x => x.category === 'Musikk'));
@@ -126,6 +136,8 @@ function Main() {
                                     <Dropdown.Item onClick={onRemoveFilterClick}>Alle</Dropdown.Item>
                                     <Dropdown.Item onClick={onFilterBasedOnFilmClick}>Film</Dropdown.Item>
                                     <Dropdown.Item onClick={onFilterBasedOnMusicClick}>Musikk</Dropdown.Item>
+                                    <Dropdown.Item onClick={onFilterBasedOnGameDevClick}>Spill Utvikling</Dropdown.Item>
+                                    <Dropdown.Item onClick={onFilterBasedOnWebDevClick}>Web Utvikling</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup.Append>
