@@ -80,7 +80,7 @@ function ProjectDetails() {
 
 
         setReload(false)
-    }, [id, reload]);
+    }, [id, reload, editMode]);
 
     useEffect(() => {
         async function getMessages() {
@@ -221,7 +221,7 @@ function ProjectDetails() {
                 <div className={styles.contentWrapper}>
                     <div className={styles.content}>
                         <div className={styles.infoContent}>
-                            {editMode ? <ProjectDetailsEdit project={projectState}/> :
+                            {editMode ? <ProjectDetailsEdit project={projectState} setEditMode={setEditMode}/> :
                                 <ProjectDetailsInfo project={projectState}/>}
                             {!editMode &&
                             <div className={styles.applyWrapper}>
@@ -229,8 +229,6 @@ function ProjectDetails() {
                                 {owner && <Button type="button" onClick={onEditClick}>Rediger prosjekt</Button>}
                                 {(isLoggedIn && !hasApplied && !owner) && <Button onClick={applyClick} type="button">Forespør om å bli deltaker</Button>}
                             </div>}
-                            <br/>
-                            <Button type="button" variant="danger" onClick={onDeleteClick}>Delete</Button>
                         </div>
                         {owner &&
                         <div className={styles.collabContainer}>

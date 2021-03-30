@@ -95,15 +95,9 @@ function CreateProject() {
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owners: [ { id: user.id } ]})
         };
         await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
-            console.log(r)
-            dispatch(updateUser(user.id, token))
             history.push("/")
         });
     }
-
-    /*async function updateGlobalState(userId, token){
-        await dispatch(updateUser(userId, token))
-    }*/
 
     return (
         <div className="App">

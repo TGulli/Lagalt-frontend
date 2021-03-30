@@ -52,13 +52,9 @@ function MyProfile() {
 
     return (
         <Container>
-            <Button type="button" variant="outline-secondary" onClick={onMainClick}>Main</Button>
-
                 <div className={styles.editButton}>
                     <Button type="button" variant="secondary" onClick={onEditClick}>{editMode? "Tilbake til bruker" : "Endre bruker" }</Button>
                 </div>
-
-
             {editMode ? <ProfileDetailsEdit user={user} /> : <ProfileDetailsInfo user={user} loginState={loginState}/> }
             {user.userTags &&
                 <div className={styles.mySkills}>
