@@ -86,7 +86,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
     const onDeleteClick = () => {
         const requestOptions = {
             method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
         history.push("/")
