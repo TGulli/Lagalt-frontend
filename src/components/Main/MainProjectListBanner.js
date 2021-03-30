@@ -7,12 +7,20 @@ import styles from './MainProjectListBanner.module.css'
 function MainProjectListBanner({project, user}) {
 
     const compareLists = (pTags = [], uTags = []) => {
-        let count = uTags.filter(u => pTags.some(p => u.tag === p.tag)).length;
-        let svgSrc = ''
-        if (count === 0) { svgSrc = NotQualified }
-        if (count > pTags.length / 2) { svgSrc = KindaQualifiedLogo }
-        if (count !== 0) { svgSrc = QualifiedLogo }
-        return svgSrc;
+        if(uTags !== null) {
+            let count = uTags.filter(u => pTags.some(p => u.tag === p.tag)).length;
+            let svgSrc = ''
+            if (count === 0) {
+                svgSrc = NotQualified
+            }
+            if (count > pTags.length / 2) {
+                svgSrc = KindaQualifiedLogo
+            }
+            if (count !== 0) {
+                svgSrc = QualifiedLogo
+            }
+            return svgSrc;
+        }
     }
 
     const svgSrc = compareLists(project.projectTags, user.userTags)
