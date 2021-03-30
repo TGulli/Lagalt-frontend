@@ -12,11 +12,9 @@ function MainProjectListBanner({project, user}) {
             let svgSrc = ''
             if (count === 0) {
                 svgSrc = NotQualified
-            }
-            if (count > pTags.length / 2) {
+            } else if (count > pTags.length / 2) {
                 svgSrc = KindaQualifiedLogo
-            }
-            if (count !== 0) {
+            } else if (count !== 0) {
                 svgSrc = QualifiedLogo
             }
             return svgSrc;
