@@ -42,10 +42,6 @@ function ProfileDetailsEdit({user}) {
         setName(e.target.value)
     }
 
-    const onUsernameInputChange = e => {
-        setUsername(e.target.value)
-    }
-
     const onBioInputChange = e => {
         setBio(e.target.value)
     }
@@ -72,7 +68,7 @@ function ProfileDetailsEdit({user}) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token},
-            body: JSON.stringify({name: name, username: username, locale: locale, hidden: ishidden, bio: bio, userTags: tagArray })
+            body: JSON.stringify({name: name, locale: locale, hidden: ishidden, bio: bio, userTags: tagArray })
         };
         fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => console.log(r));
 
@@ -110,12 +106,8 @@ function ProfileDetailsEdit({user}) {
                         <input className={styles.checkbox} id="hiddenProfile" type="checkbox" defaultChecked={ishidden} onChange={onPublicChange} />
                     </fieldset>
                     <fieldset>
-                        <label className={styles.labels} htmlFor="nameEdit">Endre brukernavn </label>
-                        <input className={styles.inputfield} id="nameEdit" type="text" onChange={onNameInputChange} placeholder={user.username}/>
-                    </fieldset>
-                    <fieldset>
                         <label className={styles.labels} htmlFor="nameEdit">Endre navn</label>
-                        <input className={styles.inputfield} id="nameEdit" type="text" onChange={onUsernameInputChange} placeholder={user.name}/>
+                        <input className={styles.inputfield} id="nameEdit" type="text" onChange={onNameInputChange} placeholder={user.name}/>
                     </fieldset>
                     <fieldset>
                         <label className={styles.labels} htmlFor="nameEdit">Endre sted</label>
