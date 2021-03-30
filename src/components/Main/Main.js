@@ -72,7 +72,7 @@ function Main() {
 
     const onFilterBasedOnMusicClick = () => {
         setTempText('Musikk')
-        setFilteredState(projectsState.filter(x => x.category === 'Music'));
+        setFilteredState(projectsState.filter(x => x.category === 'Musikk'));
     }
 
     const onFilterBasedOnFilmClick = () => {
@@ -133,7 +133,6 @@ function Main() {
                 </fieldset>
                 {isLoggedIn &&
                 <div>
-                    {/*user.userTags && <TagList tags={user.userTags}/>*/}
                     <Button type="button" variant="primary" size="lg" onClick={createProjectClick}>Opprett nytt prosjekt</Button>
                 </div>}
             </div>

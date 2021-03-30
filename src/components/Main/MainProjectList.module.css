@@ -8,8 +8,7 @@
     box-shadow: 0 0 15px rgba(0,0,0,.25);
 }
 
-.projectHeader {
-
+.projectImage {
 }
 
 .projectClickableHeader {
@@ -19,8 +18,9 @@
 }
 
 .projectImageAndApproved {
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/c/c5/Risengrynsgr%C3%B8t.jpg");
-    background-size: cover;
+    overflow: hidden;
+
+    position: relative;
 }
 
 
@@ -45,6 +45,8 @@
 }
 
 .projectQualifiedBanner {
+    left: 0;
+    top: 0;
     position: absolute;
     z-index: 999999;
 }

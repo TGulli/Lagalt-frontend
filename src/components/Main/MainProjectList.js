@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import styles from './MainProjectList.module.css'
 import TagList from "../shared/TagList";
 import MainProjectListBanner from "./MainProjectListBanner";
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Image, Row} from "react-bootstrap";
 import { ReactComponent as Logo} from '../../resources/kvalifisert.svg'
 
 function MainProjectList({content, userState}) {
@@ -19,15 +19,17 @@ function MainProjectList({content, userState}) {
 
             {content.map((project, index) => (
                 <div key={index} className={styles.projectDisplay}>
-                    <div className={styles.projectQualifiedBanner}>
-                        <MainProjectListBanner project={project} user={userState}/>
-                    </div>
                     <Container fluid={true} style={{margin: 0}}>
                         <Row>
                             <Col xs lg={1} className={styles.projectImageAndApproved}>
-                                <div className={styles.projectImageAndApproved} />
+                                <div className={styles.projectImageAndApproved}>
+                                    <Image src="https://bakingamoment.com/wp-content/uploads/2018/02/IMG_6267-creamy-rice-pudding-recipe-square2.jpg" fluid className={styles.projectImage} />
+                                    <div className={styles.projectQualifiedBanner}>
+                                        <MainProjectListBanner project={project} user={userState}/>
+                                    </div>
+                                </div>
                             </Col>
-                            <Col xl lg={3}>
+                            <Col>
                                 <div className={styles.projectHeader}>
                                     <Button type="button" value={project.id} variant="outline-primary" className={styles.projectClickableHeader}
                                             onClick={toProjectDetailsClick(project.id)}>

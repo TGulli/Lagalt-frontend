@@ -45,6 +45,7 @@ function CreateProject() {
     }
 
     const onCategoryInputChange = e => {
+        console.log(e.target.value)
         setCategory(e.target.value)
     }
 
@@ -117,10 +118,10 @@ function CreateProject() {
                     <Form.Control  className="form-control-cp"
                                    as="select"
                                    onChange={onCategoryInputChange}>
-                        <option>Musikk</option>
-                        <option>Film</option>
-                        <option>Spill Utvikling</option>
-                        <option>Web Utvikling</option>
+                        <option value="Musikk">Musikk</option>
+                        <option value="Film">Film</option>
+                        <option value="Spill Utvikling">Spill Utvikling</option>
+                        <option value="Web Utvikling">Web Utvikling</option>
                     </Form.Control>
                 </Form.Group>
 

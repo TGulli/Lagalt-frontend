@@ -1,26 +1,27 @@
-import index from "../../redux/reducers";
-import {ReactComponent as QualifiedLogo} from "../../resources/kvalifisert.svg";
-import {ReactComponent as KindaQualifiedLogo} from "../../resources/delvis.svg";
-import {ReactComponent as NotQualifiedLogo} from "../../resources/ikke.svg";
+import NotQualified from '../../resources/ikke.svg'
+import KindaQualifiedLogo from '../../resources/delvis.svg'
+import QualifiedLogo from "../../resources/kvalifisert.svg"
+import styles from './MainProjectListBanner.module.css'
+
 
 function MainProjectListBanner({project, user}) {
 
-    const compareLists = (pTags, uTags) => {
-
+    const compareLists = (pTags = [], uTags = []) => {
         let count = uTags.filter(u => pTags.some(p => u.tag === p.tag)).length;
-        if (count === 0) return 0
-        if (count > pTags.length/2) return 2
-        if (count !== 0) return 1
+        let svgSrc = ''
+        if (count === 0) { svgSrc = NotQualified }
+        if (count > pTags.length / 2) { svgSrc = KindaQualifiedLogo }
+        if (count !== 0) { svgSrc = QualifiedLogo }
+        return svgSrc;
     }
+
+    const svgSrc = compareLists(project.projectTags, user.userTags)
 
     return (
         <div>
             { ((project.projectTags && user.userTags) && project.owners.filter(x => x.id === user.id).length === 0) &&
-                {
-                0: <NotQualifiedLogo />,
-                1: <KindaQualifiedLogo />,
-                2: <QualifiedLogo />,
-            }[compareLists(project.projectTags, user.userTags)]}
+            <img src={svgSrc} className={styles.bannerImage} />
+            }
         </div>
     );
 }
