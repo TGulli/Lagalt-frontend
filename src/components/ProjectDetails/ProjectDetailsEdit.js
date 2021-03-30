@@ -118,8 +118,8 @@ function ProjectDetailsEdit({project, setEditMode}) {
     }
 
     return (
-        <div>
-            <h1 style={{textAlign: "center"}}>Endre prosjekt {project.name}</h1>
+        <div style={{textAlign: "left"}}>
+            <h3 style={{textAlign: "center"}}>Rediger</h3>
             <br/>
             <fieldset>
                 <label className={styles.labels} htmlFor="nameEdit">Endre navn</label>
@@ -148,7 +148,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
             </fieldset>
             <fieldset>
                 <label className={styles.labels} htmlFor="descriptionEdit">Finn kvalifikasjoner</label>
-                <div style={{float: "right", width: "65%"}}>
+                <div style={{float: "right", width: "60%"}}>
                     <Autosuggest
                         suggestions={suggestions}
                         onSuggestionsFetchRequested={(e) => {
@@ -177,16 +177,17 @@ function ProjectDetailsEdit({project, setEditMode}) {
                 <br/>
                 <Button style={{float: "right"}} type="button" variant="success" onClick={onAddSkillClick}>Legg til ny kvalifikasjon</Button>
                 <br/>
-                <h4>Nye kvalifikasjoner</h4>
+                <br/>
+                <h6>Nye kvalifikasjoner</h6>
             </fieldset>
-            <fieldset>
+            <fieldset style={{textAlign: "left"}}>
                 {skillList !== undefined && skillList.map((skill, index) =>
                     <SkillList skills={skill} index={index} removeFunction={removeElement} />)}
             </fieldset>
             <br/>
-            <div className={styles.leftButton}><Button style={{width: "12em"}} variant="success" type="button" onClick={onSaveClicked}>Lagre endringer</Button></div>
-            <div className={styles.rightButton}><Button style={{width: "12em"}} variant="danger" type="button" onClick={onDeleteClick}>Slett prosjekt</Button></div>
-            <div className={styles.centerButton}><Button style={{width: "12em"}} type="button" onClick={onBackClick}>Forkast endringer</Button></div>
+            <div className={styles.leftButton}><Button variant="success" type="button" onClick={onSaveClicked}>Lagre endringer</Button></div>
+            <div className={styles.rightButton}><Button variant="danger" type="button" onClick={onDeleteClick}>Slett prosjekt</Button></div>
+            <Button type="button" onClick={onBackClick}>Forkast endringer</Button>
         </div>
     );
 }
