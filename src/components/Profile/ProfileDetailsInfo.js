@@ -21,7 +21,7 @@ function ProfileDetailsInfo({user, loginState}) {
         console.log('User ID: ' + user.id + ' AND PARAM ID: ' + id)
         console.log(typeof user.id)
         console.log(typeof id)
-        if((Number(id) === user.id)){
+        if((id === undefined)){
             console.log('EEEEY DÆ FUNKA')
             setOwner(true);
         }
@@ -40,7 +40,7 @@ function ProfileDetailsInfo({user, loginState}) {
 
                 </section>
             </div>
-            {(( !user.hidden || owner) && loginState) ?
+            {(( !user.hidden || owner ) && loginState) ?
                 <div>
                     <section className={styles.allInfo}>
                         <section className={styles.basicInfo}>
