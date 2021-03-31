@@ -23,6 +23,10 @@ function ProfileDetailsEdit({user}) {
     const token = useSelector(state => state.token);
     const dispatch = useDispatch();
 
+    const maxStringLengthBio = 1000;
+    const maxStringLengthGeneral = 50;
+    const limitAddTags = 1000;
+
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
@@ -59,18 +63,22 @@ function ProfileDetailsEdit({user}) {
 
     }
 
-    const checkInputFields = async () => {
-        if (bio.length > 1000){
-            return 'Maks 1000 tegn i bio.'
-        } else if (user.username !== username && await usernameInUse(username) === true){
-            return 'Brukernavnet er allerede i bruk. Endre til et annet brukernavn.'
+    const checkInputFields = () => {
+        if (name.length > maxStringLengthGeneral){
+            return 'Maks ' + {maxStringLengthGeneral} + ' tegn i navn.'
+        } else if (locale.length > maxStringLengthGeneral){
+            return 'Maks ' + {maxStringLengthGeneral} + ' tegn på sted.'
+        } else if (bio.length > maxStringLengthBio){
+            return 'Maks ' + {maxStringLengthBio} + ' tegn i biografi.'
+        } else if (skillList.length > limitAddTags){
+            return 'Maks ' + {limitAddTags} + ' tags.'
         } else {
             return ''
         }
     }
 
-    const onSaveClicked = async () => {
-        setErrorMessage(await checkInputFields())
+    const onSaveClicked = () => {
+        setErrorMessage(checkInputFields())
 
         if (errorMessage !== ''){
             return
@@ -78,6 +86,10 @@ function ProfileDetailsEdit({user}) {
 
         let tagArray = []
         for (let x of skillList){
+            if (x.length > maxStringLengthGeneral){
+                setErrorMessage("Tags kan ikke ha lengre navn enn " + maxStringLengthGeneral + " tegn.")
+                return
+            }
             tagArray.push({tag: x})
         }
 
@@ -88,8 +100,11 @@ function ProfileDetailsEdit({user}) {
             headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token},
             body: JSON.stringify({name: name, locale: locale, hidden: ishidden, bio: bio, userTags: tagArray })
         };
-        fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => console.log(r));
-
+        fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => {
+            if (!r){
+                setErrorMessage(r.message)
+            }
+        });
     }
 
     
