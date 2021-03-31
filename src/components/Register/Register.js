@@ -16,6 +16,9 @@ function Register() {
     const [ email, setEmail] = useState('')
     const [ bio, setBio ] = useState('')
     const [ errorMessage, setErrorMessage ] = useState('')
+    const maxStringLengthGeneral = 50;
+    const maxStringLengthEmail = 350;
+    const maxStringLengthBio = 1000;
 
     // RFC 5322
     const emailRegex = '(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"' +
@@ -58,8 +61,14 @@ function Register() {
             return 'Skriv inn en biografi'
         } else if (!email.match(emailRegex)){
             return 'Epostadressen er ikke gyldig'
-        } else if (bio.length > 1000){
-            return 'Maks 1000 tegn i bio.'
+        } else if (username.length > maxStringLengthGeneral){
+            return 'Maks ' + {maxStringLengthGeneral} + ' tegn i brukernavn.'
+        } else if (email.length > maxStringLengthEmail){
+            return 'Maks ' + {maxStringLengthEmail} + ' tegn i mail adresse.'
+        } else if (secret.length > maxStringLengthGeneral){
+            return 'Maks ' + {maxStringLengthGeneral} + ' tegn i passord.'
+        } else if (bio.length > maxStringLengthBio){
+            return 'Maks ' + {maxStringLengthBio} + ' tegn i biografi.'
         } else if (await emailInUse(email) === true){
             return 'Det finnes allerede en bruker med angitt epostadresse. Bruk en annen epsotadresse om du ønsker å registrere en ny bruker.'
         } else if (await usernameInUse(username) === true){
