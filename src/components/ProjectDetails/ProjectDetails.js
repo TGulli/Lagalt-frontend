@@ -115,6 +115,13 @@ function ProjectDetails() {
     const handleCollabRequests = async () => {
         if (handleRequestsMode === false) {
 
+            // Fetche greia her.
+            // setPending på json response fra den
+            let collaboratorList = await getCollaborators(projectState.id)
+            setPendingCollaborators(collaboratorList)
+
+
+            /*
             for (let collaborator of projectState.collaborators) {
                 console.log(JSON.stringify(collaborator))
                 if (collaborator.status === "PENDING") {
@@ -124,6 +131,7 @@ function ProjectDetails() {
                     setPendingCollaborators(pendingCollaborators => ({pendingCollaborators: [...pendingCollaborators.pendingCollaborators, {...collaborator, ...name}]}))
                 }
             }
+             */
             setHandleRequestsMode(true)
         } else {
             setHandleRequestsMode(false)
@@ -136,6 +144,16 @@ function ProjectDetails() {
         }
     }
 
+    async function getCollaborators(id) {
+        const requestOptions = {
+            headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
+        };
+        return await fetch(`http://localhost:8080/api/v1/project/${id}/collaborators/`, requestOptions)
+            .then(responseObj => responseObj.json())
+            .then(jsonResponse => jsonResponse)
+    }
+
+    /*
     async function fetchUser(collaborator) {
         const requestOptions = {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
@@ -144,6 +162,8 @@ function ProjectDetails() {
             .then(responseObj => responseObj.json())
             .then(jsonResponse => jsonResponse.name)
     }
+
+     */
 
     const joinChat = () => {
         setHasJoinedChat(true);

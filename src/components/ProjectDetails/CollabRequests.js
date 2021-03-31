@@ -21,6 +21,7 @@ function CollabRequests(props) {
     }
 
 
+
     const popover = (motivationalText) => (
         <Popover id="popover-basic">
             <Popover.Title as="h3">Motivasjonstekst</Popover.Title>
@@ -30,30 +31,48 @@ function CollabRequests(props) {
         </Popover>
     );
 
+    const popoverUser = (user) => (
+        <Popover id="popover-basic">
+            <Popover.Title as="h3">Bruker: {user.username}</Popover.Title>
+            <Popover.Content>
+                <p>Navn: {user.name}</p>
+                <p>Epost: {user.email}</p>
+                <p>Plass :{user.locale}</p>
+                <p>Bio: {user.bio}</p>
+                <p>Medlem av: {user.collaborated.map(x => x)}</p>
+                <p>Eier av: {user.owner.map(x => x)}</p>
+                <p>Ferdigheter: {user.userTags.map(x => x.tag)}</p>
+            </Popover.Content>
+        </Popover>
+    );
+
 
     const handleApproveDecline = (collaborator, status) => {
-
-        console.log(collaborator)
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, motivation: collaborator.motivation, user: { id: collaborator.user }, project: {id: collaborator.project}}})
+            body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, motivation: collaborator.motivation, user: { id: collaborator.user.id }, project: {id: collaborator.project.id}}})
         };
         fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r => console.log(r));
         props.onReload(true)
-        let index = props.pendingCollaborators.pendingCollaborators.indexOf(collaborator)
-        props.pendingCollaborators.pendingCollaborators.splice(index, 1)
+        let index = props.pendingCollaborators.indexOf(collaborator)
+        props.pendingCollaborators.splice(index, 1)
     }
 
     return (
         <div>
             <header className={styles.header}>
-                <h5 className={styles.h5collabRequests}>Antall søknader: {props.pendingCollaborators.pendingCollaborators.length}</h5>
+                <h5 className={styles.h5collabRequests}>Antall søknader: {props.pendingCollaborators.length}</h5>
             </header>
-            {props.pendingCollaborators.pendingCollaborators.map(collaborator => (
+            {props.pendingCollaborators.map(collaborator => (
                 <div key={collaborator.id} className={styles.requests}>
                     <div className={styles.collabInfo}>
-                        <p className={styles.collabName}> Søkernavn: <NavLink to={"/userprofile/" + collaborator.user}>{collaborator.name}</NavLink></p>
+
+                        <OverlayTrigger trigger="click" placement="top" overlay={popoverUser(collaborator.user)}>
+                        <a className={styles.collabName}>Les om brukeren</a>
+                        </OverlayTrigger>
+
+
                         <OverlayTrigger trigger="click" placement="right" overlay={popover(collaborator.motivation)}>
                         <a className={styles.collabText}>Les motivasjonstekst</a>
                         </OverlayTrigger>
