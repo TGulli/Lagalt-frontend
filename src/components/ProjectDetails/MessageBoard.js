@@ -103,7 +103,7 @@ function MessageBoard(props) {
 
     return(
         <>
-            <section className="chatContainer">
+            <section className="message-boardContainer">
                 <div className="wrapper-chat">
                     <ListGroup className="ul-chat">
                         <MessageBoardText messages={messages.messages}

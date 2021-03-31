@@ -118,7 +118,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
     }
 
     return (
-        <div style={{textAlign: "left"}}>
+        <div className={styles.editWrapper} style={{textAlign: "left"}}>
             <h3 style={{textAlign: "center"}}>Rediger</h3>
             <br/>
             <fieldset>
@@ -148,7 +148,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
             </fieldset>
             <fieldset>
                 <label className={styles.labels} htmlFor="descriptionEdit">Finn kvalifikasjoner</label>
-                <div style={{float: "right", width: "60%"}}>
+                <div style={{display: "inline", width: "60%"}}>
                     <Autosuggest
                         suggestions={suggestions}
                         onSuggestionsFetchRequested={(e) => {
@@ -173,9 +173,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
                         highlightFirstSuggestion={true}
                     />
                 </div>
-
-                <br/>
-                <Button style={{float: "right"}} type="button" variant="success" onClick={onAddSkillClick}>Legg til ny kvalifikasjon</Button>
+                <Button style={{display: "inline", float: "right"}} type="button" variant="success" onClick={onAddSkillClick}>Legg til ny kvalifikasjon</Button>
                 <br/>
                 <br/>
                 <h6>Nye kvalifikasjoner</h6>

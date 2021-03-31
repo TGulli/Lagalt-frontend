@@ -18,9 +18,13 @@ function ProjectDetailsInfo({project}) {
     console.log('LoginState: ' + loginState)
 
     return (
-        <div>
+        <div className={styles.infoWrapper}>
+            <h3 className={styles.h3Text}>
+                {loginState ?project.name : project.partialProject.name}</h3>
             <div className={styles.banner}>
-                <Image className={styles.picture} src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Risengrynsgr%C3%B8t.jpg" alt=''/>
+                <Image className={styles.picture}
+                       src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Risengrynsgr%C3%B8t.jpg"
+                       alt='project image'/>
                 <div className={styles.headerInfo}>
                     <p>Status: {loginState ? project.progress : project.partialProject.progress}</p>
                     {loginState &&
@@ -29,19 +33,18 @@ function ProjectDetailsInfo({project}) {
                     }
                 </div>
             </div>
-            <h4>Beskrivelse</h4>
+            <h5>Om prosjektet</h5>
             <div>
                 <p>{loginState ? project.description : project.partialProject.description}</p>
             </div>
-            <h4>Kvalifikasjoner</h4>
-            <div className={styles.tagsWrapper}>
-                {project.projectTags && <TagList tags={project.projectTags}/>}
-            </div>
-            <br/>
             {loginState &&
                 <section>
-                    {console.log("Kom inn i loginstate")}
-                    <h4>Medlemmer</h4>
+                    <h5>Kvalifikasjoner</h5>
+                    <div className={styles.tagsWrapper}>
+                        {project.projectTags && <TagList tags={project.projectTags}/>}
+                    </div>
+                    <br/>
+                    <h5>Medlemmer</h5>
                     <div className={styles.collaboratorsWrapper}>
                         {project.collaborators && project.collaborators.map((collaborator, index) => {
                             return collaborator.status === 'APPROVED' &&
@@ -53,7 +56,8 @@ function ProjectDetailsInfo({project}) {
                                 </div>})
                         }
                     </div>
-                </section>}
+                </section>
+            }
             <br/>
             <br/>
         </div>

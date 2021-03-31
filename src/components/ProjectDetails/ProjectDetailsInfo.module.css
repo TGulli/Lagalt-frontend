@@ -1,14 +1,26 @@
+.h3Text{
+    font-size: xxx-large;
+    margin-top: 0.5em;
+}
+.messageBoardContainer{
+    display: inline-block;
+    float: right;
+}
+.projectWrapper{
+    float: left;
+}
 .banner {
     text-align: left;
 }
-
 .tagsWrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
 }
-
+.infoWrapper{
+    /*text-align: center;*/
+}
 .collaboratorsWrapper {
     display: flex;
     flex-wrap: wrap;
@@ -20,19 +32,16 @@
     padding-right: .5em;
 }
 
-.image {
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/c/c5/Risengrynsgr%C3%B8t.jpg");
-    background-size: cover;
-}
-
 .picture{
-    height: 8em;
+    height: 10em;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    margin-right: 1.5em;
 }
 
 .headerInfo{
-    margin-left: 12em;
-    margin-top: -7em;
-    margin-bottom: 2em;
+    margin-top: 0.5em;
+    display: inline-block;
 }
 
 .details{

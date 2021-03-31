@@ -48,7 +48,7 @@ function CollabRequests(props) {
     return (
         <div>
             <header className={styles.header}>
-                <h4>Antall søknader: {props.pendingCollaborators.pendingCollaborators.length}</h4>
+                <h5 className={styles.h5collabRequests}>Antall søknader: {props.pendingCollaborators.pendingCollaborators.length}</h5>
             </header>
             {props.pendingCollaborators.pendingCollaborators.map(collaborator => (
                 <div key={collaborator.id} className={styles.requests}>

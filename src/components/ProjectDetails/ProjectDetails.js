@@ -9,7 +9,7 @@ import SockJsClient from "react-stomp"
 import Chat from "./Chat"
 import React from "react";
 import styles from './ProjectDetails.module.css'
-import {Button, ButtonGroup, Card, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import {Button, ButtonGroup, Card, Nav, Tab, Tabs, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 
 
 function ProjectDetails() {
@@ -206,11 +206,72 @@ function ProjectDetails() {
         <div>
             {isLoggedIn ?
                 <div className={styles.contentWrapper}>
+                    {(isPartOfProject || owner) &&
+                    <SockJsClient url='http://localhost:8080/ws'
+                                  headers={{'Authorization': ('Bearer ' + token.token)}}
+                                  topics={['/topic/public']}
+                                  onMessage={(msg) => handleMessageReceived(msg)}
+                                  ref={(client) => {
+                                      clientRef = client;
+                                  }}
+                                  onConnect={() => {
+                                      setClientConnected(true)
+                                  }}
+                                  onDisconnect={() => {
+                                      setClientConnected(false)
+                                  }}
+                    />}
                     <div className={styles.content}>
-                        <Card className="text-center">
-                            <Card.Header>
-                                <h3>{projectState.name}</h3>
-                            </Card.Header>
+                        <Tabs defaultActiveKey="projectview" >
+                            <Tab eventKey="projectview" title={projectState.name}>
+                                {editMode ? <ProjectDetailsEdit project={projectState} setEditMode={setEditMode}/> :
+                                    <ProjectDetailsInfo project={projectState}/>}
+                                {!editMode &&
+                                <div className={styles.applyWrapper}>
+                                    {owner && <Button type="button" onClick={onEditClick}>Rediger prosjekt</Button>}
+                                    {(isLoggedIn && !hasApplied && !owner) && <Button onClick={applyClick} type="button">Forespør om å bli deltaker</Button>}
+                                </div>}
+                                {owner &&
+                                <div className={styles.collabContainer}>
+                                    <div>
+                                        <Button type="button" variant="secondary" onClick={handleCollabRequests}>Se søknader</Button>
+                                    </div>
+                                    <div className={styles.collaborateRequests}>
+                                        {handleRequestsMode ?
+                                            <CollabRequests pendingCollaborators={pendingCollaborators}
+                                                            onReload={setReload}/> : null}
+                                    </div>
+                                </div>}
+                                {(isPartOfProject || owner) && <Button className={styles.buttonChat} type="button" onClick={() => setHasJoinedChat(true)}>Chat</Button> }
+                            </Tab>
+                            {(isPartOfProject || owner) &&
+                            <Tab eventKey="messageboard" title="meldingsbord">
+                                <MessageBoard project={projectState}/>
+                            </Tab>}
+                            {/*(isPartOfProject || owner) &&
+                            <Tab eventKey="chat" title="chat">
+                                <Chat chatMessages={chatMessages}
+                                      chatText={chatText}
+                                      onSendMessage={()=> sendChatMessage()}
+                                      onChange={e => handleChange(e)}
+                                      onLeave={() => leaveChat()}
+                                      user={user}/>
+                            </Tab>*/}
+                        </Tabs>
+                    </div>
+                    {((isPartOfProject || owner) && hasJoinedChat )&&
+                        <div className={styles.chatDiv}>
+                            <Chat chatMessages={chatMessages}
+                                  chatText={chatText}
+                                  onSendMessage={()=> sendChatMessage()}
+                                  onChange={e => handleChange(e)}
+                                  onLeave={() => leaveChat()}
+                                  user={user}/>
+                        </div>
+                    }
+
+                        {/*
+                        <Card>
                             <Card.Body>
                                 {editMode ? <ProjectDetailsEdit project={projectState} setEditMode={setEditMode}/> :
                                     <ProjectDetailsInfo project={projectState}/>}
@@ -276,21 +337,13 @@ function ProjectDetails() {
 
                                 </Card.Body>
                             </Card>
-
-
-
-                        </React.Fragment>
-                    </div>}
-                </div> :
+                        </React.Fragment> */}
+            </div> :
                 <div className={styles.contentWrapper}>
                     <div className={styles.content}>
-                        <div className={styles.infoContent}>
-                            { projectState && <ProjectDetailsInfo project={projectState} />}
-                        </div>
+                        { projectState && <ProjectDetailsInfo project={projectState} />}
                     </div>
-                </div>
-
-            }
+                </div>}
         </div>
     );
 }
