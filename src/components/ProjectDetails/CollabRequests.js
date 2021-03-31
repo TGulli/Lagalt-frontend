@@ -53,7 +53,7 @@ function CollabRequests(props) {
             {props.pendingCollaborators.pendingCollaborators.map(collaborator => (
                 <div key={collaborator.id} className={styles.requests}>
                     <div className={styles.collabInfo}>
-                        <p className={styles.collabName}> Søkernavn: <NavLink to={"/userprofile/" + collaborator.id}>{collaborator.name}</NavLink></p>
+                        <p className={styles.collabName}> Søkernavn: <NavLink to={"/userprofile/" + collaborator.user}>{collaborator.name}</NavLink></p>
                         <OverlayTrigger trigger="click" placement="right" overlay={popover(collaborator.motivation)}>
                         <a className={styles.collabText}>Les motivasjonstekst</a>
                         </OverlayTrigger>
