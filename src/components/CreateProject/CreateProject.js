@@ -26,6 +26,7 @@ function CreateProject() {
     const [skillList, setSkillList] = useState([])
     // Brukes for auto suggest box
     const [value, setValue] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [suggestions, setSuggestions] = useState(uniqueTags)
 
     console.log('CreateProject: ' + token)
@@ -96,7 +97,11 @@ function CreateProject() {
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owners: [ { id: user.id } ]})
         };
         await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
-            history.push("/")
+            if (r){
+                history.push("/")
+            } else{
+                setErrorMessage(r.message)
+            }
         });
     }
 
@@ -205,6 +210,7 @@ function CreateProject() {
                         onClick={onButtonClick}>
                     Opprett
                 </Button>
+                <p style={{color : "red"}}>{errorMessage}</p>
             </Form>
         </div>
     );

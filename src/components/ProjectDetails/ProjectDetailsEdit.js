@@ -22,6 +22,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
     const [description, setDescription] = useState(project.description)
     const [category, setCategory] = useState(project.category)
     const [image, setImage] = useState(project.image)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const token = useSelector(state => state.token);
     const history = useHistory()
@@ -113,7 +114,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
         };
-        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
+        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => {if (!r.ok) setErrorMessage(r.message)});
         setEditMode(false)
     }
 
@@ -188,6 +189,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
                     <SkillList skills={skill} index={index} removeFunction={removeElement} />)}
             </fieldset>
             <br/>
+            <p style={{color: "red"}}>{errorMessage}</p>
             <div className={styles.leftButton}><Button variant="success" type="button" onClick={onSaveClicked}>Lagre endringer</Button></div>
             <div className={styles.rightButton}><Button variant="danger" type="button" onClick={onDeleteClick}>Slett prosjekt</Button></div>
             <Button type="button" onClick={onBackClick}>Forkast endringer</Button>
