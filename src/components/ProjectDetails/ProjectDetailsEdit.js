@@ -4,7 +4,7 @@ import Autosuggest from "react-autosuggest";
 import SkillList from "../shared/SkillList";
 import {useSelector} from "react-redux";
 import styles from "./ProjectDetailsEdit.module.css"
-import {Button, Card} from "react-bootstrap";
+import {Button, Card, Form} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import TagList from "../shared/TagList";
 
@@ -139,8 +139,13 @@ function ProjectDetailsEdit({project, setEditMode}) {
                 <input className={styles.inputfield} id="descriptionEdit" type="text" onChange={onDescriptionInputChange} placeholder={project.description}/>
             </fieldset>
             <fieldset>
-                <label className={styles.labels} htmlFor="descriptionEdit">Sett kategori</label>
-                <input className={styles.inputfield} id="descriptionEdit" type="text" onChange={onCategoryInputChange} placeholder={project.description}/>
+                <label className={styles.labels} htmlFor="progressEdit">Velg kategori</label>
+                <select className={styles.inputfield} name="progressEdit" onChange={e => onCategoryInputChange(e)}>
+                    <option value="Musikk">Musikk</option>
+                    <option value="Film">Film</option>
+                    <option value="Spill Utvikling">Spill Utvikling</option>
+                    <option value="Web Utvikling">Web Utvikling</option>
+                </select>
             </fieldset>
             <fieldset>
                 <label className={styles.labels} htmlFor="descriptionEdit">Endre bilde</label>

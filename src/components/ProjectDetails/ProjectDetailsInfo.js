@@ -27,10 +27,11 @@ function ProjectDetailsInfo({project}) {
                        alt='project image'/>
                 <div className={styles.headerInfo}>
                     <p>Status: {loginState ? project.progress : project.partialProject.progress}</p>
+                    <p>Kategori: {loginState ? project.category : project.partialProject.category}</p>
                     {loginState &&
                     <p>Eier: {project.owners && project.owners.map((owner, index) => {
-                        return <div key={index}> <p id="owner"><NavLink to={"/userprofile/" + owner.id} activeClassName="selected">{owner.name}</NavLink></p></div>})}</p>
-                    }
+                        return <div key={index}> <p id="owner"><NavLink to={"/userprofile/" + owner.id} activeClassName="selected">{owner.name}</NavLink></p></div>})}
+                    </p>}
                 </div>
             </div>
             <h5>Om prosjektet</h5>
