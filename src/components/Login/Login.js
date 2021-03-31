@@ -51,12 +51,7 @@ function Login() {
                     dispatch(logIn(jwtToken.user, jwtToken.token))
                     history.push("/")
                 } else {
-                    if(jwtToken.status === 401) {
-                        setErrorMessage("Brukeren er ikke verifisert")
-                    }
-                    else {
-                        setErrorMessage("Ugyldig brukernavn eller passord.")
-                    }
+                    setErrorMessage(jwtToken.message)
                 }
 
             });
