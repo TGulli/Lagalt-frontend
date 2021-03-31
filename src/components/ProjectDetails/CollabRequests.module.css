@@ -3,7 +3,9 @@
     border-style: groove;
     overflow-y: auto;
 }
-
+.h5collabRequests{
+    margin-top: 7px;
+}
 .collabInfo {
     display: flex;
     flex-direction: row;

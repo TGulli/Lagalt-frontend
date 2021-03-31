@@ -1,7 +1,6 @@
 .header {
     text-align: center;
 }
-
 .adminPanel {
     display: flex;
     justify-content: space-around;
@@ -21,22 +20,41 @@
     display: flex;
     margin-top: 1em;
 }
-
+.btnEdit{
+    display: block;
+}
+.btnApplications{
+    display: block;
+}
 .collaborateRequests {
     position: absolute;
     margin-left: 8em;
+    margin-bottom: 3em;
 }
-
+.content{
+    min-width: 30em;
+    width: 80%;
+    margin-left: 3em;
+    padding: 0 2em;
+    padding-bottom: 2em;
+    box-shadow: #ced4da 0.5em 0.5em 0.5em 0.5em;
+    display: block;
+}
 .contentWrapper {
     display: flex;
     padding: 1em;
-    justify-content: space-around;
 }
 
 .infoContent {
     box-shadow: 0 0 15px rgba(0,0,0,.25);
     padding: 1em;
     min-width: 40em;
+}
+.chatDiv{
+    margin-top: -3em;
+}
+.buttonChat{
+    margin-top: 1em;
 }
 
 .toggle{

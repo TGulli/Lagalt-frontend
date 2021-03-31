@@ -149,7 +149,6 @@ function Main() {
                 </div>}
             </div>
             <div>
-
                 <MainProjectList content={filteredState} userState={user}/>
                 {(pageNr >= 1) && <Button type="button" onClick={onPreviousClick}>PREVIOUS</Button>}
                 {(pageNr < totalPages - 1) && <Button type="button" onClick={onNextClick}>NEXT</Button>}

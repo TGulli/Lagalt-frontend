@@ -65,6 +65,13 @@ function Chat(props) {
                            Send
                        </Button>
                    </InputGroup.Append>
+                   <InputGroup.Append>
+                       <Button variant="outline-danger"
+                               type="button"
+                               onClick={props.onLeave}>
+                           Forlat
+                       </Button>
+                   </InputGroup.Append>
                </InputGroup>
            </section>
        </>
