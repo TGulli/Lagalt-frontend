@@ -95,7 +95,8 @@ function Register() {
             fetch('http://localhost:8080/api/v1/public/register', requestOptions)
                 .then(r => r.json())
                 .then( (registeredUser) => {
-                    if (registeredUser.staus == 200){
+                    console.log("Reg: " + JSON.stringify(registeredUser))
+                    if (registeredUser){
                         history.push('/login')
                     } else{
                         setErrorMessage(registeredUser.message)

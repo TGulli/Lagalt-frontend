@@ -16,7 +16,7 @@ function GLogin () {
 
     const onSuccess = (res) => {
         checkToken(res.getAuthResponse().id_token).then(jwtToken => {
-            if (jwtToken.status !== 200 ) {
+            if (jwtToken) {
                 dispatch(logIn(jwtToken.user, jwtToken.token))
                 history.push("/")
             }

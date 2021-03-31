@@ -17,7 +17,7 @@ function LoginFacebook() {
             fetch('http://localhost:8080/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'})
                 .then(r => r.json())
                 .then(jwtToken => {
-                    if (jwtToken.status != 200) {
+                    if (jwtToken) {
                         dispatch(logIn(jwtToken.user, jwtToken.token))
                         history.push("/")
                     }
