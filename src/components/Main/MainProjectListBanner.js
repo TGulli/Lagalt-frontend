@@ -25,7 +25,7 @@ function MainProjectListBanner({project, user}) {
 
     return (
         <div>
-            { ((project.projectTags && user.userTags) && project.owners.filter(x => x.id === user.id).length === 0) &&
+            { ((project.projectTags && user.userTags) && (project.owner.id !== user.id)) &&
             <img src={svgSrc} className={styles.bannerImage} />
             }
         </div>

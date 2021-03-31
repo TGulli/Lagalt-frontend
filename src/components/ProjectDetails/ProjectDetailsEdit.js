@@ -98,10 +98,6 @@ function ProjectDetailsEdit({project, setEditMode}) {
 
 
     const onSaveClicked = () => {
-        const ownerArray = [];
-        for (let x of project.owners){
-            ownerArray.push({id: x.id})
-        }
 
         let tagArray = []
         for (let x of skillList){
@@ -111,7 +107,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
+            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owner: {id: user.id}})})
         };
         fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
         setEditMode(false)

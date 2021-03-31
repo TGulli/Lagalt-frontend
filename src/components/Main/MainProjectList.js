@@ -1,5 +1,5 @@
 import MainProjectListOwners from "./MainProjectListOwners";
-import {useHistory} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import styles from './MainProjectList.module.css'
 import TagList from "../shared/TagList";
 import MainProjectListBanner from "./MainProjectListBanner";
@@ -41,7 +41,8 @@ function MainProjectList({content, userState}) {
                                 <div className={styles.projectContentContainer}>
                                     <div className={styles.projectDescriptionOwner}>
                                         <label htmlFor="ownerText">Eier:</label>
-                                        <MainProjectListOwners id="ownerText" owners={project.owners}/>
+                                        {project.owner && <h4><NavLink to={"/userprofile/" + project.owner.id} activeClassName="selected"> {project.owner.name}</NavLink></h4>}
+                                        {/*<MainProjectListOwners id="ownerText" owners={project.owners}/>*/}
                                         {/*<p>Description: {project.description}</p>*/}
                                     </div>
                                     <div className={styles.projectCategoryAndTags}>

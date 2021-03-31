@@ -48,9 +48,9 @@ function ProjectDetails() {
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     setProjectState(jsonResponse);
-                    for (let projectOwner of jsonResponse.owners) {
-                        if (projectOwner.id === user.id) setOwner(true);
-                    }
+
+                    if (jsonResponse.owner.id === user.id) setOwner(true);
+
                     //Check if applicant
                     console.log("jsonresponse: " + JSON.stringify(jsonResponse))
                     for (let projectApplicant of jsonResponse.collaborators) {

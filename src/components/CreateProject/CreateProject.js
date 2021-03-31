@@ -93,7 +93,7 @@ function CreateProject() {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owners: [ { id: user.id } ]})
+            body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owner: { id: user.id }})
         };
         await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
             history.push("/")

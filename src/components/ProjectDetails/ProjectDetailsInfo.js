@@ -28,8 +28,9 @@ function ProjectDetailsInfo({project}) {
                 <div className={styles.headerInfo}>
                     <p>Status: {loginState ? project.progress : project.partialProject.progress}</p>
                     {loginState &&
-                    <p>Eier: {project.owners && project.owners.map((owner, index) => {
-                        return <div key={index}> <p id="owner"><NavLink to={"/userprofile/" + owner.id} activeClassName="selected">{owner.name}</NavLink></p></div>})}</p>
+                    <p>Eier: {project.owner &&
+                         <NavLink to={"/userprofile/" + project.owner.id} activeClassName="selected">{project.owner.name}</NavLink>}
+                    </p>
                     }
                 </div>
             </div>
