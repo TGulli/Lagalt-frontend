@@ -51,7 +51,7 @@ function Login() {
                     history.push("/")
                 } else {
                     if(jwtToken.status === 401) {
-                        if (jwtToken.message === "User blocked."){
+                        if (jwtToken.message === "Bruker er blokkert."){
                             setErrorMessage(`Du er blokkert grunnet for mange feil innloggings-forsøk. \n  Prøv igjen om ett minutt. `)
                         }else{
                             setErrorMessage("Brukeren er ikke verifisert")

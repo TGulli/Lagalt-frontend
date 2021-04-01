@@ -13,9 +13,7 @@ import {Button, ButtonGroup, Card, Nav, Tab, Tabs, ToggleButton, ToggleButtonGro
 
 
 function ProjectDetails() {
-    const [pendingCollaborators, setPendingCollaborators] = useState({
-        pendingCollaborators: []
-    })
+    const [pendingCollaborators, setPendingCollaborators] = useState([])
     const [reload, setReload] = useState(false)
     const user = useSelector(state => state.user);
     const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -84,8 +82,9 @@ function ProjectDetails() {
                     .then(response => response.json())
                     .then(jsonResponse => {
                         console.log('this totally happened')
+                        console.log(jsonResponse.message)
 
-                        if (jsonResponse !== null) {
+                        if (!jsonResponse.message) {
                             setIsPartOfProject(true)
                             setChatMessages(jsonResponse)
 
@@ -115,23 +114,12 @@ function ProjectDetails() {
     const handleCollabRequests = async () => {
         if (handleRequestsMode === false) {
 
-            // Fetche greia her.
-            // setPending på json response fra den
             let collaboratorList = await getCollaborators(projectState.id)
+            console.log('STEIKE HAN TYKJY')
+            console.log(collaboratorList)
+
             setPendingCollaborators(collaboratorList)
 
-
-            /*
-            for (let collaborator of projectState.collaborators) {
-                console.log(JSON.stringify(collaborator))
-                if (collaborator.status === "PENDING") {
-                    let userName = await fetchUser(collaborator)
-                    console.log(userName)
-                    let name = {name: userName}
-                    setPendingCollaborators(pendingCollaborators => ({pendingCollaborators: [...pendingCollaborators.pendingCollaborators, {...collaborator, ...name}]}))
-                }
-            }
-             */
             setHandleRequestsMode(true)
         } else {
             setHandleRequestsMode(false)
@@ -262,24 +250,15 @@ function ProjectDetails() {
                                                             onReload={setReload}/> : null}
                                     </div>
                                 </div>}
-                                {(hasApplied || owner) && <Button className={styles.buttonChat} type="button" onClick={() => setHasJoinedChat(true)}>Chat</Button> }
+                                {(isPartOfProject || owner) && <Button className={styles.buttonChat} type="button" onClick={() => setHasJoinedChat(true)}>Chat</Button> }
                             </Tab>
-                            {(hasApplied || owner) &&
+                            {(isPartOfProject || owner) &&
                             <Tab eventKey="messageboard" title="meldingsbord">
                                 <MessageBoard project={projectState}/>
                             </Tab>}
-                            {/*(isPartOfProject || owner) &&
-                            <Tab eventKey="chat" title="chat">
-                                <Chat chatMessages={chatMessages}
-                                      chatText={chatText}
-                                      onSendMessage={()=> sendChatMessage()}
-                                      onChange={e => handleChange(e)}
-                                      onLeave={() => leaveChat()}
-                                      user={user}/>
-                            </Tab>*/}
                         </Tabs>
                     </div>
-                    {((isPartOfProject || owner) && hasJoinedChat )&&
+                    {((isPartOfProject || owner) && hasJoinedChat) &&
                         <div className={styles.chatDiv}>
                             <Chat chatMessages={chatMessages}
                                   chatText={chatText}
@@ -289,75 +268,6 @@ function ProjectDetails() {
                                   user={user}/>
                         </div>
                     }
-
-                        {/*
-                        <Card>
-                            <Card.Body>
-                                {editMode ? <ProjectDetailsEdit project={projectState} setEditMode={setEditMode}/> :
-                                    <ProjectDetailsInfo project={projectState}/>}
-                                {!editMode &&
-                                <div className={styles.applyWrapper}>
-
-                                    {owner && <Button type="button" onClick={onEditClick}>Rediger prosjekt</Button>}
-                                    {(isLoggedIn && !hasApplied && !owner) && <Button onClick={applyClick} type="button">Forespør om å bli deltaker</Button>}
-                                </div>}
-
-                                {owner &&
-                                <div className={styles.collabContainer}>
-                                    <div>
-                                        <Button type="button" variant="secondary" onClick={handleCollabRequests}>Se søknader</Button>
-                                    </div>
-                                    <div className={styles.collaborateRequests}>
-                                        {handleRequestsMode ?
-                                            <CollabRequests pendingCollaborators={pendingCollaborators}
-                                                            onReload={setReload}/> : null}
-                                    </div>
-                                </div>}
-                            </Card.Body>
-                        </Card>
-                        <br/>
-                    </div>
-                    {(isPartOfProject || owner) &&
-                    <div className={styles.socials}>
-                        <React.Fragment>
-                            <SockJsClient url='http://localhost:8080/ws'
-                                          headers={{'Authorization': ('Bearer ' + token.token)}}
-                                          topics={['/topic/public']}
-                                          onMessage={(msg) => handleMessageReceived(msg)}
-                                          ref={(client) => {
-                                              clientRef = client;
-                                          }}
-                                          onConnect={() => {
-                                              setClientConnected(true)
-                                          }}
-                                          onDisconnect={() => {
-                                              setClientConnected(false)
-                                          }}
-                            />
-                            <Card>
-                                <Card.Header style={{textAlign: "center"}}>
-                                    {showChat ? <h3>Chat</h3> : <h3>Meldingsbord</h3>}
-                                </Card.Header>
-                                <Card.Body>
-                                    <div className={styles.toggle}>
-                                        <ToggleButtonGroup name="options" value={showChat} defaultValue='false' onChange={setValueShowChat}>
-                                            <ToggleButton type="radio" variant="secondary" value='false' className={styles.toggleButton} checked={!showChat} style={{width: "10em", marginRight: "1em"}}>Meldingsbord</ToggleButton>
-                                            <ToggleButton type="radio" variant="secondary" value='true' className={styles.toggleButton} checked={showChat} style={{width: "10em"}}>Chat</ToggleButton>
-                                        </ToggleButtonGroup>
-                                    </div>
-
-                                    {showChat &&
-                                    <Chat chatMessages={chatMessages}
-                                          chatText={chatText}
-                                          onSendMessage={()=> sendChatMessage()}
-                                          onChange={e => handleChange(e)}
-                                          onLeave={() => leaveChat()}
-                                          user={user}/>}
-                                    {!showChat && <MessageBoard project={projectState}/>}
-
-                                </Card.Body>
-                            </Card>
-                        </React.Fragment> */}
             </div> :
                 <div className={styles.contentWrapper}>
                     <div className={styles.content}>

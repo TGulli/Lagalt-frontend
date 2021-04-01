@@ -142,8 +142,8 @@ function CreateProject() {
                                    as="select"
                                    onChange={onProgressInputChange}>
                         <option value="0">Oppstart</option>
-                        <option value="1">I prosess</option>
-                        <option value="2">Holdt igjen</option>
+                        <option value="1">Under arbeid</option>
+                        <option value="2">Stoppet</option>
                     </Form.Control>
                 </Form.Group>
 

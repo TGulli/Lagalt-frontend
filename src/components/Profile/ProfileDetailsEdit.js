@@ -7,6 +7,7 @@ import {Card, Container, Button, Form} from "react-bootstrap";
 import styles from "./ProfilesDetailsEdit.module.css"
 import {updateUser} from "../../redux/actions";
 import {emailInUse, usernameInUse} from "../Register/RegisterAPI";
+import {useHistory} from "react-router-dom";
 
 function ProfileDetailsEdit({user}) {
 
@@ -22,6 +23,7 @@ function ProfileDetailsEdit({user}) {
 
     const token = useSelector(state => state.token);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const maxStringLengthBio = 1000;
     const maxStringLengthGeneral = 50;
@@ -107,6 +109,9 @@ function ProfileDetailsEdit({user}) {
         fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => {
             if (!r){
                 setErrorMessage(r.message)
+            }
+            else {
+                history.push("/")
             }
         });
     }

@@ -52,7 +52,7 @@ function CollabRequests(props) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, motivation: collaborator.motivation, user: { id: collaborator.user.id }, project: {id: collaborator.project.id}}})
+            body: JSON.stringify({id: collaborator.id, status: status, motivation: collaborator.motivation, user: { id: collaborator.user.id }, project: {id: collaborator.project.id}})
         };
         fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r =>{ if (!r){setErrorMessage(r.message)}});
         props.onReload(true)
