@@ -60,10 +60,6 @@ function Register() {
             return 'Epostadressen er ikke gyldig'
         } else if (bio.length > 1000){
             return 'Maks 1000 tegn i bio.'
-        } else if (await emailInUse(email) === true){
-            return 'Det finnes allerede en bruker med angitt epostadresse. Bruk en annen epsotadresse om du ønsker å registrere en ny bruker.'
-        } else if (await usernameInUse(username) === true){
-            return 'Brukernavnet er allerede i bruk. Registrer ny bruker med et annet brukernavn.'
         } else {
             return ''
         }
