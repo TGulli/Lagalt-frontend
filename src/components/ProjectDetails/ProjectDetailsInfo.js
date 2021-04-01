@@ -27,10 +27,11 @@ function ProjectDetailsInfo({project}) {
                        alt='project image'/>
                 <div className={styles.headerInfo}>
                     <p>Status: {loginState ? project.progress : project.partialProject.progress}</p>
-                    {loginState &&
+                    {loginState ?
                     <p>Eier: {project.owner &&
                          <NavLink to={"/userprofile/" + project.owner.id} activeClassName="selected">{project.owner.name}</NavLink>}
-                    </p>
+                    </p> :
+                        <p>Eier: {project.partialProject.owner_username}</p>
                     }
                 </div>
             </div>
