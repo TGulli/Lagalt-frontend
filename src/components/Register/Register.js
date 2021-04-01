@@ -17,6 +17,10 @@ function Register() {
     const [ bio, setBio ] = useState('')
     const [ errorMessage, setErrorMessage ] = useState('')
 
+    const maxStringLengthGeneral = 50;
+    const maxStringLengthEmail = 350;
+    const maxStringLengthBio = 1000;
+
     // RFC 5322
     const emailRegex = '(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"' +
         '(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")' +
@@ -58,8 +62,14 @@ function Register() {
             return 'Skriv inn en biografi'
         } else if (!email.match(emailRegex)){
             return 'Epostadressen er ikke gyldig'
-        } else if (bio.length > 1000){
-            return 'Maks 1000 tegn i bio.'
+        } else if (username.length > maxStringLengthGeneral){
+            return 'Maks ' + {maxStringLengthGeneral} + ' tegn i brukernavn.'
+        } else if (email.length > maxStringLengthEmail){
+            return 'Maks ' + {maxStringLengthEmail} + ' tegn i mail adresse.'
+        } else if (secret.length > maxStringLengthGeneral){
+            return 'Maks ' + {maxStringLengthGeneral} + ' tegn i passord.'
+        } else if (bio.length > maxStringLengthBio){
+            return 'Maks ' + {maxStringLengthBio} + ' tegn i biografi.'
         } else {
             return ''
         }
@@ -81,9 +91,12 @@ function Register() {
 
             fetch('http://localhost:8080/api/v1/public/register', requestOptions)
                 .then(r => r.json())
-                .then( (registeredUser) => {
-                    console.log(registeredUser)
-                    history.push('/login')
+                .then( (jsonResponse) => {
+                    if (jsonResponse){
+                        history.push('/login')
+                    } else{
+                        setErrorMessage(jsonResponse.message)
+                    }
                 } );
         } else{
             setErrorMessage(message)

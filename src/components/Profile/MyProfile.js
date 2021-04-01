@@ -20,6 +20,7 @@ function MyProfile() {
     const loginState = useSelector(state => state.isLoggedIn)
     const token = useSelector(state => state.token)
     const [editMode, setEditMode] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
     const history = useHistory()
     const dispatch = useDispatch()
 
@@ -41,13 +42,15 @@ function MyProfile() {
             await fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
-                    //history.push("/")
-                    //dispatch(logOut())
+                    if (jsonResponse){
+                        dispatch(logOut())
+                        history.push("/")
+                    } else {
+                        setErrorMessage(jsonResponse.message)
+                    }
                 })
         }
         await deleteUser()
-        dispatch(logOut())
-        history.push("/")
     }
 
     console.log(user)
@@ -72,6 +75,7 @@ function MyProfile() {
             <div className={styles.deleteButton}>
                 <Button type="button" variant="secondary" onClick={onDeleteClick}>Slett bruker</Button>
             </div>
+            <p style={{color: "red"}}>{errorMessage}</p>
         </Container>
     );
 }

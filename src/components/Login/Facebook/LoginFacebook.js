@@ -10,18 +10,19 @@ function LoginFacebook() {
     const history = useHistory();
 
     const dispatch = useDispatch()
+    const [errorMessage, setErrorMessage] = useState('')
 
     const responseFacebook = (response) => {
         if (response.accessToken) {
-            fetch('http://localhost:8080/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'}) // Todo Use requestbody instead of pathvariable?
+            fetch('http://localhost:8080/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'})
                 .then(r => r.json())
                 .then(jwtToken => {
-                    if (jwtToken != null) {
+                    if (jwtToken) {
                         dispatch(logIn(jwtToken.user, jwtToken.token))
                         history.push("/")
                     }
                     else {
-                        alert('Token not authenticated')
+                        setErrorMessage(jwtToken.message)
                     }
                 });
         }
@@ -29,14 +30,13 @@ function LoginFacebook() {
 
     return (
         <div>
-            <div>
-                <FacebookLogin
-                    appId="261998892218369"
-                    fields="name,email,picture"
-                    scope="public_profile,user_friends,email"
-                    callback={responseFacebook}
-                    icon="fa-facebook"/>
-            </div>
+            <FacebookLogin
+                appId="261998892218369"
+                fields="name,email,picture"
+                scope="public_profile,user_friends,email"
+                callback={responseFacebook}
+                icon="fa-facebook"/>
+                <p style={{color: "red"}}>{errorMessage}</p>
         </div>
     );
 }

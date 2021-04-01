@@ -26,6 +26,7 @@ function Main() {
     const [projectsState, setProjectsState] = useState([{}])
     const [filteredState, setFilteredState] = useState([{}])
     const [tempText, setTempText] = useState('Velg kategori')
+    const [errorMessage, setErrorMessage] = useState('')
 
     // Might refactor
     const [totalPages, setTotalPages] = useState(0);
@@ -38,11 +39,15 @@ function Main() {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await fetchData(pageNr);
-            console.log(response);
-            setTotalPages(response.totalPages)
-            setProjectsState(response.content)
-            setFilteredState(response.content)
-            console.log(response)
+            if (response){
+                console.log(response);
+                setTotalPages(response.totalPages)
+                setProjectsState(response.content)
+                setFilteredState(response.content)
+                console.log(response)
+            } else{
+                setErrorMessage(response.message)
+            }
         }
         fetchFromApi()
         if (isLoggedIn){
@@ -58,6 +63,9 @@ function Main() {
         await fetch("http://localhost:8080/api/v1/public/projects")
             .then(response => response.json())
             .then((jsonResponse) => {
+                if (!jsonResponse){
+                    setErrorMessage(jsonResponse.message)
+                }
                 jsonResponse = jsonResponse.filter((obj) =>
                     obj.name.toLowerCase().includes(searchState.toLowerCase())
                 )
@@ -99,8 +107,12 @@ function Main() {
         console.log("pageNr " + pageNr)
         if (pageNr < totalPages - 1) {
             let response = await fetchData(pageNr + 1);
-            setPageNr(pageNr + 1)
-            setFilteredState(response.content);
+            if (!response){
+                setErrorMessage(response.message)
+            } else {
+                setPageNr(pageNr + 1)
+                setFilteredState(response.content);
+            }
         }
     }
 
@@ -108,14 +120,19 @@ function Main() {
         console.log("pageNr " + pageNr)
         if (pageNr > 0) {
             let response = await fetchData(pageNr - 1);
-            setPageNr(pageNr - 1)
-            setFilteredState(response.content);
+            if (!response){
+                setErrorMessage(response.message)
+            } else {
+                setPageNr(pageNr - 1)
+                setFilteredState(response.content);
+            }
         }
     }
 
     return (
         <div>
             <div className={styles.container}>
+                <p style={{color: "red"}}>{errorMessage}</p>
                 <fieldset>
                     <InputGroup className="mb-3">
                         <FormControl
@@ -154,10 +171,6 @@ function Main() {
                 {(pageNr < totalPages - 1) && <Button type="button" onClick={onNextClick}>NEXT</Button>}
 
             </div>
-            <div>
-
-            </div>
-
         </div>
     );
 }

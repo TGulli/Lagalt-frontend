@@ -26,6 +26,7 @@ function CreateProject() {
     const [skillList, setSkillList] = useState([])
     // Brukes for auto suggest box
     const [value, setValue] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [suggestions, setSuggestions] = useState(uniqueTags)
 
     console.log('CreateProject: ' + token)
@@ -34,8 +35,12 @@ function CreateProject() {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
-            setUniqueTags(response.toString().split(','))
-            console.log(response.toString().split(','))
+            if (!token){
+                setErrorMessage(token.message)
+            } else{
+                setUniqueTags(response.toString().split(','))
+                console.log(response.toString().split(','))
+            }
         }
         fetchFromApi()
     }, []);
@@ -96,7 +101,11 @@ function CreateProject() {
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owner: { id: user.id }})
         };
         await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(r => {
-            history.push("/")
+            if (r){
+                history.push("/")
+            } else{
+                setErrorMessage(r.message)
+            }
         });
     }
 
@@ -205,6 +214,7 @@ function CreateProject() {
                         onClick={onButtonClick}>
                     Opprett
                 </Button>
+                <p style={{color : "red"}}>{errorMessage}</p>
             </Form>
         </div>
     );

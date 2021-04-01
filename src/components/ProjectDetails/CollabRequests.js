@@ -10,6 +10,7 @@ function CollabRequests(props) {
     const token = useSelector(state => state.token)
 
     const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const target = useRef(null);
 
     function getUserId(user) {
@@ -53,7 +54,7 @@ function CollabRequests(props) {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, motivation: collaborator.motivation, user: { id: collaborator.user.id }, project: {id: collaborator.project.id}}})
         };
-        fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r => console.log(r));
+        fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r =>{ if (!r){setErrorMessage(r.message)}});
         props.onReload(true)
         let index = props.pendingCollaborators.indexOf(collaborator)
         props.pendingCollaborators.splice(index, 1)
@@ -83,6 +84,7 @@ function CollabRequests(props) {
                         <Button type="button" variant="outline-danger" onClick={() => handleApproveDecline(collaborator, 2)}>Avslå</Button>
                     </div>
                 </div>))}
+                <p style={{color: "red"}}>{errorMessage}</p>
         </div>
     );
 }
