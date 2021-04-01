@@ -242,9 +242,9 @@ function ProjectDetails() {
                                                             onReload={setReload}/> : null}
                                     </div>
                                 </div>}
-                                {(isPartOfProject || owner) && <Button className={styles.buttonChat} type="button" onClick={() => setHasJoinedChat(true)}>Chat</Button> }
+                                {(hasApplied || owner) && <Button className={styles.buttonChat} type="button" onClick={() => setHasJoinedChat(true)}>Chat</Button> }
                             </Tab>
-                            {(isPartOfProject || owner) &&
+                            {(hasApplied || owner) &&
                             <Tab eventKey="messageboard" title="meldingsbord">
                                 <MessageBoard project={projectState}/>
                             </Tab>}

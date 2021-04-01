@@ -35,7 +35,11 @@ function ProjectDetailsEdit({project, setEditMode}) {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
-            setUniqueTags(response.toString().split(','))
+            if (response){
+                setUniqueTags(response.toString().split(','))
+            } else {
+                setErrorMessage(response.message)
+            }
             console.log(response.toString().split(','))
         }
         fetchFromApi()
@@ -114,7 +118,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owners: ownerArray })})
         };
-        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => {if (!r.ok) setErrorMessage(r.message)});
+        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => {if (!r) setErrorMessage(r.message)});
         setEditMode(false)
     }
 

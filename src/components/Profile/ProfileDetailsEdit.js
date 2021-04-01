@@ -30,7 +30,11 @@ function ProfileDetailsEdit({user}) {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
-            setUniqueTags(response.toString().split(','))
+            if (response){
+                setUniqueTags(response.toString().split(','))
+            } else {
+                setErrorMessage(response.message)
+            }
             console.log(response.toString().split(','))
         }
         fetchFromApi()

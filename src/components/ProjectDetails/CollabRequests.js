@@ -40,7 +40,7 @@ function CollabRequests(props) {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({user: {id: owner.id}, projectCollaborators: {id: collaborator.id, status: status, motivation: collaborator.motivation, user: { id: collaborator.user }, project: {id: collaborator.project}}})
         };
-        fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r =>{ if (!r.ok){setErrorMessage(r.message)}});
+        fetch(`http://localhost:8080/api/v1/project/collaborators/${collaborator.id}`, requestOptions).then(r =>{ if (!r){setErrorMessage(r.message)}});
         props.onReload(true)
         let index = props.pendingCollaborators.pendingCollaborators.indexOf(collaborator)
         props.pendingCollaborators.pendingCollaborators.splice(index, 1)
