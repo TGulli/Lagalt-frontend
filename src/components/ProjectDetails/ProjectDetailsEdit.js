@@ -17,11 +17,11 @@ function ProjectDetailsEdit({project, setEditMode}) {
 
     
     const user = useSelector(state => state.user)
-    const [name, setName] = useState(project.name)
-    const [progress, setProgress] = useState(project.progress)
-    const [description, setDescription] = useState(project.description)
-    const [category, setCategory] = useState(project.category)
-    const [image, setImage] = useState(project.image)
+    const [name, setName] = useState("")
+    const [progress, setProgress] = useState(0)
+    const [description, setDescription] = useState("")
+    const [category, setCategory] = useState("")
+    const [image, setImage] = useState("")
 
     const token = useSelector(state => state.token);
     const history = useHistory()
@@ -63,9 +63,6 @@ function ProjectDetailsEdit({project, setEditMode}) {
 
     //********************** AUTO SUGGEST LOGIC END ******************************
 
-    const onNameInputChange = e => {
-        setName(e.target.value)
-    }
 
     const onDescriptionInputChange = e => {
         setDescription(e.target.value)
@@ -107,9 +104,10 @@ function ProjectDetailsEdit({project, setEditMode}) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            body: JSON.stringify({user: {id: user.id}, project: ({id: project.id, name: name, description: description, category: category, progress: progress, image: image, projectTags: tagArray, owner: {id: user.id}})})
+            //description: description, category: category, progress: progress, image: image, projectTags: tagArray}
+            body: JSON.stringify({description: description, category: category, image: image, progress: progress, projectTags: tagArray} )
         };
-        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
+        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r.message));
         setEditMode(false)
     }
 
@@ -117,10 +115,6 @@ function ProjectDetailsEdit({project, setEditMode}) {
         <div className={styles.editWrapper} style={{textAlign: "left"}}>
             <h3 style={{textAlign: "center"}}>Rediger</h3>
             <br/>
-            <fieldset>
-                <label className={styles.labels} htmlFor="nameEdit">Endre navn</label>
-                <input className={styles.inputfield} id="nameEdit" type="text" onChange={onNameInputChange} placeholder={project.name}/>
-            </fieldset>
             <fieldset>
                 <label className={styles.labels} htmlFor="progressEdit">Endre progresjon</label>
                 <select className={styles.inputfield} name="progressEdit" onChange={e => handleSelectChange(e)}>
