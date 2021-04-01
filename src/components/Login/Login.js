@@ -52,7 +52,11 @@ function Login() {
                     history.push("/")
                 } else {
                     if(jwtToken.status === 401) {
-                        setErrorMessage("Brukeren er ikke verifisert")
+                        if (jwtToken.message === "User blocked."){
+                            setErrorMessage(`Du er blokkert grunnet for mange feil innloggings-forsøk. \n  Prøv igjen om ett minutt. `)
+                        }else{
+                            setErrorMessage("Brukeren er ikke verifisert")
+                        }
                     }
                     else {
                         setErrorMessage("Ugyldig brukernavn eller passord.")
