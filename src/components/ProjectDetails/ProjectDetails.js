@@ -82,9 +82,9 @@ function ProjectDetails() {
                     .then(response => response.json())
                     .then(jsonResponse => {
                         console.log('this totally happened')
-                        console.log(jsonResponse.message)
+                        console.log(jsonResponse)
 
-                        if (!jsonResponse.message) {
+                        if (jsonResponse.status !== 400) {
                             setIsPartOfProject(true)
                             setChatMessages(jsonResponse)
 
