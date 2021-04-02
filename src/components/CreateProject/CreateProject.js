@@ -100,13 +100,16 @@ function CreateProject() {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owner: { id: user.id }})
         };
-        await fetch('https://lagalt-service.herokuapp.com/api/v1/projects', requestOptions).then(r => {
-            if (r){
-                history.push("/")
-            } else{
-                setErrorMessage(r.message)
+        await fetch('https://lagalt-service.herokuapp.com/api/v1/projects', requestOptions).then(response => response.json())
+            .then((data) => {
+                if (data.status === 201){
+                    history.push("/")
+                }
+                else {
+                    setErrorMessage(data.message)
+                }
             }
-        });
+        );
     }
 
 
