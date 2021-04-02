@@ -1,6 +1,7 @@
 import {LOG_IN, LOG_OUT, UPDATE_USER, LOADING} from "./actionTypes"
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
 import {useDispatch, useSelector} from "react-redux";
+
 export const logIn = (user, token) => ({
     type: LOG_IN,
     payload: {
