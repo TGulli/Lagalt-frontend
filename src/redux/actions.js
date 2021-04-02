@@ -11,7 +11,6 @@ export const logIn = (user, token) => ({
     }
 });
 
-//
 export const logOut = () => ({
     type: LOG_OUT,
     payload: {
