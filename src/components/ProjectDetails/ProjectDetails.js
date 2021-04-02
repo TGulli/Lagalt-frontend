@@ -39,7 +39,7 @@ function ProjectDetails() {
     useEffect(() => {
         async function fetchData() {
             if (isLoggedIn) {
-            await fetch(`http://localhost:8080/api/v1/projects/${id}`, {
+            await fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/${id}`, {
                 method: 'GET',
                 headers: {'Authorization': 'Bearer ' + token.token}
             })
@@ -58,7 +58,7 @@ function ProjectDetails() {
                     })
             }
             else {
-                await fetch(`http://localhost:8080/api/v1/public/projects/${id}`, {
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/${id}`, {
                     method: 'GET',
                 })
                     .then(response => response.json())
@@ -78,7 +78,7 @@ function ProjectDetails() {
     useEffect(() => {
         async function getMessages() {
             if (isLoggedIn) {
-                await fetch(`http://localhost:8080/api/v1/chatmessages/project/${id}/user/${user.id}`, {headers: {'Authorization': ('Bearer ' + token.token)}})
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/chatmessages/project/${id}/user/${user.id}`, {headers: {'Authorization': ('Bearer ' + token.token)}})
                     .then(response => response.json())
                     .then(jsonResponse => {
                         console.log('this totally happened')
@@ -136,7 +136,7 @@ function ProjectDetails() {
         const requestOptions = {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        return await fetch(`http://localhost:8080/api/v1/project/${id}/collaborators/`, requestOptions)
+        return await fetch(`https://lagalt-service.herokuapp.com/api/v1/project/${id}/collaborators/`, requestOptions)
             .then(responseObj => responseObj.json())
             .then(jsonResponse => jsonResponse)
     }
@@ -146,7 +146,7 @@ function ProjectDetails() {
         const requestOptions = {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        return await fetch(`http://localhost:8080/api/v1/users/${collaborator.user}`, requestOptions)
+        return await fetch(`https://lagalt-service.herokuapp.com/api/v1/users/${collaborator.user}`, requestOptions)
             .then(responseObj => responseObj.json())
             .then(jsonResponse => jsonResponse.name)
     }
@@ -215,7 +215,7 @@ function ProjectDetails() {
             {isLoggedIn ?
                 <div className={styles.contentWrapper}>
                     {(isPartOfProject || owner) &&
-                    <SockJsClient url='http://localhost:8080/ws'
+                    <SockJsClient url='https://lagalt-service.herokuapp.com/ws'
                                   headers={{'Authorization': ('Bearer ' + token.token)}}
                                   topics={['/topic/public']}
                                   onMessage={(msg) => handleMessageReceived(msg)}

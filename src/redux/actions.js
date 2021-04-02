@@ -31,7 +31,7 @@ export function updateUser(userId, token) {
             method: 'GET',
             headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token}
         }
-        await fetch(`http://localhost:8080/api/v1/users/${userId}`, requestOptions )
+        await fetch(`https://lagalt-service.herokuapp.com/api/v1/users/${userId}`, requestOptions )
             .then(response => response.json())
                 .then(data => {
                     console.log("data")

@@ -60,7 +60,7 @@ function Main() {
     }
 
     const search = async () => {
-        await fetch("http://localhost:8080/api/v1/public/projects")
+        await fetch("https://lagalt-service.herokuapp.com/api/v1/public/projects")
             .then(response => response.json())
             .then((jsonResponse) => {
                 if (!jsonResponse){

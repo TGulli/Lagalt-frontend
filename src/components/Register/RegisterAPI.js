@@ -6,7 +6,7 @@ export async function usernameInUse(username) {
         }
     }
 
-    return await fetch(`http://localhost:8080/api/v1/public/users/username/${username}`, requestOptions)
+    return await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/users/username/${username}`, requestOptions)
         .then(response => { return response.json()})
 }
 
@@ -18,6 +18,6 @@ export async function emailInUse(email) {
         }
     }
 
-    return await fetch(`http://localhost:8080/api/v1/public/users/email/${email}`, requestOptions)
+    return await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/users/email/${email}`, requestOptions)
         .then(response => { return response.json()})
 }

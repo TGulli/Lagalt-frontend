@@ -89,7 +89,7 @@ function Register() {
                 body: JSON.stringify({ username: username, name:name, bio:bio, secret: secret, email:email,  hidden: false})
             };
 
-            fetch('http://localhost:8080/api/v1/public/register', requestOptions)
+            fetch('https://lagalt-service.herokuapp.com/api/v1/public/register', requestOptions)
                 .then(r => r.json())
                 .then( (jsonResponse) => {
                     if (jsonResponse){

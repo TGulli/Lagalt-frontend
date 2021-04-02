@@ -34,7 +34,7 @@ function CreateApplication() {
                 headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
                 body: JSON.stringify({user: {id: userId}, project: {id: project.id}, status: 0, motivation: motivationalText})
             };
-            fetch('http://localhost:8080/api/v1/project/collaborators', requestOptions).then(r => {
+            fetch('https://lagalt-service.herokuapp.com/api/v1/project/collaborators', requestOptions).then(r => {
                 console.log(r)
                 if (!r){
                     setErrorMessage(r.message)

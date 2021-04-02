@@ -7,6 +7,6 @@ export async function fetchData(pageNr) {
         }
     }
 
-    return await fetch(`http://localhost:8080/api/v1/public/projects/show/${pageNr}`, requestOptions)
+    return await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/show/${pageNr}`, requestOptions)
         .then(response => { return response.json()})
 }

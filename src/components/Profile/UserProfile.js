@@ -33,7 +33,7 @@ function UserProfile() {
         async function fetchData() {
 
             const requestOptions = loginState? {method: 'GET', headers: {'Authorization': ('Bearer ' + token.token)}} : {method: 'GET'}
-            const url = loginState ? `http://localhost:8080/api/v1/users/${id}` : `http://localhost:8080/api/v1/public/users/${id}`;
+            const url = loginState ? `https://lagalt-service.herokuapp.com/api/v1/users/${id}` : `https://lagalt-service.herokuapp.com/api/v1/public/users/${id}`;
 
             await fetch(url, requestOptions)
                 .then(response => response.json())
