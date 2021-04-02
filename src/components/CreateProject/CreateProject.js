@@ -21,7 +21,7 @@ function CreateProject() {
     const [description, setDescription] = useState('')
     const [progress, setProgress] = useState(0)
     const [image, setImage] = useState('')
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('Musikk')
     const [uniqueTags, setUniqueTags] = useState([])
     const [skillList, setSkillList] = useState([])
     // Brukes for auto suggest box
@@ -102,7 +102,7 @@ function CreateProject() {
         };
         await fetch('https://lagalt-service.herokuapp.com/api/v1/projects', requestOptions).then(response => response.json())
             .then((data) => {
-                if (data.status === 201){
+                if (!data.message){
                     history.push("/")
                 }
                 else {
@@ -117,18 +117,18 @@ function CreateProject() {
     return (
         <div className="App">
             <Form className="form-cp">
-                <h1 className="h1-cp">Oprett et prosjekt</h1>
+                <h1 className="h1-cp">Opprett et prosjekt</h1>
                 <Form.Group className="form-group-cp" controlId="projectName">
-                    <Form.Label className="form-label-cp">Prosjektets tittel</Form.Label>
+                    <Form.Label className="form-label-cp">Prosjekt tittel *</Form.Label>
                     <Form.Control className="form-control-cp"
                                   type="text"
-                                  placeholder="Skriv inn prosjektets tittel"
+                                  placeholder="Skriv inn prosjekt tittel"
                                   onChange={onNameInputChange}
                     />
                 </Form.Group>
 
                 <Form.Group className="form-group-cp" controlId="projectCategory">
-                    <Form.Label className="form-label-cp">Velg kategori</Form.Label>
+                    <Form.Label className="form-label-cp">Velg kategori *</Form.Label>
                     <Form.Control  className="form-control-cp"
                                    as="select"
                                    onChange={onCategoryInputChange}>
@@ -140,7 +140,7 @@ function CreateProject() {
                 </Form.Group>
 
                 <Form.Group className="form-group-cp" controlId="projectProgress">
-                    <Form.Label className="form-label-cp">Velg prosjektets progresjons-status</Form.Label>
+                    <Form.Label className="form-label-cp">Velg prosjektets progresjons-status *</Form.Label>
                     <Form.Control  className="form-control-cp"
                                    as="select"
                                    onChange={onProgressInputChange}>

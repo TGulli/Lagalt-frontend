@@ -46,6 +46,8 @@ function Login() {
             .then(r => r.json())
             .then((jwtToken) => {
 
+                console.log(jwtToken)
+
                 if (jwtToken.user){
                     dispatch(logIn(jwtToken.user, jwtToken.token))
                     history.push("/")
