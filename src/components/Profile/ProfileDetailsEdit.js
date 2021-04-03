@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {Card, Container, Button, Form} from "react-bootstrap";
 import styles from "./ProfilesDetailsEdit.module.css"
 import {updateUser} from "../../redux/actions";
-import {emailInUse, usernameInUse} from "../Register/RegisterAPI";
 import {useHistory} from "react-router-dom";
 
 function ProfileDetailsEdit({user}) {
@@ -32,7 +31,7 @@ function ProfileDetailsEdit({user}) {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
-            if (response){
+            if (!response.message){
                 setUniqueTags(response.toString().split(','))
             } else {
                 setErrorMessage(response.message)

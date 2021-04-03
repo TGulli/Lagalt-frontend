@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# LagAlt - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is the frontend part of the lagalt web page, which is connected to a backend server with a REST API. The front end part is made with React and Javascript, and are using bootstrap for a nice look.
 
-## Available Scripts
+## Team members
+- Camilla Felin
+- Thea Thodesen
+- Bjørnar Pedersen
+- Thomas Gulli
 
-In the project directory, you can run:
+## Heroku page
 
-### `npm start`
+https://lagalt2021.herokuapp.com/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## About the lagalt web page
+The lagalt page shows a list of projects, that users has created.
+A project can be a Music, Film, Game development or Web development project. If a user want to create a project, the user must log in. Either with facebook, Google or create a custom user for this page.
+Each project can have members, and all members of a project can see a message board in the project, and also a live chat that correspondence immediately.
+If a user want to be a member of another project, the user must send a request to the owner of the project.
+A user and a project can be edited after creating. Users and projects can also bee deleted.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Functionality
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Main page
+The main page shows the projects stored in the database. The main page shows name, owner, category, tags, and status for all projects.
+The user can search for a project at the top, and also filter the projects based on category. When clicking on a project, it redirects to the Project details page.
 
-### `npm run build`
+The main page also have a create project button for creating new projectsm and a login/ logout button in the top right corner.
+If logged in, the user can click on its username for seeing the user page.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If a user is logged in, it is a banner on the project picture for all the project that the user does not own self.
+The banner is red, if it is not qualified, red if qualified and yellow if some qualified. If a user is qualified or not, is based on how many tags the user and the project has in common.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Login page
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The login page has three different supported solutions for logging in to the system. Facebook, Google or log in with a custom user for the project only.
+If the user using facebook or Google, it sends the accesstoken from Facebook/ Google to the backend, and the backend finds/ creates a user based on the information form Facebook/ Google.
+If a user already exist with the email, it will log in with the existing user. If not, the backend will make a new user in our system based on the information from Facebook/ Google.
 
-### `npm run eject`
+If a user want to create an account for this project only, it has to register the user at the register page. 
+Then the user get an email, with an authentication link that has to be verified before log in. 
+If the user has wrong password/ username, the ip address will be blocked for 1 minute.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Register page
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The register page, is a page for register a new user. If some data is not filled out, the user will get message about that, and can not create a user before all the fields are field out correctly. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Project detail page
 
-## Learn More
+The project detail page shows information about the project.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If the user is logged in, and is a collaborator or the owner, it can see the massage board and the chat.
+If the user is the owner of the project, the user can edit the project, and apply or deny collaborator requests to the project.
+If the user is not a collaborator or the owner, but logged in, the user can ask to be a collaborator for the project.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Create new project page
+This page is only available if logged in. Then a user can create a new project here.
 
-### Code Splitting
+## Technologies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- React
+- Redux
+- SockJsClient
 
-### Analyzing the Bundle Size
+## Motivation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This project was made as a case assignment during the Experis Academy Java Fullstack course.
 
-### Making a Progressive Web App
+## Project tree
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Credits
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Thanks to our mentor Steven James Delton for great guidance and discussions.

@@ -23,7 +23,7 @@ function ProjectDetails() {
     const [handleRequestsMode, setHandleRequestsMode] = useState(false)
     const [hasApplied, setHasApplied] = useState(false)
     const [owner, setOwner] = useState(false);
-    const [message, setMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [hasJoinedChat, setHasJoinedChat] = useState(false)
     const [chatText, setChatText] = useState('')
     const [chatMessages, setChatMessages] = useState([])
@@ -45,16 +45,19 @@ function ProjectDetails() {
             })
                 .then(response => response.json())
                 .then((jsonResponse) => {
-                    setProjectState(jsonResponse);
+                    if (jsonResponse.message){
+                        setErrorMessage(jsonResponse.message)
+                    } else{
+                        setProjectState(jsonResponse);
 
-                    if (jsonResponse.owner.id === user.id) setOwner(true);
+                        if (jsonResponse.owner.id === user.id) setOwner(true);
 
-                    //Check if applicant
-                    console.log("jsonresponse: " + JSON.stringify(jsonResponse))
-                    for (let projectApplicant of jsonResponse.collaborators) {
-                        if (projectApplicant.user === user.id) setHasApplied(true);
+                        //Check if applicant
+                        console.log("jsonresponse: " + JSON.stringify(jsonResponse))
+                        for (let projectApplicant of jsonResponse.collaborators) {
+                            if (projectApplicant.user === user.id) setHasApplied(true);
+                        }
                     }
-
                     })
             }
             else {
@@ -274,6 +277,7 @@ function ProjectDetails() {
                         { projectState && <ProjectDetailsInfo project={projectState} />}
                     </div>
                 </div>}
+                <p style={{color : "red"}}>{errorMessage}</p>
         </div>
     );
 }

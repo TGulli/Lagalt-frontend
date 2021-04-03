@@ -4,7 +4,6 @@ import {useDispatch} from "react-redux";
 import {logIn} from "../../redux/actions";
 import { Button, Form, Card } from 'react-bootstrap';
 import styles from "./Register.module.css"
-import { usernameInUse, emailInUse } from "./RegisterAPI";
 
 
 function Register() {
@@ -92,7 +91,7 @@ function Register() {
             fetch('https://lagalt-service.herokuapp.com/api/v1/public/register', requestOptions)
                 .then(r => r.json())
                 .then( (jsonResponse) => {
-                    if (jsonResponse){
+                    if (!jsonResponse.message){
                         history.push('/login')
                     } else{
                         setErrorMessage(jsonResponse.message)

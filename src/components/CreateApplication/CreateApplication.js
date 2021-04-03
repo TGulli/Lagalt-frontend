@@ -34,10 +34,11 @@ function CreateApplication() {
                 headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
                 body: JSON.stringify({user: {id: userId}, project: {id: project.id}, status: 0, motivation: motivationalText})
             };
-            fetch('https://lagalt-service.herokuapp.com/api/v1/project/collaborators', requestOptions).then(r => {
-                console.log(r)
-                if (!r){
-                    setErrorMessage(r.message)
+            fetch('https://lagalt-service.herokuapp.com/api/v1/project/collaborators', requestOptions)
+                .then(r => r.json())
+                .then((jwtToken) =>{
+                if (jwtToken.message){
+                    setErrorMessage(jwtToken.message)
                 }
             });
             history.push('/projectdetails/' + project.id.toString())

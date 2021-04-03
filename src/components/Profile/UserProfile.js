@@ -10,6 +10,7 @@ import TagList from "../shared/TagList";
 function UserProfile() {
 
     const [userState, setUserState] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [loadedUser, setLoadedUser] = useState(false);
     const loginState = useSelector(state => state.isLoggedIn);
     const token = useSelector(state => state.token);
@@ -38,10 +39,14 @@ function UserProfile() {
             await fetch(url, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
-                    setUserState(jsonResponse);
-                    console.log('HALLO HER Æ E')
-                    console.log(JSON.stringify(jsonResponse))
-                    setLoadedUser(true)
+                    if (jsonResponse.message){
+                        setErrorMessage(jsonResponse.message)
+                    } else{
+                        setUserState(jsonResponse);
+                        console.log('HALLO HER Æ E')
+                        console.log(JSON.stringify(jsonResponse))
+                        setLoadedUser(true)
+                    }
                 })
         }
         fetchData();
@@ -63,6 +68,7 @@ function UserProfile() {
             </div>
         }
         </div>
+        <p style={{color : "red"}}>{errorMessage}</p>
         </Container>
 
     );
