@@ -12,6 +12,8 @@ import {Button, Form, FormControl, Nav, Navbar} from "react-bootstrap";
 import {useSelector, useDispatch} from "react-redux";
 import {logOut} from "./redux/actions";
 import {NavLink} from "react-router-dom";
+import PublicRoute from "./hoc/PublicRoute"
+import PrivateRoute from "./hoc/PrivateRoute"
 
 
 /**
@@ -54,14 +56,15 @@ function App() {
             </Navbar>
 
             <Switch>
-                <Route exact path="/" component={Main}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/myprofile" component={MyProfile}/>
-                <Route path="/userprofile/:id" component={UserProfile}/>
-                <Route path="/register" component={Register}/>
-                <Route path="/projectdetails/:id" component={ProjectDetails}/>
-                <Route path="/project/create" component={CreateProject}/>
-                <Route path="/project/application/" component={CreateApplication}/>
+                <PublicRoute exact path="/" component={Main}/>
+                <PublicRoute path="/login" component={Login}/>
+                <PrivateRoute path="/myprofile" component={MyProfile}/>
+                <PublicRoute path="/userprofile/:id" component={UserProfile}/>
+                <PublicRoute path="/register" component={Register}/>
+                <PublicRoute path="/projectdetails/:id" component={ProjectDetails}/>
+                <PrivateRoute path="/project/create" component={CreateProject}/>
+                <PrivateRoute path="/project/application/" component={CreateApplication}/>
+                <PublicRoute path="*" component={Main}/>
             </Switch>
 
         </BrowserRouter>
