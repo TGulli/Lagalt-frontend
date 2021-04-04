@@ -8,9 +8,6 @@ import {Button, Card, Form} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import TagList from "../shared/TagList";
 
-/**
- * TODO: INPUT VALIDATION
- */
 
 
 function ProjectDetailsEdit({project, setEditMode}) {
@@ -35,7 +32,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
-            if (response){
+            if (!response.message){
                 setUniqueTags(response.toString().split(','))
             } else {
                 setErrorMessage(response.message)
@@ -90,7 +87,9 @@ function ProjectDetailsEdit({project, setEditMode}) {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/${project.id}`, requestOptions).then(r => console.log(r));
+        fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/${project.id}`, requestOptions)
+            .then(r => r.json())
+            .then((jwtToken) => { setErrorMessage(jwtToken.message)});
         history.push("/")
     }
 

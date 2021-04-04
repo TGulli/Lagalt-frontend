@@ -10,6 +10,7 @@ import TagList from "../shared/TagList";
 function UserProfile() {
 
     const [userState, setUserState] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [loadedUser, setLoadedUser] = useState(false);
     const loginState = useSelector(state => state.isLoggedIn);
     const token = useSelector(state => state.token);

@@ -23,7 +23,7 @@ function ProjectDetails() {
     const [handleRequestsMode, setHandleRequestsMode] = useState(false)
     const [hasApplied, setHasApplied] = useState(false)
     const [owner, setOwner] = useState(false);
-    const [message, setMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [hasJoinedChat, setHasJoinedChat] = useState(false)
     const [chatText, setChatText] = useState('')
     const [chatMessages, setChatMessages] = useState([])
@@ -60,7 +60,6 @@ function ProjectDetails() {
                     for (let projectApplicant of jsonResponse.collaborators) {
                         if (projectApplicant.user === user.id) setHasApplied(true);
                     }
-
                     })
             }
             else {
@@ -124,7 +123,6 @@ function ProjectDetails() {
         if (handleRequestsMode === false) {
 
             let collaboratorList = await getCollaborators(projectState.id)
-            console.log('STEIKE HAN TYKJY')
             console.log(collaboratorList)
 
             setPendingCollaborators(collaboratorList)

@@ -42,7 +42,7 @@ function MyProfile() {
             await fetch(`https://lagalt-service.herokuapp.com/api/v1/users/${user.id}`, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
-                    if (jsonResponse){
+                    if (!jsonResponse.message){
                         dispatch(logOut())
                         history.push("/")
                     } else {

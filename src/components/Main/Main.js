@@ -39,7 +39,7 @@ function Main() {
     useEffect(() => {
         async function fetchFromApi() {
             let response = isLoggedIn? await fetchLoginData(pageNr, token) : await fetchData(pageNr)
-            if (response){
+            if (!response.message){
                 console.log('SJÅ HER!')
                 console.log(response);
                 setTotalPages(response.totalPages)
@@ -64,14 +64,15 @@ function Main() {
         await fetch("https://lagalt-service.herokuapp.com/api/v1/public/projects")
             .then(response => response.json())
             .then((jsonResponse) => {
-                if (!jsonResponse){
+                if (jsonResponse.message){
                     setErrorMessage(jsonResponse.message)
+                } else{
+                    jsonResponse = jsonResponse.filter((obj) =>
+                        obj.name.toLowerCase().includes(searchState.toLowerCase())
+                    )
+                    setProjectsState(jsonResponse)
+                    setFilteredState(jsonResponse)
                 }
-                jsonResponse = jsonResponse.filter((obj) =>
-                    obj.name.toLowerCase().includes(searchState.toLowerCase())
-                )
-                setProjectsState(jsonResponse)
-                setFilteredState(jsonResponse)
             })
     }
 

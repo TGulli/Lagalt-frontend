@@ -35,7 +35,7 @@ function CreateProject() {
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
-            if (!token){
+            if (token.message){
                 setErrorMessage(token.message)
             } else{
                 setUniqueTags(response.toString().split(','))
