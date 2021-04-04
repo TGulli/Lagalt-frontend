@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {logOut, updateUser} from "../../redux/actions";
-import {fetchData} from "./MainAPI";
+import {fetchData, fetchLoginData} from "./MainAPI";
 import TagList from "../shared/TagList";
 import {Button, InputGroup, FormControl, Dropdown} from "react-bootstrap";
 import styles from './Main.module.css'
@@ -38,8 +38,9 @@ function Main() {
 
     useEffect(() => {
         async function fetchFromApi() {
-            let response = await fetchData(pageNr);
+            let response = isLoggedIn? await fetchLoginData(pageNr, token) : await fetchData(pageNr)
             if (response){
+                console.log('SJÅ HER!')
                 console.log(response);
                 setTotalPages(response.totalPages)
                 setProjectsState(response.content)
@@ -106,7 +107,7 @@ function Main() {
     const onNextClick = async () => {
         console.log("pageNr " + pageNr)
         if (pageNr < totalPages - 1) {
-            let response = await fetchData(pageNr + 1);
+            let response = isLoggedIn? await fetchLoginData(pageNr + 1, token) : await fetchData(pageNr + 1);
             if (!response){
                 setErrorMessage(response.message)
             } else {
@@ -119,7 +120,7 @@ function Main() {
     const onPreviousClick = async () => {
         console.log("pageNr " + pageNr)
         if (pageNr > 0) {
-            let response = await fetchData(pageNr - 1);
+            let response = isLoggedIn? await fetchLoginData(pageNr - 1, token) : await fetchData(pageNr - 1);
             if (!response){
                 setErrorMessage(response.message)
             } else {

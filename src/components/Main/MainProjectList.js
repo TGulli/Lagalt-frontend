@@ -17,7 +17,7 @@ function MainProjectList({content, userState}) {
     return (
         <div>
 
-            {content.map((project, index) => (
+            {content && content.map((project, index) => (
                 <div key={index} className={styles.projectDisplay}>
                     <Container fluid={true} style={{margin: 0}}>
                         <Row>
