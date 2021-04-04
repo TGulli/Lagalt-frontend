@@ -32,8 +32,6 @@ function Main() {
     const [pageNr, setPageNr] = useState(0);
     const [searchState, setSearchState] = useState('')
 
-    console.log('MAIN USER:' + JSON.stringify(user))
-    console.log('MAIN TOKEN:' + JSON.stringify(token))
 
     useEffect(() => {
         fetchAllFromApi(0)
@@ -42,13 +40,11 @@ function Main() {
         }
     }, []);
 
-    const fetchAllFromApi = async (pageNumber) => {
+    const fetchAllFromApi = async (pageNr) => {
         let response = isLoggedIn? await fetchLoginData(pageNr, token) : await fetchData(pageNr)
         if (!response.message){
-            console.log(response);
             setTotalPages(response.totalPages)
             setProjectsState(response.content)
-            console.log(response)
         } else{
             setErrorMessage(response.message)
         }
@@ -65,10 +61,33 @@ function Main() {
     const fetchFromApi = async (pageNumber, filterText) => {
         console.log("search: " + searchState)
         console.log("filterText: " + filterText)
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + token.token
+            }
+        }
+
         if (searchState === '' && (filterText === "Alle" || filterText === "Velg kategori")){
             await fetchAllFromApi(pageNumber)
         } else if (searchState !== '' && (filterText === "Alle" || filterText === "Velg kategori")){
-            await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/search/${searchState}/p/${pageNumber}`)
+            console.log('I search: ' + isLoggedIn)
+
+            isLoggedIn?
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/search/${searchState}/p/${pageNumber}`, requestOptions)
+                    .then(response => response.json())
+                    .then((jsonResponse) => {
+                        if (!jsonResponse.message){
+                            setTotalPages(jsonResponse.totalPages)
+                            setProjectsState(jsonResponse.content)
+                        } else{
+                            setErrorMessage(jsonResponse.message)
+                        }
+                    })
+                :
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/search/${searchState}/p/${pageNumber}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     if (!jsonResponse.message){
@@ -79,9 +98,22 @@ function Main() {
                     }
                 })
         } else if (searchState === '' ){
-            await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/filter/${filterText}/p/${pageNumber}`)
+            isLoggedIn?
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/filter/${filterText}/p/${pageNumber}`, requestOptions)
+                    .then(response => response.json())
+                    .then((jsonResponse) => {
+                        if (!jsonResponse.message){
+                            setTotalPages(jsonResponse.totalPages)
+                            setProjectsState(jsonResponse.content)
+                        } else{
+                            setErrorMessage(jsonResponse.message)
+                        }
+                    }):
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/filter/${filterText}/p/${pageNumber}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
+                    console.log('SJÅ HER')
+                    console.log(jsonResponse)
                     if (!jsonResponse.message){
                         setTotalPages(jsonResponse.totalPages)
                         setProjectsState(jsonResponse.content)
@@ -90,7 +122,18 @@ function Main() {
                     }
                 })
         } else {
-            await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/search/${searchState}/filter/${filterText}/p/${pageNumber}`)
+            isLoggedIn?
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/search/${searchState}/filter/${filterText}/p/${pageNumber}`, requestOptions)
+                    .then(response => response.json())
+                    .then((jsonResponse) => {
+                        if (!jsonResponse.message){
+                            setTotalPages(jsonResponse.totalPages)
+                            setProjectsState(jsonResponse.content)
+                        } else{
+                            setErrorMessage(jsonResponse.message)
+                        }
+                    }):
+                await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/search/${searchState}/filter/${filterText}/p/${pageNumber}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     if (!jsonResponse.message){
@@ -130,14 +173,12 @@ function Main() {
     }
 
     const onNextClick = async () => {
-        console.log("pageNr " + pageNr)
         if (pageNr < totalPages - 1) {
             await fetchFromApi(pageNr + 1, filterText);
         }
     }
 
     const onPreviousClick = async () => {
-        console.log("pageNr " + pageNr)
         if (pageNr > 0) {
             await fetchFromApi(pageNr - 1, filterText);
         }
