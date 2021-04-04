@@ -68,7 +68,7 @@ function Main() {
         if (searchState === '' && (filterText === "Alle" || filterText === "Velg kategori")){
             await fetchAllFromApi(pageNumber)
         } else if (searchState !== '' && (filterText === "Alle" || filterText === "Velg kategori")){
-            await fetch(`http://localhost:8080/api/v1/public/projects/search/${searchState}/p/${pageNumber}`)
+            await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/search/${searchState}/p/${pageNumber}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     if (!jsonResponse.message){
@@ -79,7 +79,7 @@ function Main() {
                     }
                 })
         } else if (searchState === '' ){
-            await fetch(`http://localhost:8080/api/v1/public/projects/filter/${filterText}/p/${pageNumber}`)
+            await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/filter/${filterText}/p/${pageNumber}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     if (!jsonResponse.message){
@@ -90,7 +90,7 @@ function Main() {
                     }
                 })
         } else {
-            await fetch(`http://localhost:8080/api/v1/public/projects/search/${searchState}/filter/${filterText}/p/${pageNumber}`)
+            await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/projects/search/${searchState}/filter/${filterText}/p/${pageNumber}`)
                 .then(response => response.json())
                 .then((jsonResponse) => {
                     if (!jsonResponse.message){

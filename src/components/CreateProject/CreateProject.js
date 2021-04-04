@@ -100,7 +100,7 @@ function CreateProject() {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify({name: name, description: description, progress: progress, image: image, category: category, projectTags: tagArray, owner: { id: user.id }})
         };
-        await fetch('http://localhost:8080/api/v1/projects', requestOptions).then(response => response.json())
+        await fetch('https://lagalt-service.herokuapp.com/api/v1/projects', requestOptions).then(response => response.json())
             .then((data) => {
                 if (!data.message){
                     history.push("/")
