@@ -43,8 +43,14 @@ function ProjectDetails() {
                 method: 'GET',
                 headers: {'Authorization': 'Bearer ' + token.token}
             })
-                .then(response => response.json())
+                .then(response =>
+                    response.json())
                 .then((jsonResponse) => {
+
+                    if(jsonResponse.status === 400){
+                        return history.push("/")
+                    }
+
                     setProjectState(jsonResponse);
 
                     if (jsonResponse.owner.id === user.id) setOwner(true);
@@ -63,6 +69,9 @@ function ProjectDetails() {
                 })
                     .then(response => response.json())
                     .then((jsonResponse) => {
+                        if(jsonResponse.status === 400){
+                            return history.push("/")
+                        }
                         setProjectState(jsonResponse);
                         console.log('PARTIAL HENTET FRA API')
                     })

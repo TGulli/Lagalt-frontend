@@ -38,9 +38,12 @@ function UserProfile() {
             await fetch(url, requestOptions)
                 .then(response => response.json())
                 .then((jsonResponse) => {
+                    if(jsonResponse.status === 400){
+                        return history.push("/")
+                    }
                     setUserState(jsonResponse);
                     console.log('HALLO HER Æ E')
-                    console.log(JSON.stringify(jsonResponse))
+                    console.log(jsonResponse)
                     setLoadedUser(true)
                 })
         }
