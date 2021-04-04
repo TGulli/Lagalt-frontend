@@ -14,7 +14,7 @@ function LoginFacebook() {
 
     const responseFacebook = (response) => {
         if (response.accessToken) {
-            fetch('https://lagalt-service.herokuapp.com/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'})
+            fetch('http://localhost:8080/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'})
                 .then(r => r.json())
                 .then(jwtToken => {
                     if (!jwtToken.message) {

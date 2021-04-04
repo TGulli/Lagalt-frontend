@@ -105,7 +105,7 @@ function ProfileDetailsEdit({user}) {
             headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token},
             body: JSON.stringify({name: name, locale: locale, hidden: ishidden, bio: bio, userTags: tagArray })
         };
-        fetch(`https://lagalt-service.herokuapp.com/api/v1/users/${user.id}`, requestOptions).then(r => {
+        fetch(`http://localhost:8080/api/v1/users/${user.id}`, requestOptions).then(r => {
             if (!r){
                 setErrorMessage(r.message)
             }

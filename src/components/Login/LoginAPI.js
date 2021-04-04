@@ -5,6 +5,6 @@ export async function checkToken(token) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded', }
     }
 
-    return await fetch(`https://lagalt-service.herokuapp.com/api/v1/public/login/google/${token}`, requestOptions)
+    return await fetch(`http://localhost:8080/api/v1/public/login/google/${token}`, requestOptions)
         .then(response => { return response.json()})
 }

@@ -42,7 +42,7 @@ function Login() {
             body: JSON.stringify({username: username, password: secret})
         };
 
-        fetch('https://lagalt-service.herokuapp.com/api/v1/public/login/internal', requestOptions)
+        fetch('http://localhost:8080/api/v1/public/login/internal', requestOptions)
             .then(r => r.json())
             .then((jwtToken) => {
 

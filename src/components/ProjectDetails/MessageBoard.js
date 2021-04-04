@@ -57,7 +57,7 @@ function MessageBoard(props) {
 
     async function getUser(user){
 
-        let userObject =  await fetch(`https://lagalt-service.herokuapp.com${user}`, {headers: {'Authorization': ('Bearer ' + token.token)}}).then(response => response.json())
+        let userObject =  await fetch(`http://localhost:8080${user}`, {headers: {'Authorization': ('Bearer ' + token.token)}}).then(response => response.json())
 
         return userObject;
 
@@ -94,7 +94,7 @@ function MessageBoard(props) {
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
             body: JSON.stringify( {content: messageText, timestamp: dateTime, project: {id: id}, user: {id: user.id}})
         };
-        fetch('https://lagalt-service.herokuapp.com/api/v1/messages', requestOptions).then(r => {console.log(r)
+        fetch('http://localhost:8080/api/v1/messages', requestOptions).then(r => {console.log(r)
             setMessages({messages: []})
             reload? setReload(false): setReload(true)
         });

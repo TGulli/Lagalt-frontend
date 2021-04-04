@@ -87,7 +87,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)}
         };
-        fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/${project.id}`, requestOptions)
+        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions)
             .then(r => r.json())
             .then((jwtToken) => { setErrorMessage(jwtToken.message)});
         history.push("/")
@@ -111,7 +111,7 @@ function ProjectDetailsEdit({project, setEditMode}) {
             //description: description, category: category, progress: progress, image: image, projectTags: tagArray}
             body: JSON.stringify({description: description, category: category, image: image, progress: progress, projectTags: tagArray} )
         };
-        fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/${project.id}`, requestOptions).then(r => {if (!r) setErrorMessage(r.message)});
+        fetch(`http://localhost:8080/api/v1/projects/${project.id}`, requestOptions).then(r => {if (!r) setErrorMessage(r.message)});
         setEditMode(false)
     }
 

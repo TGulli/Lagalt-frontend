@@ -24,8 +24,7 @@ function Main() {
     const dispatch = useDispatch()
 
     const [projectsState, setProjectsState] = useState([{}])
-    const [filteredState, setFilteredState] = useState([{}])
-    const [tempText, setTempText] = useState('Velg kategori')
+    const [filterText, setFilterText] = useState("Velg kategori")
     const [errorMessage, setErrorMessage] = useState('')
 
     // Might refactor
@@ -37,96 +36,110 @@ function Main() {
     console.log('MAIN TOKEN:' + JSON.stringify(token))
 
     useEffect(() => {
-        async function fetchFromApi() {
-            let response = await fetchData(pageNr);
-            if (!response.message){
-                console.log(response);
-                setTotalPages(response.totalPages)
-                setProjectsState(response.content)
-                setFilteredState(response.content)
-                console.log(response)
-            } else{
-                setErrorMessage(response.message)
-            }
-        }
-        fetchFromApi()
+        fetchAllFromApi(0)
         if (isLoggedIn){
             dispatch(updateUser(user.id, token))
         }
     }, []);
+
+    const fetchAllFromApi = async (pageNumber) => {
+        let response = await fetchData(pageNumber);
+        if (!response.message){
+            console.log(response);
+            setTotalPages(response.totalPages)
+            setProjectsState(response.content)
+            console.log(response)
+        } else{
+            setErrorMessage(response.message)
+        }
+    }
 
     const createProjectClick = () => {
         history.push("/project/create")
     }
 
     const search = async () => {
-        await fetch("https://lagalt-service.herokuapp.com/api/v1/public/projects")
-            .then(response => response.json())
-            .then((jsonResponse) => {
-                if (jsonResponse.message){
-                    setErrorMessage(jsonResponse.message)
-                } else{
-                    jsonResponse = jsonResponse.filter((obj) =>
-                        obj.name.toLowerCase().includes(searchState.toLowerCase())
-                    )
-                    setProjectsState(jsonResponse)
-                    setFilteredState(jsonResponse)
-                }
-            })
+        await fetchFromApi(0, filterText)
+    }
+
+    const fetchFromApi = async (pageNumber, filterText) => {
+        console.log("search: " + searchState)
+        console.log("filterText: " + filterText)
+        if (searchState === '' && (filterText === "Alle" || filterText === "Velg kategori")){
+            await fetchAllFromApi(pageNumber)
+        } else if (searchState !== '' && (filterText === "Alle" || filterText === "Velg kategori")){
+            await fetch(`http://localhost:8080/api/v1/public/projects/search/${searchState}/p/${pageNumber}`)
+                .then(response => response.json())
+                .then((jsonResponse) => {
+                    if (!jsonResponse.message){
+                        setTotalPages(jsonResponse.totalPages)
+                        setProjectsState(jsonResponse.content)
+                    } else{
+                        setErrorMessage(jsonResponse.message)
+                    }
+                })
+        } else if (searchState === '' ){
+            await fetch(`http://localhost:8080/api/v1/public/projects/filter/${filterText}/p/${pageNumber}`)
+                .then(response => response.json())
+                .then((jsonResponse) => {
+                    if (!jsonResponse.message){
+                        setTotalPages(jsonResponse.totalPages)
+                        setProjectsState(jsonResponse.content)
+                    } else{
+                        setErrorMessage(jsonResponse.message)
+                    }
+                })
+        } else {
+            await fetch(`http://localhost:8080/api/v1/public/projects/search/${searchState}/filter/${filterText}/p/${pageNumber}`)
+                .then(response => response.json())
+                .then((jsonResponse) => {
+                    if (!jsonResponse.message){
+                        setTotalPages(jsonResponse.totalPages)
+                        setProjectsState(jsonResponse.content)
+                    } else{
+                        setErrorMessage(jsonResponse.message)
+                    }
+                })
+        }
+        setPageNr(pageNumber)
+        setFilterText(filterText)
     }
 
     const onInputChange = e => {
         setSearchState(e.target.value)
     }
 
-    const onFilterBasedOnGameDevClick = () => {
-        setTempText('Spill Utvikling')
-        setFilteredState(projectsState.filter(x => x.category === 'Spill Utvikling'));
+    const onFilterBasedOnGameDevClick = async () => {
+        await fetchFromApi(pageNr, "Spill Utvikling")
     }
 
-    const onFilterBasedOnWebDevClick= () => {
-        setTempText('Web Utvikling')
-        setFilteredState(projectsState.filter(x => x.category === 'Web Utvikling'));
+    const onFilterBasedOnWebDevClick= async () => {
+        await fetchFromApi(pageNr, "Web Utvikling")
     }
 
-    const onFilterBasedOnMusicClick = () => {
-        setTempText('Musikk')
-        setFilteredState(projectsState.filter(x => x.category === 'Musikk'));
+    const onFilterBasedOnMusicClick = async () => {
+        await fetchFromApi(pageNr, "Musikk")
     }
 
-    const onFilterBasedOnFilmClick = () => {
-        setTempText('Film')
-        setFilteredState(projectsState.filter(x => x.category === 'Film'));
+    const onFilterBasedOnFilmClick = async () => {
+        await fetchFromApi(pageNr, "Film")
     }
 
-    const onRemoveFilterClick = () => {
-        setTempText('Alle')
-        setFilteredState(projectsState)
+    const onRemoveFilterClick = async () => {
+        await fetchFromApi(pageNr, "Alle")
     }
 
     const onNextClick = async () => {
         console.log("pageNr " + pageNr)
         if (pageNr < totalPages - 1) {
-            let response = await fetchData(pageNr + 1);
-            if (!response){
-                setErrorMessage(response.message)
-            } else {
-                setPageNr(pageNr + 1)
-                setFilteredState(response.content);
-            }
+            await fetchFromApi(pageNr + 1, filterText);
         }
     }
 
     const onPreviousClick = async () => {
         console.log("pageNr " + pageNr)
         if (pageNr > 0) {
-            let response = await fetchData(pageNr - 1);
-            if (!response){
-                setErrorMessage(response.message)
-            } else {
-                setPageNr(pageNr - 1)
-                setFilteredState(response.content);
-            }
+            await fetchFromApi(pageNr - 1, filterText);
         }
     }
 
@@ -148,7 +161,7 @@ function Main() {
                         </InputGroup.Append>
                         <InputGroup.Append>
                             <Dropdown as={ButtonGroup}>
-                                <Button variant="outline-dark">{tempText}</Button>
+                                <Button variant="outline-dark">{filterText}</Button>
                                 <Dropdown.Toggle split variant="outline-dark" id="dropdown-split-basic"/>
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={onRemoveFilterClick}>Alle</Dropdown.Item>
@@ -167,7 +180,7 @@ function Main() {
                 </div>}
             </div>
             <div>
-                <MainProjectList content={filteredState} userState={user}/>
+                <MainProjectList content={projectsState} userState={user}/>
                 {(pageNr >= 1) && <Button type="button" onClick={onPreviousClick}>PREVIOUS</Button>}
                 {(pageNr < totalPages - 1) && <Button type="button" onClick={onNextClick}>NEXT</Button>}
 
