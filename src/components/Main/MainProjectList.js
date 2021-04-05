@@ -7,9 +7,15 @@ import {Button, Col, Container, Image, Row} from "react-bootstrap";
 import { ReactComponent as Logo} from '../../resources/kvalifisert.svg'
 
 function MainProjectList({content, userState}) {
+
     const history = useHistory();
 
-    const toProjectDetailsClick = param => e => { //TODO remove e?
+
+    /**
+     * This function is called when the user clicks on the project header.
+     * The function redirects the user to the project details page.
+     */
+    const toProjectDetailsClick = param => e => {
         history.push('/projectdetails/' + param.toString())
     }
 
@@ -64,7 +70,6 @@ function MainProjectList({content, userState}) {
         </div>
     );
 }
-
 export default MainProjectList;
 
 

@@ -9,9 +9,10 @@ import {Container, Button, Row, Col, Card} from "react-bootstrap";
 import styles from "./MyProfile.module.css"
 
 /**
- * SHOWS THE ENTIRE PROFILE ANYWAY
- * ONLY ACCESS BY THE USER
- * PRIVATEROUTE IN ROUTING.
+ * Shows the entire user profile even if
+ * they are hidden from the public.
+ * Only accesible by the user, because
+ * of privaterouting in routing
  */
 
 function MyProfile() {
@@ -24,15 +25,23 @@ function MyProfile() {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    console.log(user);
-    const onMainClick = () => {
-        history.push('/')
-    }
 
+    /**
+     * Called when the user clicks on the edit button. The function
+     * sets editMode to false if it was true, and sets is to true if
+     * it vas false.
+     * */
     const onEditClick = () => {
         editMode ? setEditMode(false) : setEditMode(true)
     }
 
+    /**
+     * Function is called when the user clicks on the delete button.
+     * Async function that sends a delete request to the server with
+     * the id of the user as a path variable. If the request was successful
+     * the user is logged out and redirected to the main page. If not
+     * the error that occurred is shown to the user.
+     * */
     const onDeleteClick = async () => {
         async function deleteUser() {
             const requestOptions = {
@@ -53,8 +62,6 @@ function MyProfile() {
         await deleteUser()
     }
 
-    console.log(user)
-
 
     return (
         <Container>
@@ -69,9 +76,6 @@ function MyProfile() {
                         <Card.Body><TagList tags={user.userTags}/></Card.Body>
                     </Card>
                 </div>}
-
-
-
             <div className={styles.deleteButton}>
                 <Button type="button" variant="secondary" onClick={onDeleteClick}>Slett bruker</Button>
             </div>

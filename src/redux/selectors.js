@@ -1,4 +1,6 @@
-
+/**
+ * Redux selectors
+ */
 export const getUserState = store => store.user;
 
 export const getUser = store =>

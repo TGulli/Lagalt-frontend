@@ -18,21 +18,19 @@ function UserProfile() {
     const history = useHistory();
     let { id } = useParams();
 
-    //public!
 
-    console.log("userprofile")
-    console.log("Param id: " +id)
-    console.log("State id: " + user.id)
-
+    /**
+     * Use effect that checks if the logged in user is the user who's
+     * profile it is. If it is, the user is redirected to the myProfile page.
+     * The use effect then fetches the user object from the server and sets the
+     * userState to the response. The use effect is rendered everytime the
+     * id variable changes.
+     * */
     useEffect( () => {
-        console.log("userprofile useeffect")
-        console.log("Param id: " +id)
-        console.log("State id: " + user.id)
         if(Number(id) === user.id){
             history.push("/myprofile")
         }
         async function fetchData() {
-
             const requestOptions = loginState? {method: 'GET', headers: {'Authorization': ('Bearer ' + token.token)}} : {method: 'GET'}
             const url = loginState ? `https://lagalt-service.herokuapp.com/api/v1/users/${id}` : `https://lagalt-service.herokuapp.com/api/v1/public/users/${id}`;
 
@@ -43,13 +41,10 @@ function UserProfile() {
                         return history.push("/")
                     }
                     setUserState(jsonResponse);
-                    console.log('HALLO HER Æ E')
-                    console.log(jsonResponse)
                     setLoadedUser(true)
                 })
         }
         fetchData();
-
     }, [id]);
 
 
@@ -57,7 +52,6 @@ function UserProfile() {
         <Container>
         <div>
         { loadedUser && <ProfileDetailsInfo user={userState} loginState={loginState}/>}
-
         {(!userState.hidden && userState.userTags) &&
             <div className={styles.userSkills}>
                 <Card>
@@ -71,7 +65,6 @@ function UserProfile() {
 
     );
 }
-
 export default UserProfile;
 
 

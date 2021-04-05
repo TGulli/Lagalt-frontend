@@ -3,11 +3,10 @@ import {useSelector} from "react-redux";
 import {useHistory, useLocation} from "react-router-dom";
 import {Button, Card, Form} from "react-bootstrap";
 import "./CreateApplication.css"
-//import styles from './CreateApplication.css'
 
 
 function CreateApplication() {
-    // get state param
+
     const location = useLocation();
     const project = location.state.project;
 
@@ -19,11 +18,22 @@ function CreateApplication() {
     const [errorMessage, setErrorMessage] = useState('')
 
 
+    /*
+    * Function that takes in user input from motivational text input field
+    * and sets motivationalText to the input
+    * */
     const onMotivationalTextChange = e => {
-        console.log(e.target.value)
         setMotivationalText(e.target.value)
     }
 
+
+    /*
+   * Function is called when the send application button is clicked. The function
+   * checks if the input is valid. If it is valid a post request is sent to the
+   * server to add the project collaborator with a pending status. If the
+   * request is successful the user is redirected to the project-details page.
+   * If not an error message shows what went wrong.
+   * */
     const onApplicationSendClick = () => {
         if (motivationalText.length > 1000){
             setErrorMessage("Maks 1000 tegn i motivasjonsteksten.")
@@ -47,6 +57,11 @@ function CreateApplication() {
         }
     }
 
+
+    /*
+   * Function cancel button is clicked. It redirects the user to the project-
+   * details page.
+   * */
     const onCancelClick = () => {
         history.push('/projectdetails/' + project.id.toString())
     }
@@ -106,5 +121,4 @@ function CreateApplication() {
         </div>
     );
 }
-
 export default CreateApplication;
