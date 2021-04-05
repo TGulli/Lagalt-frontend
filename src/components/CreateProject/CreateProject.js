@@ -17,6 +17,9 @@ function CreateProject() {
     const token = useSelector(state => state.token);
     const dispatch = useDispatch()
 
+    /**
+     * Set the initial values of the values in the form
+     * */
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [progress, setProgress] = useState(0)
@@ -29,9 +32,11 @@ function CreateProject() {
     const [errorMessage, setErrorMessage] = useState('')
     const [suggestions, setSuggestions] = useState(uniqueTags)
 
-    console.log('CreateProject: ' + token)
-    console.log('CreateProject: ' + token.token)
 
+    /**
+     * On loading the unique tags are fetched from the API,
+     * and added to an array which are used to display suggestions of skilles to the user.
+     * */
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
@@ -39,33 +44,50 @@ function CreateProject() {
                 setErrorMessage(token.message)
             } else{
                 setUniqueTags(response.toString().split(','))
-                console.log(response.toString().split(','))
             }
         }
         fetchFromApi()
     }, []);
 
+    /**
+     * Set the input value for name
+     * */
     const onNameInputChange = e => {
         setName(e.target.value)
     }
 
+    /**
+     * Set the input value for category.
+     * */
     const onCategoryInputChange = e => {
         console.log(e.target.value)
         setCategory(e.target.value)
     }
 
+    /**
+     * Set the input value for progress.
+     * */
     const onProgressInputChange = e => {
         setProgress(e.target.value)
     }
 
+    /**
+     * Set the input value for description.
+     * */
     const onDescriptionInputChange = e => {
         setDescription(e.target.value)
     }
 
+    /**
+     * Get suggestions for skills based on the letters provided by the user.
+     * */
     const getSuggestions = (value) => {
         return uniqueTags.filter(tag => tag.toLowerCase().startsWith(value.trim().toLowerCase())).slice(0, 10)
     }
 
+    /**
+     *  Adds the skill provided by the user to the tags and skill list.
+     * */
     const onAddSkillClick = () => {
         if (value !== '') {
             setUniqueTags([...skillList, value])
@@ -73,18 +95,28 @@ function CreateProject() {
         }
     }
 
+    /**
+     * Removes a skill from the skill list.
+     * */
     function removeElement(index) {
         let clone = [...skillList]
         clone.splice(index, 1)
         setSkillList(clone);
     }
 
+    /**
+     * Set the input value for image.
+     * */
     const onImageInputChange = e => {
         setImage(e.target.value)
     }
 
+    /**
+     * Posts the values of the form to the API when the user clicks save.
+     * If the post returns an error message, the message is displayed to the user.
+     * If the post returns created, the user is redirected to the main page.
+     * */
     const onButtonClick = async () => {
-        //check that the inputs are not empty
 
         let tagArray = []
         for (let tag of skillList){

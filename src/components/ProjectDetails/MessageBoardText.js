@@ -2,6 +2,10 @@ import styles from "./Message.module.css"
 
 function MessageBoardText({messages, user}){
 
+
+    /**
+     * Function to format a message on the messageboard
+     * */
     const formatMessage = msg => {
         return(
             <li key={msg.id}>

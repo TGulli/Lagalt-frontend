@@ -1,28 +1,21 @@
 import {useSelector} from "react-redux";
 import styles from './CollabRequests.module.css'
-import {NavLink} from "react-router-dom";
-import {Button, Overlay, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
-import {useRef, useState} from "react";
+import {Button, OverlayTrigger, Popover} from "react-bootstrap";
+import {useState} from "react";
 
 function CollabRequests(props) {
 
+    //Global states
     const owner = useSelector(state => state.user)
     const token = useSelector(state => state.token)
 
-    const [show, setShow] = useState(false);
+    //State for error message
     const [errorMessage, setErrorMessage] = useState('');
-    const target = useRef(null);
-
-    function getUserId(user) {
-        return user.split("/").pop()
-    }
-
-    function getProjectId(project) {
-        return project.split("/").pop()
-    }
 
 
-
+    /**
+     * Displays the motivational text from the applicant
+     * */
     const popover = (motivationalText) => (
         <Popover id="popover-basic">
             <Popover.Title as="h3">Motivasjonstekst</Popover.Title>
@@ -32,6 +25,9 @@ function CollabRequests(props) {
         </Popover>
     );
 
+    /**
+     * Displays the information about the applicant.
+     * */
     const popoverUser = (user) => (
         <Popover id="popover-basic">
             <Popover.Title as="h3">Bruker: {user.username}</Popover.Title>
@@ -47,7 +43,11 @@ function CollabRequests(props) {
         </Popover>
     );
 
-
+    /**
+     * Function is called when the user clicks
+     * approve or decline on an application and fetches a put to the API
+     * updating the status of the application.
+     * */
     const handleApproveDecline = (collaborator, status) => {
         const requestOptions = {
             method: 'PUT',

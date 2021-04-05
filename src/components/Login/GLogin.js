@@ -14,6 +14,10 @@ function GLogin () {
     const history = useHistory();
     const [errorMessage, setErrorMessage] = useState('')
 
+    /**
+     * If the Google token is verified and login successful,
+     * the global states (user and internal token) is set and the user is taken to the main page.
+     * */
     const onSuccess = (res) => {
         checkToken(res.getAuthResponse().id_token).then(jwtToken => {
             if (jwtToken) {
@@ -26,6 +30,9 @@ function GLogin () {
         });
     }
 
+    /**
+     * If the google login fail, an error message is displayed to the user.
+     * */
     const onFailedLogin = (res) => {
         if (JSON.stringify(res) !== '{"error":"popup_closed_by_user"}')
         setErrorMessage("Login feilet: " + JSON.stringify(res))

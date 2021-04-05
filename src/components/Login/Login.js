@@ -9,33 +9,52 @@ import styles from "./Login.module.css"
 
 
 function Login() {
-
+    //States
     const [username, setUsername] = useState('')
     const [secret, setSecret] = useState('')
-    const history = useHistory();
     const [ errorMessage, setErrorMessage ] = useState('')
 
+    //History for redirecting
+    const history = useHistory();
 
+
+    /**
+     * Set the input value for username.
+     * */
     const onUsernameInputChange = e => {
         setUsername(e.target.value)
     }
 
+    /**
+     * Set the input value for password.
+     * */
     const onSecretInputChange = e => {
         setSecret(e.target.value)
     }
 
+    /**
+     * If the user clicks register new user, the user is redirected to the register page
+     * */
     const onRegisterButtonClick = () => {
         history.push('/register')
     }
 
     const dispatch = useDispatch()
 
+    /**
+     * If the user cancels the login, the user is redirected to the main page.
+     * */
     const onCancelClick = () =>{
         history.push("/");
     }
 
+    /**
+     * When the user clicks log in, a post request is sent to the API.
+     * If the login is successful the user object and token is added to the global states
+     * and the user is redirected to the main page.
+     * If the login fails, an error message is displayed to the user.
+     * */
     const onButtonClick = () => {
-
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

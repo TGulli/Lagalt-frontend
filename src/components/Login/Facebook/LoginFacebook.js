@@ -7,11 +7,22 @@ import {useDispatch} from "react-redux";
 
 function LoginFacebook() {
 
+    //History for redirecting
     const history = useHistory();
 
+    //Dispatch for setting global states
     const dispatch = useDispatch()
+
+    //State for error message
     const [errorMessage, setErrorMessage] = useState('')
 
+
+    /**
+     * When the user tries to login with Facebook, a request for verifying the Facebook token is sent to the API.
+     * If the login is successful the user and internal token is added to the global state and the user
+     * is redirected to the main page.
+     * If the the login fails, an error message is displayed.
+     * */
     const responseFacebook = (response) => {
         if (response.accessToken) {
             fetch('https://lagalt-service.herokuapp.com/api/v1/public/login/facebook/' + response.accessToken, {method: 'POST'})

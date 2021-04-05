@@ -1,21 +1,17 @@
 import styles from './ProjectDetailsInfo.module.css'
-import {Button, Col, Container, Image, Row} from "react-bootstrap";
-import MainProjectListOwners from "../Main/MainProjectListOwners";
+import {Image} from "react-bootstrap";
 import TagList from "../shared/TagList";
 import {NavLink} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+
 
 function ProjectDetailsInfo({project}) {
 
+    //Global state
     const loginState = useSelector(state => state.isLoggedIn)
-    const [members, setMembers] = useState([{
-        members: []
-    }])
-    console.log("project collaborators")
-    console.log(project.collaborators)
-    console.log('PARTIALS: ' + project.partialProject)
-    console.log('LoginState: ' + loginState)
+
+
+
 
     return (
         <div className={styles.infoWrapper}>

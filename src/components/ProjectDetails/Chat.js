@@ -2,6 +2,11 @@ import "./Chat.css"
 import {Button, Form, InputGroup, ListGroup} from "react-bootstrap";
 function Chat(props) {
 
+
+    /**
+     * Format the messages in the chat view based on
+     * the type of the message: join, leave or message
+     * */
     const formatMessage = msg => {
         if(msg.type === 'JOIN'){
             return (

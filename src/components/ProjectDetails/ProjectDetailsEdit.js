@@ -4,24 +4,24 @@ import Autosuggest from "react-autosuggest";
 import SkillList from "../shared/SkillList";
 import {useSelector} from "react-redux";
 import styles from "./ProjectDetailsEdit.module.css"
-import {Button, Card, Form} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import TagList from "../shared/TagList";
 
 
 
 function ProjectDetailsEdit({project, setEditMode}) {
 
-    
-    const user = useSelector(state => state.user)
-    const [name, setName] = useState("")
+    //Global state token
+    const token = useSelector(state => state.token);
+
+    //States
     const [progress, setProgress] = useState(0)
     const [description, setDescription] = useState("")
     const [category, setCategory] = useState("")
     const [image, setImage] = useState("")
     const [errorMessage, setErrorMessage] = useState('')
 
-    const token = useSelector(state => state.token);
+    //History for redirecting
     const history = useHistory()
 
 
@@ -29,6 +29,9 @@ function ProjectDetailsEdit({project, setEditMode}) {
     const [uniqueTags, setUniqueTags] = useState([]);
     const [skillList, setSkillList] = useState([])
 
+    /**
+     * Fetches tags from the API for auto suggestion functionality.
+     * */
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
@@ -37,7 +40,6 @@ function ProjectDetailsEdit({project, setEditMode}) {
             } else {
                 setErrorMessage(response.message)
             }
-            console.log(response.toString().split(','))
         }
         fetchFromApi()
     }, []);
@@ -45,10 +47,17 @@ function ProjectDetailsEdit({project, setEditMode}) {
     const [tagValue, setTagValue] = useState('');
     const [suggestions, setSuggestions] = useState(uniqueTags);
 
+
+    /**
+     * Gets tags suggestions based on the letters provided by the user in the input field
+     * */
     const getSuggestions = (value) => {
         return uniqueTags.filter(tag => tag.toLowerCase().startsWith(value.trim().toLowerCase())).slice(0, 5)
     }
 
+    /**
+     * When the user adds a new skill it is added to the tags and skill list
+     * */
     const onAddSkillClick = () => {
         if (tagValue !== '') {
             setUniqueTags([...skillList, tagValue])
@@ -57,6 +66,9 @@ function ProjectDetailsEdit({project, setEditMode}) {
         setTagValue('')
     }
 
+    /**
+     * If the user removes a skill, it is removed from the skill list
+     * */
     function removeElement(index) {
         let clone = [...skillList]
         clone.splice(index, 1)
@@ -65,23 +77,39 @@ function ProjectDetailsEdit({project, setEditMode}) {
 
     //********************** AUTO SUGGEST LOGIC END ******************************
 
-
+    /**
+     * Set the input value for description.
+     * */
     const onDescriptionInputChange = e => {
         setDescription(e.target.value)
     }
 
+    /**
+     * Set the input value for category.
+     * */
     const onCategoryInputChange = e => {
         setCategory(e.target.value)
     }
 
+    /**
+     * Set the input value for image.
+     * */
     const onImageInputChange = e => {
         setImage(e.target.value)
     }
 
+    /**
+     * Set the input value for progress.
+     * */
     const handleSelectChange = e => {
         setProgress(parseInt(e.target.value))
     }
 
+    /**
+     * If the user clicks delete project, a delete request is sent to the API.
+     * The user is redirected to the main page.
+     * If the request returns an error, the error is displayed to the user.
+     * */
     const onDeleteClick = () => {
         const requestOptions = {
             method: 'DELETE',
@@ -93,11 +121,18 @@ function ProjectDetailsEdit({project, setEditMode}) {
         history.push("/")
     }
 
+    /**
+     * If the user discard the changes, the editMode is set to false, and the project details is displayed.
+     * */
     const onBackClick = () => {
         setEditMode(false)
     }
 
-
+    /**
+     * When the user clicks save the skill list is added to a list of tag objects and
+     * a put request with the project is sent to the API.
+     * The edit mode is set to false.
+     * */
     const onSaveClicked = () => {
 
         let tagArray = []
@@ -108,7 +143,6 @@ function ProjectDetailsEdit({project, setEditMode}) {
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + token.token)},
-            //description: description, category: category, progress: progress, image: image, projectTags: tagArray}
             body: JSON.stringify({description: description, category: category, image: image, progress: progress, projectTags: tagArray} )
         };
         fetch(`https://lagalt-service.herokuapp.com/api/v1/projects/${project.id}`, requestOptions).then(r => {if (!r) setErrorMessage(r.message)});
