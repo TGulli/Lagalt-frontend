@@ -5,11 +5,9 @@ import SkillList from "../shared/SkillList";
 import {useDispatch, useSelector} from "react-redux";
 import {Card, Container, Button, Form} from "react-bootstrap";
 import styles from "./ProfilesDetailsEdit.module.css"
-import {updateUser} from "../../redux/actions";
 import {useHistory} from "react-router-dom";
 
 function ProfileDetailsEdit({user}) {
-
 
     const [uniqueTags, setUniqueTags] = useState([]);
     const [skillList, setSkillList] = useState([])
@@ -19,6 +17,8 @@ function ProfileDetailsEdit({user}) {
     const [locale, setLocale] = useState('')
     const [ishidden, setIsHidden] = useState(user.hidden)
     const [errorMessage, setErrorMessage] = useState('')
+    const [value, setValue] = useState('');
+    const [suggestions, setSuggestions] = useState(uniqueTags);
 
     const token = useSelector(state => state.token);
     const dispatch = useDispatch();
@@ -28,6 +28,13 @@ function ProfileDetailsEdit({user}) {
     const maxStringLengthGeneral = 50;
     const limitAddTags = 1000;
 
+
+    /**
+     * The use effect calls on the method getUniqueTags to fetch all
+     * the tags from the database. If the get request is successful
+     * the uniqueTags is set to the response, if not an error message
+     * is shown. The use effect is rendered once.
+     * */
     useEffect(() => {
         async function fetchFromApi() {
             let response = await getUniqueTags(token);
@@ -36,38 +43,65 @@ function ProfileDetailsEdit({user}) {
             } else {
                 setErrorMessage(response.message)
             }
-            console.log(response.toString().split(','))
         }
         fetchFromApi()
     }, []);
 
-    // Brukes for auto suggest box
-    const [value, setValue] = useState('');
-    const [suggestions, setSuggestions] = useState(uniqueTags);
 
+    /**
+     * This method takes in a value and gets the ten first Unique tags
+     * that start with that value
+     */
     const getSuggestions = (value) => {
         return uniqueTags.filter(tag => tag.toLowerCase().startsWith(value.trim().toLowerCase())).slice(0, 10)
     }
 
+
+    /*
+    * Function that takes in user input from name input field and sets
+    * name to the input
+    * */
     const onNameInputChange = e => {
         setName(e.target.value)
     }
 
+
+    /*
+    * Function that takes in user input from userBio input field and sets
+    * bio to the input
+    * */
     const onBioInputChange = e => {
         setBio(e.target.value)
     }
+
+
+    /*
+    * Function that takes in user input from locale input field and sets
+    * locale to the input
+    * */
     const onLocaleInputChange = e => {
         setLocale(e.target.value)
     }
 
+
+    /*
+    * Function is called when add skill button is clicked. if the
+    * variable value is not an empty string, value is added to the
+    * iniqueTags list and the skillList.
+    * */
     const onAddSkillClick = () => {
         if (value !== '') {
             setUniqueTags([...skillList, value])
             setSkillList([...skillList, value])
         }
-
     }
 
+
+    /*
+    * Function that checks that all the input fields have valid inputs.
+    * If the input is invalid a message of what is wrong is returned.
+    * Otherwise an empty string is returned.
+    * */
     const checkInputFields = () => {
         if (name.length > maxStringLengthGeneral){
             return 'Maks ' + {maxStringLengthGeneral} + ' tegn i navn.'
@@ -82,13 +116,22 @@ function ProfileDetailsEdit({user}) {
         }
     }
 
+
+    /*
+    * Function that is called when save button is clicked. The function
+    * sets the error message to the response of the function checkInputFields.
+    * If the error message is not an empty string the method returns.
+    * The method then adds all the users tags to a tagArray which will be sent
+    * with the user object to the server. If the tags are invalid the method
+    * returns. The method sends a put request to the server with the user object.
+    * If the request is successful the user is redirected to the main page.
+    * If not the user is shown the error that occured.
+    * */
     const onSaveClicked = () => {
         setErrorMessage(checkInputFields())
-
         if (errorMessage !== ''){
             return
         }
-
         let tagArray = []
         for (let x of skillList){
             if (x.length > maxStringLengthGeneral){
@@ -97,9 +140,6 @@ function ProfileDetailsEdit({user}) {
             }
             tagArray.push({tag: x})
         }
-
-        // update redux user
-
         const requestOptions = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.token},
@@ -115,21 +155,25 @@ function ProfileDetailsEdit({user}) {
         });
     }
 
-    
+
+    /*
+    * Function that removes the element in a specific index from the
+    * skillList.
+    * */
     function removeElement(index) {
         let clone = [...skillList]
         clone.splice(index, 1)
         setSkillList(clone);
     }
 
+
+    /*
+   * Function that takes in user input from hidden checkBox and sets
+   * isHidden to true if the checkbox is checked.
+   * */
     const onPublicChange = e => {
-
         setIsHidden(e.target.checked)
-        console.log(e.target.checked)
-
-
     }
-
 
 
     return (
@@ -205,8 +249,5 @@ function ProfileDetailsEdit({user}) {
         </div>
         </Container>
     );
-
-
 }
-
 export default ProfileDetailsEdit;

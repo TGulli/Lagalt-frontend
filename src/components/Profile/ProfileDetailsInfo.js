@@ -6,23 +6,16 @@ import styles from "./ProfileDetailsInfo.module.css"
 
 function ProfileDetailsInfo({user, loginState}) {
 
-    console.log(user)
     let { id } = useParams();
     const [owner, setOwner] = useState(false)
-
     const history = useHistory()
 
-    console.log(user.hidden)
-    console.log('Owner: ' + owner)
-    console.log('Loginstate: ' + loginState)
 
+    /**
+     * Use effect that checks if the user is the owner
+     * */
     useEffect( () => {
-        console.log('SKJER DETTA HER?')
-        console.log('User ID: ' + user.id + ' AND PARAM ID: ' + id)
-        console.log(typeof user.id)
-        console.log(typeof id)
         if((id === undefined)){
-            console.log('EEEEY DÆ FUNKA')
             setOwner(true);
         }
     })
@@ -95,7 +88,7 @@ function ProfileDetailsInfo({user, loginState}) {
                     </section>
 
                 </div>
-                :
+            :
                 <Card>
                     <Card.Header> Grunnleggende informasjon </Card.Header>
                     <Card.Body>
@@ -103,9 +96,7 @@ function ProfileDetailsInfo({user, loginState}) {
                         <p>Navn: {user.name}</p>
                     </Card.Body>
                 </Card>
-
             }
-
         </Container>
     );
 }
