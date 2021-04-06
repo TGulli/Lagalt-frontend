@@ -68,7 +68,26 @@ This page is only available if logged in. Then a user can create a new project h
 
 This project was made as a case assignment during the Experis Academy Java Fullstack course.
 
-## Project tree
+## Folder structure tree
+
+```bash
+src
+    +---components
+    |   +---CreateApplication
+    |   +---CreateProject
+    |   +---Login
+    |   |   \---Facebook
+    |   +---Main
+    |   +---Profile
+    |   +---ProjectDetails
+    |   +---Register
+    |   \---shared
+    +---features
+    +---hoc
+    +---redux
+    |   \---reducers
+    \---resources
+```
 
 ## Credits
 
